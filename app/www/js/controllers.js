@@ -1,32 +1,31 @@
 angular.module('starter.controllers', ['ngResource'])
 
 .controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+      // With the new view caching in Ionic, Controllers are only called
+      // when they are recreated or on app start, instead of every page change.
+      // To listen for when this page is active (for example, to refresh data),
+      // listen for the $ionicView.enter event:
+      //
+      //$scope.$on('$ionicView.enter', function(e) {
+      //});
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
+      $scope.chats = Chats.all();
+      $scope.remove = function(chat) {
+            Chats.remove(chat);
+      };
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+      $scope.chat = Chats.get($stateParams.chatId);
 })
 
 .controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
-  // retrieve the resource user to perform CRUD afterwards
-  //var user = userService
+      // c'est quoi ça !??!
+      $scope.settings = {
+            enableFriends: true
+      };
 
-  //$scope.register = function($scope, $http, $mail, $passwd) {
-//      $http.post()
-//	};
+      var user = userService.get({username:toto}, function() {
+            // user has been get retrieved, perform some task
+      });
 });
