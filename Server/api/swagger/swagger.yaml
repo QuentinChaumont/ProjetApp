@@ -1,0 +1,254 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: ServU
+
+host: 192.168.0.23:8001
+# basePath prefixes all resource paths
+basePath: /api
+#
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+  #ajouter xml si on a le temps
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+  #idem xml
+
+parameters:
+  username:
+    name: username
+    description: "Name of the user"
+    in: path
+    type: string
+    required: true
+
+  uuid:
+    name: uuid
+    description: "uuid of the device"
+    in: path
+    type: string
+    required: true
+
+  action:
+    name: action
+    description: "Action object"
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/action_post"
+
+
+
+
+
+paths:
+# ######################
+#     API USER SIDE
+# ######################
+
+  /users:
+    x-swagger-router-controller: users
+    post:
+      operationId: postUsers
+      description: Add a new user
+      parameters:
+        - name: user
+          in: body
+          description: User's informations
+          required: true
+          schema:
+            $ref: "#/definitions/user_post"
+      responses:
+        "201":
+          description: Success
+        "400":
+          description: Wrong format
+        "409":
+          description: Another user has the same username
+
+  /users/{username}:
+    x-swagger-router-controller: users
+    get:
+      operationId: getUsersUsername
+      description: Returns a user
+      parameters:
+      - $ref: "#/parameters/username"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/user"
+        "404":
+          description: User not found
+    put:
+      operationId: putUsersUsername
+      description: Update a user
+      parameters:
+        - $ref: "#/parameters/username"
+        - name: user
+          in: body
+          description: User's informations
+          required: true
+          schema:
+              $ref: "#/definitions/user_put"
+      responses:
+        "204":
+          description: Success
+        "400":
+          description: Wrong format
+        "404":
+          description: User not found
+        "409":
+          description: Another user has the same pseudo
+    delete:
+      operationId: deleteUsersUsername
+      description: Delete a user
+      parameters:
+        - $ref: "#/parameters/username"
+      responses:
+        "204":
+          description: Success
+        "404":
+          description: User not found
+
+# complex objects have schema definitions
+
+definitions:
+  user:
+    type: object
+
+    properties:
+      username:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      email:
+        type: string
+      devices:
+        type: object
+
+  user_post:
+    type: object
+    required:
+      - username
+      - firstname
+      - lastname
+      - email
+      - password
+    properties:
+      username:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+        format: password
+      devices:
+        type: object
+
+
+  user_put:
+    type: object
+
+    properties:
+      username:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+        format: password
+      devices:
+        type: object
+
+
+
+  device:
+    type: object
+    required:
+      - name
+      - platform
+      - uuid
+    properties:
+      name:
+        type: string
+      manufacturer:
+        type: string
+      model:
+        type: string
+      platform:
+        type: string
+      version:
+        type: string
+      serial:
+        type: string
+      uuid:
+        type: string
+
+  probe:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+      active:
+        type: boolean
+      data:
+        type: string
+
+  action:
+    type: object
+    required:
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      status:
+        $ref: "#/definitions/status"
+      data:
+        type: object
+
+      creation-date:
+        type: string
+        format: date
+      parameters:
+        type: object
+
+  action_put:
+    type: object
+    properties:
+      actionId:
+        type: integer
+      status:
+        $ref: "#/definitions/status"
+
+  status:
+    type: string
+    enum: ["pending","in progress","done"]
+
+  action_post:
+    type: object
+    properties:
+      name:
+        type: string
+      active:
+        type: boolean
