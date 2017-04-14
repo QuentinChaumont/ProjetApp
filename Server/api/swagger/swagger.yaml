@@ -111,6 +111,7 @@ paths:
   /users/{username}/friends:
     x-swagger-router-controller: users
     get:
+      operationId: getUsersFriends
       description: Returns all friends attached to the user
       parameters:
         - $ref: "#/parameters/username"
@@ -124,6 +125,7 @@ paths:
         "404":
           description: "This user does not exist or has no friends"
     post:
+      operationId: postUsersFriends
       description: "Add a friend"
       parameters:
       - $ref: "#/parameters/username"
@@ -183,6 +185,7 @@ paths:
   /users/{username}/friends/{friendusername}:
     x-swagger-router-controller: users
     get:
+      operationId: getUsersFriendsUser
       description: Returns informations about the friend
       parameters:
         - $ref: "#/parameters/username"
@@ -208,6 +211,7 @@ paths:
   /users/{username}/friends/{friendusername}/positions:
     x-swagger-router-controller: users
     get:
+      operationId: getUsersFriendsUserPositions
       description: Returns the position of the friend
       parameters:
         - $ref: "#/parameters/username"

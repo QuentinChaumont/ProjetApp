@@ -153,17 +153,43 @@ function getUsersFriends(req, res, next) {
         assert.equal(null, err);
         console.log("Connected correctly to server");
         db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error, use) {
-            if(use != null && error == null){
-                res.json(use.devices);
+            if(use != null && error == null && use.friends != null){
+                res.json(use.friends);
             }
             else{
                 res.status(409).send();
             }
         });
-
     });
 }
 function postUsersFriends(req, res, next) {
+  MongoClient.connect(url,  function(err, db1) {
+      assert.equal(null, err);
+      console.log("Connected correctly to server");
+      db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error, user) {
+          if(user != null && error == null &&  !user.friends.find(function(element){return element.username == req.body.username}) && user.friendsRequest.find(function(element){return element.username == req.body.username})){
+            const friend = { "$push" : {"friends" : {"username" : req.swagger.params.username.value}}};
+            const friend2 = { "$push" : {"friends" : {"username" : req.body.username}}};
+            const suppr = { "$pull" : {"friendsRequest" : {"username" : req.body.username}}};
+              db1.collection("users").update({"username" : req.body.username},  friend,  function(err2, modif){
+                if (!err2) {
+                     res.status(201).send(); //mettre un status 201 ici
+                } else res.status(400).send();
+              });
+              db1.collection("users").update({"username" : req.swagger.params.username.value},  friend2,  function(err2, modif){
+                if (!err2) {
+                     res.status(201).send(); //mettre un status 201 ici
+                } else res.status(400).send();
+              });
+              db1.collection("users").update({"username" : req.swagger.params.username.value},  suppr,  function(err2, modif){
+                if (!err2) {
+                     res.status(201).send(); //mettre un status 201 ici
+                } else res.status(400).send();
+              });
+            }
+            else res.status(404).send();
+      });
+  });
 }
 
 function getUsersFriendsRequest(req, res, next) {
@@ -171,8 +197,8 @@ function getUsersFriendsRequest(req, res, next) {
         assert.equal(null, err);
         console.log("Connected correctly to server");
         db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error, use) {
-            if(use != null && error == null){
-                res.json(use.devices);
+            if(use != null && error == null && use.friendsRequest != null){
+                res.json(use.friendsRequest);
             }
             else{
                 res.status(409).send();
@@ -189,10 +215,10 @@ function postUsersFriendsRequest(req, res, next) {
         assert.equal(null, err);
         console.log("Connected correctly to server");
         db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error, user) {
-            if(user != null && error == null && !(req.body.username in user.friends) && !(req.body.username in user.friendsRequest) ){
+            if(user != null && error == null &&  !user.friends.find(function(element){return element.username == req.body.username}) && !user.friendsRequest.find(function(element){return element.username == req.body.username})){
               db1.collection("users").findOne({"username": req.body.username},function(error, user2) {
                 console.log(user2.friendsRequest.find(function(element){return element.username == req.swagger.params.username.value}));
-                  if(user2 != null && error == null && !user2.friendsRequest.find(function(element){return element.username == req.swagger.params.username.value})){
+                  if(user2 != null && error == null &&  !user2.friends.find(function(element){return element.username == req.swagger.params.username.value}) && !user2.friendsRequest.find(function(element){return element.username == req.swagger.params.username.value})){
                     const friend = { "$push" : {"friendsRequest" : {"username" : req.swagger.params.username.value}}};
                     db1.collection("users").update({"username" : req.body.username},  friend,  function(err2, modif){
                         if (!err2) {
@@ -216,9 +242,15 @@ function getUsersFriendsUser(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
         console.log("Connected correctly to server");
-        db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error, use) {
-            if(use != null && use.devices[req.swagger.params.uuid.value] != null && error == null){
-                res.json(use.devices[req.swagger.params.uuid.value]);
+        db1.collection("users").findOne({"username": req.swagger.params.username.value, },function(error, use) {
+            if(use != null && error == null && use.friends.find(function(element){return element.username == req.swagger.params.friendusername.value})){
+                db1.collection("users").findOne({"username": req.swagger.params.friendusername.value, },function(error, user) {
+                  if(use != null && error == null){
+                    delete(user.password);
+                    res.json(user);
+                  }
+                  else res.status(404).send();
+                });
             }
             else{
                 res.status(404).send();
@@ -226,6 +258,8 @@ function getUsersFriendsUser(req, res, next) {
         });
     });
 }
+
+// J'en suis la !!! 
 
 function deleteUsersFriendsUser(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
