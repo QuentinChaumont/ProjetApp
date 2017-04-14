@@ -1,6 +1,4 @@
-angular.module('starter.controllers', [])
-
-.controller('DashCtrl', function($scope) {})
+angular.module('starter.controllers', ['ngResource'])
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
@@ -25,4 +23,10 @@ angular.module('starter.controllers', [])
   $scope.settings = {
     enableFriends: true
   };
+  // retrieve the resource user to perform CRUD afterwards
+  //var user = userService
+
+  //$scope.register = function($scope, $http, $mail, $passwd) {
+//      $http.post()
+//	};
 });
