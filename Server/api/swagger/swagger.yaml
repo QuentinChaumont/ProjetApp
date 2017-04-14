@@ -3,7 +3,7 @@ info:
   version: "1.0.0"
   title: ServU
 
-host: 192.168.0.23:8001
+host: 127.0.0.1:3000
 # basePath prefixes all resource paths
 basePath: /api
 #
@@ -28,22 +28,12 @@ parameters:
     type: string
     required: true
 
-  uuid:
-    name: uuid
-    description: "uuid of the device"
+  friendusername:
+    name: friendusername
+    description: "Name of the user"
     in: path
     type: string
     required: true
-
-  action:
-    name: action
-    description: "Action object"
-    in: body
-    required: true
-    schema:
-      $ref: "#/definitions/action_post"
-
-
 
 
 
@@ -117,138 +107,191 @@ paths:
         "404":
           description: User not found
 
+
+  /users/{username}/friends:
+    x-swagger-router-controller: users
+    get:
+      description: Returns all friends attached to the user
+      parameters:
+        - $ref: "#/parameters/username"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/friend"
+        "404":
+          description: "This user does not exist or has no friends"
+    post:
+      description: "Add a friend"
+      parameters:
+      - $ref: "#/parameters/username"
+      - name: friend
+        description: "friend to add"
+        in: body
+        schema:
+          $ref: "#/definitions/friend"
+        required: true
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: "#/definitions/friend"
+        "400":
+          description: Wrong format
+        "404":
+          description: User not found
+          
+  /users/{username}/friendsRequest:
+    x-swagger-router-controller: users
+    get:
+      operationId: getUsersFriendsRequest
+      description: Returns all friends attached to the user
+      parameters:
+        - $ref: "#/parameters/username"
+      responses:
+        "200":
+          description: "Success"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/friend"
+        "404":
+          description: "This user does not exist or has no friends"
+    post:
+      operationId: postUsersFriendsRequest
+      description: "Add a friend"
+      parameters:
+      - $ref: "#/parameters/username"
+      - name: friend
+        description: "friend to add"
+        in: body
+        schema:
+          $ref: "#/definitions/friend"
+        required: true
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: "#/definitions/friend"
+        "400":
+          description: Wrong format
+        "404":
+          description: User not found
+
+  /users/{username}/friends/{friendusername}:
+    x-swagger-router-controller: users
+    get:
+      description: Returns informations about the friend
+      parameters:
+        - $ref: "#/parameters/username"
+        - $ref: "#/parameters/friendusername"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/friend"
+        "404":
+          description: User or friend not found
+    delete:
+      description: Delete a friend
+      parameters:
+        - $ref: "#/parameters/username"
+        - $ref: "#/parameters/friendusername"
+      responses:
+        "204":
+          description: Success
+        "404":
+          description: User or friend not found
+
+  /users/{username}/friends/{friendusername}/positions:
+    x-swagger-router-controller: users
+    get:
+      description: Returns the position of the friend
+      parameters:
+        - $ref: "#/parameters/username"
+        - $ref: "#/parameters/friendusername"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/position"
+        "404":
+          description: User or friend not found
+
 # complex objects have schema definitions
 
 definitions:
   user:
     type: object
-
     properties:
       username:
         type: string
-      firstname:
-        type: string
-      lastname:
-        type: string
       email:
         type: string
-      devices:
-        type: object
+      friends:
+        type: array
+        items: 
+          $ref: '#/definitions/friend'
+      friendsRequest:
+        type: array
+        items: 
+          $ref: '#/definitions/friend'
+      positions:
+        type: array
+        items: 
+          $ref: '#/definitions/position'
 
   user_post:
     type: object
     required:
       - username
-      - firstname
-      - lastname
       - email
       - password
+
     properties:
       username:
-        type: string
-      firstname:
-        type: string
-      lastname:
         type: string
       email:
         type: string
       password:
         type: string
         format: password
-      devices:
-        type: object
 
 
   user_put:
     type: object
-
     properties:
       username:
-        type: string
-      firstname:
-        type: string
-      lastname:
         type: string
       email:
         type: string
       password:
         type: string
         format: password
-      devices:
-        type: object
 
-
-
-  device:
+  friend:
     type: object
     required:
-      - name
-      - platform
-      - uuid
+      - username
     properties:
-      name:
-        type: string
-      manufacturer:
-        type: string
-      model:
-        type: string
-      platform:
-        type: string
-      version:
-        type: string
-      serial:
-        type: string
-      uuid:
+      username:
         type: string
 
-  probe:
-    type: object
-    required:
-      - name
-    properties:
-      name:
-        type: string
-      active:
-        type: boolean
-      data:
-        type: string
 
-  action:
+  position:
     type: object
     required:
-      - name
+      - x
+      - y
+      - z
     properties:
-      id:
+      x:
         type: integer
-      name:
-        type: string
-      status:
-        $ref: "#/definitions/status"
-      data:
-        type: object
-
-      creation-date:
-        type: string
-        format: date
-      parameters:
-        type: object
-
-  action_put:
-    type: object
-    properties:
-      actionId:
+      y:
         type: integer
-      status:
-        $ref: "#/definitions/status"
-
-  status:
-    type: string
-    enum: ["pending","in progress","done"]
-
-  action_post:
-    type: object
-    properties:
-      name:
-        type: string
-      active:
-        type: boolean
+      z:
+        type: integer
+      date :
+        type: integer
