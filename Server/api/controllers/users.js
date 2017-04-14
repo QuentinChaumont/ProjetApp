@@ -7,6 +7,7 @@ var url = 'mongodb://127.0.0.1:27017/SeekFriend';
 
 var util = require('util');
 
+var NBR_MAX_POSITION = 10;
 
 module.exports = {
   postUsers,
@@ -14,12 +15,15 @@ module.exports = {
   getUsersUsername,
   putUsersUsername,
   deleteUsersUsername,
+  getUsersPositions,
+  postUsersPositions,
   getUsersFriends,
   postUsersFriends,
   getUsersFriendsRequest,
   postUsersFriendsRequest,
   getUsersFriendsUser,
   deleteUsersFriendsUser,
+  getUsersFriendsUserPositions
 }
 //utilisé les $set
 
@@ -27,7 +31,8 @@ module.exports = {
 function postUsers(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
-        db1.collection("users").findOne({"username": req.body.username},function(error, exist) {
+        db1.collection("users").findOne({$or:[{"username": req.body.username},{"email":req.body.email}]},function(error, exist) {
+          console.log(exist);
             if(exist == null && error == null){
                 var data = req.body;
                 data.friends = [];
@@ -146,6 +151,48 @@ function deleteUsersUsername(req, res, next) {
 
     });
 }
+function getUsersPositions(req, res, next) {
+    MongoClient.connect(url,  function(err, db1) {
+        assert.equal(null, err);
+        console.log("Connected correctly to server");
+        db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error, use) {
+            if(use != null && error == null && use.friends != null){
+                res.json(use.friends);
+            }
+            else{
+                res.status(409).send();
+            }
+        });
+    });
+}
+function postUsersPositions(req, res, next) {
+  MongoClient.connect(url,  function(err, db1) {
+      assert.equal(null, err);
+      console.log("Connected correctly to server");
+      db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error, user) {
+          if(user != null && error == null ){
+            var posit = req.body;
+            posit.date = new Date();
+            console.log(posit);
+            const position = { "$push" : {"positions" : posit}};
+              db1.collection("users").update({"username" : req.swagger.params.username.value},  position,  function(err2, modif){
+                if (!err2) {
+                  if (user.positions.length > NBR_MAX_POSITION) {
+                    console.log("suppr");
+                    const suppr = { $pop: { "positions" : -1 } };
+                    db1.collection("users").update({"username" : req.swagger.params.username.value},  suppr,  function(err3, sup){
+                        if (!err2) {
+                          res.status(201).send();
+                        } else res.status(400).send();
+                    });
+                  } else res.status(201).send();
+                } else res.status(400).send();
+              });
+            }
+            else res.status(404).send();
+      });
+  });
+}
 
 
 function getUsersFriends(req, res, next) {
@@ -173,17 +220,15 @@ function postUsersFriends(req, res, next) {
             const suppr = { "$pull" : {"friendsRequest" : {"username" : req.body.username}}};
               db1.collection("users").update({"username" : req.body.username},  friend,  function(err2, modif){
                 if (!err2) {
-                     res.status(201).send(); //mettre un status 201 ici
-                } else res.status(400).send();
-              });
-              db1.collection("users").update({"username" : req.swagger.params.username.value},  friend2,  function(err2, modif){
-                if (!err2) {
-                     res.status(201).send(); //mettre un status 201 ici
-                } else res.status(400).send();
-              });
-              db1.collection("users").update({"username" : req.swagger.params.username.value},  suppr,  function(err2, modif){
-                if (!err2) {
-                     res.status(201).send(); //mettre un status 201 ici
+                  db1.collection("users").update({"username" : req.swagger.params.username.value},  friend2,  function(err2, modif){
+                    if (!err2) {
+                      db1.collection("users").update({"username" : req.swagger.params.username.value},  suppr,  function(err2, modif){
+                        if (!err2) {
+                             res.status(201).send(); //mettre un status 201 ici
+                        } else res.status(400).send();
+                      }); //mettre un status 201 ici
+                    } else res.status(400).send();
+                  }); //mettre un status 201 ici
                 } else res.status(400).send();
               });
             }
@@ -259,27 +304,52 @@ function getUsersFriendsUser(req, res, next) {
     });
 }
 
-// J'en suis la !!! 
-
 function deleteUsersFriendsUser(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
         console.log("Connected correctly to server");
-
         db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error,use) {
-            if(use != null && use.devices[req.swagger.params.uuid.value] != null && error == null){
-                delete(use.devices[req.swagger.params.uuid.value]);
-                const device = { "$set" : {"devices" : use.devices}};
-                db1.collection("users").update({"username" : req.swagger.params.username.value},  device,  function(err2, modif){
-                    if (!err2) res.json({success: 1, description: "Users modifié"});
-                    else{
-                        console.log("1");
-                        res.status(400).send();
+            if(use != null && error == null && use.friends.find(function(element){return element.username == req.swagger.params.friendusername.value})){
+                const suppr = { "$pull" : {"friends" : {"username" : req.swagger.params.friendusername.value}}};
+                db1.collection("users").update({"username" : req.swagger.params.username.value},  suppr,  function(err2, modif){
+                    if (!err2){
+                      db1.collection("users").findOne({"username": req.swagger.params.friendusername.value},function(error,use) {
+                          if(use != null && error == null && use.friends.find(function(element){return element.username == req.swagger.params.username.value})){
+                              const suppr = { "$pull" : {"friends" : {"username" : req.swagger.params.username.value}}};
+                              db1.collection("users").update({"username" : req.swagger.params.friendusername.value},  suppr,  function(err2, modif){
+                                  if (!err2) res.status(204).send();
+                                  else res.status(404).send();
+                              });
+                          }
+                          else res.status(404).send();
+                      });
                     }
+                    else res.status(404).send();
                 });
             }
             else res.status(404).send();
         });
+    });
+}
 
+// /users/{username}/friends/{friendusername}/positions
+
+function getUsersFriendsUserPositions(req, res, next) {
+    MongoClient.connect(url,  function(err, db1) {
+        assert.equal(null, err);
+        console.log("Connected correctly to server");
+        db1.collection("users").findOne({"username": req.swagger.params.username.value, },function(error, use) {
+            if(use != null && error == null && use.friends.find(function(element){return element.username == req.swagger.params.friendusername.value})){
+                db1.collection("users").findOne({"username": req.swagger.params.friendusername.value},function(error, user) {
+                  if(use != null && error == null){
+                    res.json(user.positions);
+                  }
+                  else res.status(404).send();
+                });
+            }
+            else{
+                res.status(404).send();
+            }
+        });
     });
 }

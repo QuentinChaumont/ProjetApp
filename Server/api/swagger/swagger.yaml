@@ -35,6 +35,14 @@ parameters:
     type: string
     required: true
 
+  login:
+    name: login
+    description: "login object"
+    in: body
+    required: true
+    schema:
+      $ref: "#/definitions/login"
+
 
 
 paths:
@@ -61,6 +69,21 @@ paths:
           description: Wrong format
         "409":
           description: Another user has the same username
+
+  /users/login:
+    x-swagger-router-controller: users
+    post:
+      operationId: postLogin
+      description: Vérification du login
+      parameters:
+        - $ref: "#/parameters/login"
+      responses:
+        "201":
+          description: Success
+          schema :
+            $ref : "#/definitions/user"
+        "404":
+          description: User not found
 
   /users/{username}:
     x-swagger-router-controller: users
@@ -107,6 +130,40 @@ paths:
         "404":
           description: User not found
 
+  /users/{username}/positions:
+    x-swagger-router-controller: users
+    get:
+      operationId: getUsersPositions
+      description: Returns a user
+      parameters:
+      - $ref: "#/parameters/username"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/position'
+        "404":
+          description: User not found
+    post:
+      operationId: postUsersPositions
+      description: Add a new user
+      parameters:
+        - $ref: "#/parameters/username"
+        - name: position
+          in: body
+          description: User's position
+          required: true
+          schema:
+            $ref: "#/definitions/position"
+      responses:
+        "201":
+          description: Success
+        "400":
+          description: Wrong format
+        "409":
+          description: Another user has the same username
 
   /users/{username}/friends:
     x-swagger-router-controller: users
@@ -144,7 +201,7 @@ paths:
           description: Wrong format
         "404":
           description: User not found
-          
+
   /users/{username}/friendsRequest:
     x-swagger-router-controller: users
     get:
@@ -236,15 +293,15 @@ definitions:
         type: string
       friends:
         type: array
-        items: 
+        items:
           $ref: '#/definitions/friend'
       friendsRequest:
         type: array
-        items: 
+        items:
           $ref: '#/definitions/friend'
       positions:
         type: array
-        items: 
+        items:
           $ref: '#/definitions/position'
 
   user_post:
@@ -274,6 +331,19 @@ definitions:
       password:
         type: string
         format: password
+        
+        
+  login:
+    type: object
+    required:
+      - username
+      - password
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+        format: password
 
   friend:
     type: object
@@ -296,6 +366,4 @@ definitions:
       y:
         type: integer
       z:
-        type: integer
-      date :
         type: integer
