@@ -1,9 +1,23 @@
 <ion-view view-title="Map">
-  <ion-content class="padding">
-    <h2>Onglet MAP</h2>
-    <p>
-      C'est une application qui permet de retrouver vos amis si ils sont partis au bar sans vous
-      Commencez des maintenant à utiliser l'application avec les différents onglets
-    </p>
+  <ion-content>
+    <h1 class="title">Maps</h1>
+    <div id="map" data-tap-disabled="true"></div>
+    <h2 class="title">List of Friends in this area</h2>
+    <p><input type="text" ng-model="test" placeholder="Search.."></p>
+    <table>
+      <thead>
+        <td>Id</td>
+      <td>Nom</td>
+      <td>Distance</td>
+      </thead>
+      <tbody>
+      <tr ng-repeat="friend in list_friend | orderBy : 'distance' | filter : test"
+          ng-class="{oddRow: $odd}">
+        <td>{{friend.id}}</td>
+        <td>{{friend.name}}</td>
+        <td>{{friend.distance > 1000 ? (friend.distance/1000 | number:0) + ' km' : friend.distance}}</td>
+      </tr>
+      </tbody>
+    </table>
   </ion-content>
 </ion-view>
