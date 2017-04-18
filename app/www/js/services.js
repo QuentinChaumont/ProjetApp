@@ -1,4 +1,4 @@
-angular.module('starter.services', [])
+angular.module('starter.services', ['ngResource'])
 /*
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
@@ -50,18 +50,33 @@ angular.module('starter.services', [])
 });
 */
 
-// retrieve the resource user to perform CRUD functions afterwards
-.factory('userService', function($resource) {
-      return $resource('/user/:username', {
-            update: {
-                  method: 'PUT' // this method issues a PUT request, not defined by default
-            }
-      });
-      // resource methods :
-      //'get':    {method:'GET'}
-      //'save':   {method:'POST'}
-      //'query':  {method:'GET', isArray:true}
-      //'remove': {method:'DELETE'}
-      //'delete': {method:'DELETE'}
-      //'update': {method:'PUT'};
-});
+// Source : https://www.sitepoint.com/premium/books/angularjs-novice-to-ninja/preview/understanding-angularjs-resource-e0638c0
+//TODO changer l'adresse host 127.0.0.1 avec une variable pour pas avoir à tout retaper
+.factory('Users', function($resource) {
+  return $resource('http://127.0.0.1:3000/api/users');
+})
+
+.factory('User', function($resource) {
+  return $resource('http://127.0.0.1:3000/api/users/:username');
+})
+
+.factory('Friend', function($resource) {
+  return $resource('http://127.0.0.1:3000/api/users/:username/friends/:friend');
+})
+
+.factory('Friends', function($resource) {
+  return $resource('http://127.0.0.1:3000/api/users/:username/friends');
+})
+
+.factory('FriendsRequest', function($resource) {
+  return $resource('http://127.0.0.1:3000/api/users/:username/friendsRequest');
+})
+
+.factory('FriendPosition', function($resource) {
+  return $resource('http://127.0.0.1:3000/api/users/:username/friends/:friend/positions');
+})
+
+
+
+
+

@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngResource'])
+angular.module('starter.controllers', [])
 
 .controller('ChatsCtrl', function($scope, Chats) {
       // With the new view caching in Ionic, Controllers are only called
@@ -19,13 +19,19 @@ angular.module('starter.controllers', ['ngResource'])
       $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope) {
-      // c'est quoi ça !??!
-      $scope.settings = {
-            enableFriends: true
-      };
+.controller('AccountCtrl', function($scope, User, Users) {
+  $scope.settings = {
+    enableFriends: true
+  };
 
-      var user = userService.get({username:toto}, function() {
-            // user has been get retrieved, perform some task
-      });
+  // juste des petits tests pur vérifier si tout marche bien
+  $scope.username = 'hello';
+  $scope.user = User.get({username: $scope.username}, function() {
+    // everything went fine
+    $scope.retrieved = true;
+  }, function() {
+    // error, create it
+    Users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'});
+    $scope.retrieved = 'Nope, user hello created, please refresh'
+  });
 });
