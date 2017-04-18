@@ -65,7 +65,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'tab-map': {
         templateUrl: 'templates/map.html',
-        controller: 'DashCtrl'
+        controller: 'MapCtrl'
       }
     }
   })
@@ -75,7 +75,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'tab-friend': {
         templateUrl: 'templates/friend.html',
-        controller: 'FriendCtrl'
+        controller: 'DashCtrl'
       }
     }
   })

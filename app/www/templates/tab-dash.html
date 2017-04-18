@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Document sans nom</title>
+  <script type="text/javascript" src="http://maps.google.com/maps?file=api&v=2&key=ABQIAAAA09qY5o0F96_hLg4YyfFG3xRoIzq7W9kjqpTzBbn7O9wu0Oc8uhR44zTSflabpsk8CmRkpT3W0E7hSA"></script>
+  <script type="text/javascript">
+    var geocoder, location1, location2, gDir;
+    var sec=0;
+
+    function initialize() {
+      geocoder = new GClientGeocoder();
+      gDir = new GDirections();
+      GEvent.addListener(gDir, "load", function() {
+        var drivingDistanceMiles = gDir.getDistance().meters / 1609.344;
+        var drivingDistanceKilometers = gDir.getDistance().meters / 1000;
+        document.form1.distance.value=parseInt(drivingDistanceKilometers);
+        document.getElementById('results').innerHTML = 'Départ : ' + location1.address + '<br />Arrivée : ' + location2.address + '<br />&nbsp;';
+        clearInterval(interv);
+        document.getElementsByTagName('body')[0].style.cursor = 'default';
+      });
+    }
+
+    function incremente() {
+      if (sec<10)
+      {
+        sec++
+      }
+      else
+      {
+        alert("Désolés, nous ne parvenons pas à calculer la distance");
+        clearInterval(interv);
+        document.getElementsByTagName('body')[0].style.cursor = 'default';
+        sec=0;
+        document.getElementById('results').innerHTML = '';
+        document.form1.distance.value='';
+      }
+    }
+
+    function showLocation() {
+      interv=setInterval("incremente()",1000);
+      document.getElementsByTagName('body')[0].style.cursor = 'wait';
+      var depart=document.forms[0].adresse_dep.value + ' ' + document.forms[0].cp_dep.value + ' ' + document.forms[0].ville_dep.value + ' ' + document.forms[0].pays_dep.value;
+      var arrivee=document.forms[0].adresse_arr.value + ' ' + document.forms[0].cp_arr.value + ' ' + document.forms[0].ville_arr.value + ' ' + document.forms[0].pays_arr.value;
+      geocoder.getLocations(depart, function (response) {
+
+        if (!response || response.Status.code != 200)
+        {
+          alert("Désolés, nous ne parvenons pas à localiser l'adresse de départ");
+          clearInterval(interv);
+          document.getElementsByTagName('body')[0].style.cursor = 'default';
+        }
+        else
+        {
+          location1 = {lat: response.Placemark[0].Point.coordinates[1], lon: response.Placemark[0].Point.coordinates[0], address: response.Placemark[0].address};
+          geocoder.getLocations(arrivee, function (response) {
+            if (!response || response.Status.code != 200)
+            {
+              alert("Désolés, nous ne parvenons pas à localiser l'adresse d'arrivée");
+              clearInterval(interv);
+              document.getElementsByTagName('body')[0].style.cursor = 'default';
+            }
+            else
+            {
+              location2 = {lat: response.Placemark[0].Point.coordinates[1], lon: response.Placemark[0].Point.coordinates[0], address: response.Placemark[0].address};
+              gDir.load('from: ' + location1.address + ' to: ' + location2.address);
+            }
+          });
+        }
+      });
+    }
+
+  </script>
+</head>
+
+<body onload="initialize()">
+<form id="form1" name="form1" action="" method="post"/>
+<p>adresse de départ</p>
+<p><label for="adresse_dep">Adresse :</label><input type="text" name="adresse_dep" /></p>
+<p><label for="cp_dep">Code postal :</label><input type="text" name="cp_dep" /></p>
+<p><label for="ville_dep">Ville :</label><input type="text" name="ville_dep" /></p>
+<p><label for="pays_dep">Pays :</label><input type="text" name="pays_dep" /></p>
+<hr />
+<p>Adresse d'arrivée</p>
+<p><label for="adresse_arr">Adresse :</label><input type="text" name="adresse_arr" /></p>
+<p><label for="cp_arr">Code postal :</label><input type="text" name="cp_arr" /></p>
+<p><label for="ville_arr">Ville :</label><input type="text" name="ville_arr" /></p>
+<p><label for="pays_arr">Pays :</label><input type="text" name="pays_arr" /></p>
+<hr />
+<p>Distance à parcourir : <input type="text" name="distance" class="date" />&nbsp;km&nbsp;<input value="calculer" type="button" onclick="showLocation(); return false;" /></p>
+<p id="results"></p>
+
+</body>
+</html>
