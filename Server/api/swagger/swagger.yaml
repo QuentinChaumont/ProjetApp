@@ -217,7 +217,7 @@ paths:
             items:
               $ref: "#/definitions/friend"
         "404":
-          description: "This user does not exist or has no friends"
+          description: "This user does not exist"
     post:
       operationId: postUsersFriendsRequest
       description: "Add a friend"
@@ -238,6 +238,23 @@ paths:
           description: Wrong format
         "404":
           description: User not found
+    delete:
+      operationId: deleteUsersFriendsRequest
+      description: "Delete a friendship request"
+      parameters:
+      - $ref: "#/parameters/username"
+      - name: friend
+        description: "friendship request to remove"
+        in: body
+        schema:
+          $ref: "#/definitions/friend"
+        required: true
+      responses:
+        "204":
+          description: Success
+        "404":
+          description: "Friendship request not found"
+
 
   /users/{username}/friends/{friendusername}:
     x-swagger-router-controller: users

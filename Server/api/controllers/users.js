@@ -21,6 +21,7 @@ module.exports = {
   postUsersFriends,
   getUsersFriendsRequest,
   postUsersFriendsRequest,
+  deleteUsersFriendsRequest,
   getUsersFriendsUser,
   deleteUsersFriendsUser,
   getUsersFriendsUserPositions
@@ -97,7 +98,7 @@ function getUsersUsername(req, res, next) {
     });
 }
 
-// /PUT  /users/{username}
+// PUT  /users/{username}
 function putUsersUsername(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
@@ -129,7 +130,7 @@ function putUsersUsername(req, res, next) {
     });
 }
 
-
+// DELETE  /users/{username}
 function deleteUsersUsername(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
@@ -137,7 +138,7 @@ function deleteUsersUsername(req, res, next) {
         db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error, exist) {
             if(exist != null && error == null){
                 db1.collection("users").remove( { "username": req.swagger.params.username.value },function(err, val) {
-                        if (!err) res.json({success: 1, description: "Users ajouté"});
+                        if (!err) res.json({success: 1, description: "User removed"});
                         else{
                             res.status(404).send();
                         }
@@ -151,6 +152,8 @@ function deleteUsersUsername(req, res, next) {
 
     });
 }
+
+// GET /users/{username}/positions
 function getUsersPositions(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
@@ -165,6 +168,8 @@ function getUsersPositions(req, res, next) {
         });
     });
 }
+
+// POST /users/{username}/positions
 function postUsersPositions(req, res, next) {
   MongoClient.connect(url,  function(err, db1) {
       assert.equal(null, err);
@@ -194,7 +199,7 @@ function postUsersPositions(req, res, next) {
   });
 }
 
-
+// GET /users/{username}/friends
 function getUsersFriends(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
@@ -209,6 +214,8 @@ function getUsersFriends(req, res, next) {
         });
     });
 }
+
+// POST /users/{username}/friends
 function postUsersFriends(req, res, next) {
   MongoClient.connect(url,  function(err, db1) {
       assert.equal(null, err);
@@ -237,6 +244,8 @@ function postUsersFriends(req, res, next) {
   });
 }
 
+
+// GET /users/{username}/friendsRequest
 function getUsersFriendsRequest(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
@@ -253,8 +262,7 @@ function getUsersFriendsRequest(req, res, next) {
     });
 }
 
-
-
+// POST /users/{username}/friendsRequest
 function postUsersFriendsRequest(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
@@ -283,6 +291,26 @@ function postUsersFriendsRequest(req, res, next) {
     });
 }
 
+// DELETE /users/{username}/friendsRequest
+function deleteUsersFriendsRequest(req, res, next) {
+    MongoClient.connect(url,  function(err, db1) {
+        assert.equal(null, err);
+        console.log("Connected correctly to server");
+        db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error,user) {
+            if (user != null && error == null && user.friendsRequest.find(function (element) {return element.username == req.body.username})) {
+                const suppr = { "$pull" : {"friendsRequest" : {"username" : req.body.username}}};
+                db1.collection("users").update({"username" : req.swagger.params.username.value},  suppr,  function(err2, modif) {
+                    if (!err2) {
+                        res.status(204).send();
+                    } else res.status(404).send();
+                });
+            }
+            else res.status(404).send();
+        });
+    });
+}
+
+// GET /users/{username}/friends/{friendusername}
 function getUsersFriendsUser(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
@@ -304,6 +332,7 @@ function getUsersFriendsUser(req, res, next) {
     });
 }
 
+// DELETE /users/{username}/friends/{friendusername}
 function deleteUsersFriendsUser(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
@@ -332,8 +361,7 @@ function deleteUsersFriendsUser(req, res, next) {
     });
 }
 
-// /users/{username}/friends/{friendusername}/positions
-
+// GET /users/{username}/friends/{friendusername}/positions
 function getUsersFriendsUserPositions(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
