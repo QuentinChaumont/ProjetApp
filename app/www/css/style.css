@@ -42,3 +42,7 @@ input[type=text] {
   padding: 12px 20px 10px 40px;
   height: 40px;
 }
+
+.right-aligned {
+  float: right;
+}

@@ -85,7 +85,35 @@ angular.module('starter.controllers', [])
   })
 
   .controller('FriendCtrl', function($scope, Resources) {
+    //TODO passer $scope.username en variable globale
+    $scope.username = "hello";
+    $scope.futureFriend = {};
+
     $scope.friends = Resources.friends.query({username: 'hello'});
+    $scope.friendsRequest = Resources.friendsRequest.query({username: 'hello'});
+
+    $scope.acceptRequest = function(friend) {
+      Resources.friends.save({username: $scope.username}, friend);
+    };
+
+    $scope.declineRequest = function(friend) {
+      //TODO à debug : ne marche pas, pourtant coté serveur ça fonctionne (tests réalisés sous swagger)
+      Resources.friendsRequest.remove({username: $scope.username}, friend);
+    };
+
+    $scope.addRequest = function() {
+      // POST request in the future friend database
+      Resources.friendsRequest.save({username: $scope.futureFriend.username}, {username: $scope.username},
+        function () {
+          // everything went fine
+          $scope.futureFriend.requestSend = true;
+        },
+        function () {
+          // a problem happened
+          $scope.futureFriend.requestSend = false;
+        }
+      );
+    }
   })
 
   /*
@@ -115,15 +143,17 @@ angular.module('starter.controllers', [])
       enableFriends: true
     };
 
-    // juste des petits tests pur vérifier si tout marche bien
+    //TODO passer $scope.username en variable globale
     $scope.username = 'hello';
+
+    // juste des petits tests dégeus pour vérifier si tout marche bien
     $scope.user = Resources.user.get({username: $scope.username}, function() {
       // everything went fine
-      $scope.retrieved = true;
+      $scope.retrieved = "yes";
     }, function() {
       // error, create it
       Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'});
-      $scope.retrieved = 'Nope, user hello created, please refresh'
+      $scope.retrieved = 'Nope, user hello created, please refresh';
     });
   })
 

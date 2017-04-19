@@ -1,13 +1,43 @@
 <ion-view view-title="Friend">
   <ion-content class="padding">
-    <h2>Onglet Friend</h2>
-    <p>
-      C'est une application qui permet de retrouver vos amis si ils sont partis au bar sans vous
-      Commencez des maintenant à utiliser l'application avec les différents onglets
-    </p>
-    <h3>Mes amis</h3>
-    <ul>
-      <li ng-repeat="item in friends">{{item.username}}</li>
-    </ul>
+    <div>
+      <form ng-submit="addRequest()">
+        <input type="text" name="friendName" ng-model="futureFriend.username" placeholder="Add a friend">
+      </form>
+      <div ng-if="futureFriend.requestSend == true" class="anime-if">
+        Done.
+      </div>
+      <div ng-if="futureFriend.requestSend == false" class="anime-if">
+        Problem !
+      </div>
+    </div>
+    <div ng-if="friendsRequest.length > 0" class="animate-if">
+      <h2>Demandes d'ajout</h2>
+      <ul>
+        <li ng-repeat="f_req in friendsRequest">
+          {{f_req.username}}
+          <span class="right-aligned">
+            <button ion-button icon-only color="secondary"
+                    ng-click="acceptRequest(f_req)">
+              <!-- TODO icons ne chargent pas -->
+              <ion-icon name='ion-person-add'></ion-icon>
+              Accept
+            </button>
+            <button ion-button icon-only color="danger"
+                    ng-click="declineRequest(f_req)">
+              <!-- TODO icons ne chargent pas -->
+              <ion-icon name='ion-ios-close-outline'></ion-icon>
+              Decline
+            </button>
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h2>Mes amis</h2>
+      <ul>
+        <li ng-repeat="f in friends">{{f.username}}</li>
+      </ul>
+    </div>
   </ion-content>
 </ion-view>
