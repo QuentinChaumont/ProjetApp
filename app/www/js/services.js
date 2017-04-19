@@ -1,4 +1,22 @@
 angular.module('starter.services', ['ngResource'])
+
+// defines all routes
+  .factory('Resources', function($resource) {
+    var hostname = 'http://127.0.0.1:3000';
+    return {
+      login: $resource(hostname.concat('/api/login')),
+      users: $resource(hostname.concat('/api/users')),
+      user: $resource(hostname.concat('/api/users/:username'),
+        {
+        'update': { method:'PUT' } //create custom PUT request : https://docs.angularjs.org/api/ngResource/service/$resource
+      }),
+      friend: $resource(hostname.concat('/api/users/:username/friends/:friend')),
+      friends: $resource(hostname.concat('/api/users/:username/friends')),
+      friendsRequest: $resource(hostname.concat('/api/users/:username/friendsRequest')),
+      friendsPosition: $resource(hostname.concat('/api/users/:username/friends/:friend/positions'))
+    };
+  })
+
 /*
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
@@ -49,34 +67,6 @@ angular.module('starter.services', ['ngResource'])
   };
 });
 */
-
-// Source : https://www.sitepoint.com/premium/books/angularjs-novice-to-ninja/preview/understanding-angularjs-resource-e0638c0
-//TODO changer l'adresse host 127.0.0.1 avec une variable pour pas avoir à tout retaper
-.factory('Users', function($resource) {
-  return $resource('http://127.0.0.1:3000/api/users');
-})
-
-.factory('User', function($resource) {
-  return $resource('http://127.0.0.1:3000/api/users/:username');
-})
-
-.factory('Friend', function($resource) {
-  return $resource('http://127.0.0.1:3000/api/users/:username/friends/:friend');
-})
-
-.factory('Friends', function($resource) {
-  return $resource('http://127.0.0.1:3000/api/users/:username/friends');
-})
-
-.factory('FriendsRequest', function($resource) {
-  return $resource('http://127.0.0.1:3000/api/users/:username/friendsRequest');
-})
-
-.factory('FriendPosition', function($resource) {
-  return $resource('http://127.0.0.1:3000/api/users/:username/friends/:friend/positions');
-})
-
-
 
 
 

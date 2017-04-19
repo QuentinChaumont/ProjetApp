@@ -75,7 +75,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'tab-friend': {
         templateUrl: 'templates/friend.html',
-        controller: 'DashCtrl'
+        controller: 'FriendCtrl'
       }
     }
   })
