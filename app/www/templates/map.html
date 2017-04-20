@@ -1,23 +1,34 @@
 <ion-view view-title="Map">
-  <ion-content>
-    <h1 class="title">Maps</h1>
-    <div id="map" data-tap-disabled="true"></div>
-    <h2 class="title">List of Friends in this area</h2>
-    <p><input type="text" ng-model="test" placeholder="Search.."></p>
-    <table>
-      <thead>
-        <td>Id</td>
-      <td>Nom</td>
-      <td>Distance</td>
-      </thead>
-      <tbody>
-      <tr ng-repeat="friend in list_friend | orderBy : 'distance' | filter : test"
-          ng-class="{oddRow: $odd}">
-        <td>{{friend.id}}</td>
-        <td>{{friend.name}}</td>
-        <td>{{friend.distance > 1000 ? (friend.distance/1000 | number:0) + ' km' : friend.distance}}</td>
-      </tr>
-      </tbody>
-    </table>
+  <ion-content class="padding has-header has-search-bar">
+    <div id="map" ng-show="map_available" data-tap-disabled="true"></div>
+    <h2 class="title" ng-show="map_available" >List of Friends in this area</h2>
+
+    <ion-search-bar placeholder="Search Books"></ion-search-bar>
+
+    <div ng-if = "position">
+      <div class = "item range range-positive">
+        0<input id="selector_range" type= "range" min="0" max="101" ng-model='filtre_rayon' name = "rayon" ng-change="change()">
+        <i class="icon ion-ios-infinite"></i>
+      </div>
+      <div class="text-center">{{filtre_rayon <= 100 ? filtre_rayon + ' km' : 'infinite'}}</div>
+      <div class="text-center">
+        <table class="list_friend">
+          <thead>
+          <td>Id</td>
+          <td>Nom</td>
+          <td>Distance</td>
+          </thead>
+          <tbody>
+          <tr ng-repeat="friend in list_friend | orderBy : 'distance' | filter : search.value"
+              ng-class="{oddRow: $odd}" ng-If="friend.distance < filtre_rayon*1000 || filtre_rayon > 100">
+            <td>{{friend.id}}</td>
+            <td>{{friend.name}}</td>
+            <td>{{friend.distance > 1000 ? (friend.distance/1000 | number:0) + ' km' : friend.distance}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </ion-content>
 </ion-view>
+

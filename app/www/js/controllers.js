@@ -1,9 +1,31 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar'])
 
-  .controller('DashCtrl', function($scope) {})
+  .controller('DashCtrl',  function($scope, $ionicFilterBar) {
+    $scope.search = "udazudzauid";
+    $scope.places = [{name: 'New York'}, {name: 'London'}, {name: 'Milan'}, {name: 'Paris'}];
 
-  .controller('MapCtrl', function($scope, $ionicLoading) {
+    $scope.showFilterBar = function () {
+      var filterBarInstance = $ionicFilterBar.show({
+        cancelText: "Cancel",
+        items: $scope.places,
+        update: function (filteredItems, filterText) {
+          $scope.places = filteredItems;
+        }
+      });
+    };
+  })
 
+
+  .controller('MapCtrl', function($scope, $ionicLoading, $location, $anchorScroll) {
+    $scope.map_available = true;
+    $scope.position = false;
+    $scope.filtre_rayon = 50;
+
+
+    $scope.change = function() {
+      $location.hash('selector_range');
+      $anchorScroll();
+    };
     //Pour la carte google map et la localisation
     var Enseirb_position = new google.maps.LatLng(44.8066376, -0.6073554);
 
@@ -33,16 +55,33 @@ angular.module('starter.controllers', [])
     // -----------------------------------------------------------------------
 
     // Permet de recuperer la géolocalisation
-    navigator.geolocation.getCurrentPosition(function (pos) {
+    navigator.geolocation.watchPosition(function (pos) {
+      $scope.position  = true;
       map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
 
       //Ajouter un marker
       var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+
       var myLocation = new google.maps.Marker({
         position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
         map: map,
         icon: image,
         title: "My Location"
+      });
+      var contentString = '<div id="content">'+
+        '<div id="siteNotice">'+
+        '</div>'+
+        '<h5 id="firstHeading" class="firstHeading">My Location</h5>'+
+        '<div id="bodyContent">'+
+        '</div>'+
+        '</div>';
+
+      var fenetre = new google.maps.InfoWindow({
+        content: contentString
+      });
+
+      myLocation.addListener('click', function() {
+        fenetre.open(map, myLocation);
       });
 
       var location, distance;
@@ -50,22 +89,7 @@ angular.module('starter.controllers', [])
 
         // On ajoute les distances avec les différents utilisateur
         angular.forEach(list_friend, function (value, key) {
-          /*
-           distance = new google.maps.geometry.spherical.computeDistanceBetween(
-           new google.maps.LatLng(value.lat, value.lng), pos.coords);
-           */
-
-          /* calcul distance a la main */
-          var R = 6378137;
-          var dLat = (value.lat-pos.coords.latitude) * Math.PI / 180;
-          var dLon = (value.lng-pos.coords.longitude) * Math.PI / 180;
-          var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(value.lat * Math.PI / 180 ) * Math.cos(pos.coords.latitude * Math.PI / 180 ) *
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-
-          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-          var distance = Math.round(R * c);
-          list_friend[key].distance = distance;
+          list_friend[key].distance = calcul_distance(value,pos.coords);
         });
 
         // On trie selon la distance
@@ -80,49 +104,14 @@ angular.module('starter.controllers', [])
         $scope.$apply();
       }
     });
-    $scope.map = map;
 
   })
 
-  .controller('FriendCtrl', function($scope, Resources) {
-    //TODO passer $scope.username en variable globale
-    $scope.username = "hello";
-    $scope.futureFriend = {};
-
-    $scope.friends = Resources.friends.query({username: 'hello'});
-    $scope.friendsRequest = Resources.friendsRequest.query({username: 'hello'});
-
-    $scope.acceptRequest = function(friend) {
-      Resources.friends.save({username: $scope.username}, friend);
-    };
-
-    $scope.declineRequest = function(friend) {
-      //TODO à debug : ne marche pas, pourtant coté serveur ça fonctionne (tests réalisés sous swagger)
-      Resources.friendsRequest.remove({username: $scope.username}, friend);
-    };
-
-    $scope.addRequest = function() {
-      // POST request in the future friend database
-      Resources.friendsRequest.save({username: $scope.futureFriend.username}, {username: $scope.username},
-        function () {
-          // everything went fine
-          $scope.futureFriend.requestSend = true;
-        },
-        function () {
-          // a problem happened
-          $scope.futureFriend.requestSend = false;
-        }
-      );
-    }
-  })
-
-  /*
   .controller('ChatsCtrl', function($scope, Chats) {
     // With the new view caching in Ionic, Controllers are only called
     // when they are recreated or on app start, instead of every page change.
     // To listen for when this page is active (for example, to refresh data),
     // listen for the $ionicView.enter event:
-
     //
     //$scope.$on('$ionicView.enter', function(e) {
     //});
@@ -136,37 +125,12 @@ angular.module('starter.controllers', [])
   .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
     $scope.chat = Chats.get($stateParams.chatId);
   })
-  */
 
-  .controller('AccountCtrl', function($scope, Resources, $ionicModal) {
-    //TODO passer $scope.username en variable globale
-    $scope.username = 'hello';
-
-    // juste des petits tests dégeus pour vérifier si tout marche bien
-    $scope.user = Resources.user.get({username: $scope.username}, function() {
-      // everything went fine
-      $scope.retrieved = "yes";
-    }, function() {
-      // error, create it
-      Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'});
-      $scope.retrieved = 'Nope, user hello created, please refresh';
-    });
-    // define create account view
-   $ionicModal.fromTemplateUrl('templates/signIn.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-   }).then(function(modal) {
-       $scope.signInModal = modal;
-   });
-   //console.log(loginData);
-   $ionicModal.fromTemplateUrl('templates/signUp.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-   }).then(function(modal, username) {
-       $scope.signUpModal = modal;
-       $scope.signUp.username = username;
-   });
-  })
+  .controller('AccountCtrl', function($scope) {
+    $scope.settings = {
+      enableFriends: true
+    };
+  });
 
 // Adds a marker to the map.
 function addMarker(map,info_friend){
@@ -196,6 +160,17 @@ function addMarker(map,info_friend){
     fenetre.open(map, marker);
     console.log("c'est le marker : " + marker.getLabel());
   });
-
-
 }
+
+function calcul_distance(pos1,pos2){
+  var R = 6378137;
+  var dLat = (pos1.lat-pos2.latitude) * Math.PI / 180;
+  var dLon = (pos1.lng-pos2.longitude) * Math.PI / 180;
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(pos1.lat * Math.PI / 180 ) * Math.cos(pos2.latitude * Math.PI / 180 ) *
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var distance = Math.round(R * c);
+  return distance;
+};
