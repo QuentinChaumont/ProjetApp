@@ -17,7 +17,7 @@
     "express-session": "1.15.2",
     "js-yaml": "^3.3.0",
     "method-override": "2.3.8",
-    "mongodb": "^2.2.25",
+    "mongodb": "^2.2.26",
     "morgan": "~1.7.0",
     "request": "^2.81.0",
     "serve-favicon": "~2.3.2",

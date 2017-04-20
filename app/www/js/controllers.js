@@ -138,11 +138,7 @@ angular.module('starter.controllers', [])
   })
   */
 
-  .controller('AccountCtrl', function($scope, Resources) {
-    $scope.settings = {
-      enableFriends: true
-    };
-
+  .controller('AccountCtrl', function($scope, Resources, $ionicModal) {
     //TODO passer $scope.username en variable globale
     $scope.username = 'hello';
 
@@ -155,6 +151,21 @@ angular.module('starter.controllers', [])
       Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'});
       $scope.retrieved = 'Nope, user hello created, please refresh';
     });
+    // define create account view
+   $ionicModal.fromTemplateUrl('templates/signIn.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+   }).then(function(modal) {
+       $scope.signInModal = modal;
+   });
+   //console.log(loginData);
+   $ionicModal.fromTemplateUrl('templates/signUp.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+   }).then(function(modal, username) {
+       $scope.signUpModal = modal;
+       $scope.signUp.username = username;
+   });
   })
 
 // Adds a marker to the map.
@@ -185,4 +196,6 @@ function addMarker(map,info_friend){
     fenetre.open(map, marker);
     console.log("c'est le marker : " + marker.getLabel());
   });
+
+
 }
