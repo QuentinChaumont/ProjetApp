@@ -15,19 +15,19 @@
           <li ng-repeat="f_req in friendsRequest">
             {{f_req.username}}
             <span class="right-aligned">
-            <button ion-button icon-only color="secondary"
-                    ng-click="acceptRequest(f_req)">
-              <!-- TODO icons ne chargent pas -->
-              <ion-icon name='ion-person-add'></ion-icon>
-              Accept
-            </button>
-            <button ion-button icon-only color="danger"
-                    ng-click="declineRequest(f_req)">
-              <!-- TODO icons ne chargent pas -->
-              <ion-icon name='ion-ios-close-outline'></ion-icon>
-              Decline
-            </button>
-          </span>
+              <button ion-button icon-only color="secondary"
+                      ng-click="acceptRequest(f_req)">
+                <!-- TODO icons ne chargent pas -->
+                <ion-icon name='ion-person-add'></ion-icon>
+                Accept
+              </button>
+              <button ion-button icon-only color="danger"
+                      ng-click="declineRequest(f_req)">
+                <!-- TODO icons ne chargent pas -->
+                <ion-icon name='ion-ios-close-outline'></ion-icon>
+                Decline
+              </button>
+            </span>
           </li>
         </ul>
       </div>
@@ -48,7 +48,17 @@
           </div>
         </div>
         <ul>
-          <li ng-repeat="f in friends">{{f.username}}</li>
+          <li ng-repeat="f in friends">
+            {{f.username}}
+            <span class="right-aligned">
+              <button ion-button icon-only color="danger"
+                        ng-click="delete(f_req)">
+                <!-- TODO icons ne chargent pas -->
+                <ion-icon name='ion-ios-close-outline'></ion-icon>
+                Remove
+              </button>
+            </span>
+          </li>
         </ul>
       </div>
 

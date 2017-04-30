@@ -16,7 +16,7 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar'])
   })
 
 
-  .controller('MapCtrl', function($scope, $ionicLoading, $location, $anchorScroll) {
+  .controller('MapCtrl', function($scope, $ionicLoading, $location, $anchorScroll, Resources) {
     $scope.map_available = true;
     $scope.position = false;
     $scope.filtre_rayon = 50;
@@ -45,6 +45,17 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar'])
     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
     // --- ALLER CHERCHER LA LISTE D AMI SUR LE SERVER ---------------
+    /*
+    var friends = Resources.friends.query({username: $rootScope.username});
+    var friend_position;
+    var list_friend = [];
+    var tmp_id = 1;
+    for friend in list_friends {
+      friend_position = Resource.friendsPosition({username: $rootScope.username},{friendusername: friend});
+      list_friend.push({id: tmp_id, name: friend, lat: friend_position.x, lng: friend_position.x});
+      tmp_id++;
+    }
+    */
     var list_friend = [
       {id: 1, name: "Thibaud", lat: 44.8076376, lng: -0.6073554},
       {id: 2, name: "Quentin", lat: 44.8086376, lng: -0.6073554},
@@ -129,6 +140,8 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar'])
   .controller('FriendCtrl', function($rootScope, $scope, Resources) {
     $scope.futureFriend = {};
 
+    $rootScope.username = "hello";
+
     $scope.friends = Resources.friends.query({username: $rootScope.username});
     $scope.friendsRequest = Resources.friendsRequest.query({username: $rootScope.username});
 
@@ -139,6 +152,10 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar'])
       } else {
         return false;
       }
+    };
+
+    $scope.delete = function(friend) {
+      Resources.friend.remove({username: $rootScope.username}, friend);
     };
 
     $scope.acceptRequest = function(friend) {
