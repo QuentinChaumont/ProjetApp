@@ -50,14 +50,12 @@
         <ul>
           <li ng-repeat="f in friends">
             {{f.username}}
-            <span class="right-aligned">
-              <button ion-button icon-only color="danger"
-                        ng-click="delete(f_req)">
-                <!-- TODO icons ne chargent pas -->
-                <ion-icon name='ion-ios-close-outline'></ion-icon>
-                Remove
-              </button>
-            </span>
+            <button ion-button icon-only color="danger" class="right-aligned"
+                      ng-click="delete(f_req)">
+              <!-- TODO icons ne chargent pas -->
+              <ion-icon name='ion-ios-close-outline'></ion-icon>
+              Remove
+            </button>
           </li>
         </ul>
       </div>
