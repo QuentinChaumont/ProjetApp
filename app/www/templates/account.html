@@ -1,11 +1,18 @@
 <ion-view view-title="Account">
   <ion-content>
-    <button class="button button-block button-positive" ng-click="signInModal.show()">Sign In</button>
-    <button class="button button-block button-positive" ng-click="signUpModal.show()">Sign Up</button>
-    <div>
-      User correctly retrieved ? {{retrieved}}
-      <br/>Username = {{user.username}}
-      <br/>Email = {{user.email}}
+    <div ng-if="!isConnected()">
+      <h2>You are not connected.</h2>
+      <button class="button button-block button-positive" ng-click="signInModal.show()">Sign In</button>
+      <button class="button button-block button-positive" ng-click="signUpModal.show()">Sign Up</button>
+    </div>
+    <div ng-if="isConnected()">
+      <h2>Hello {{username}}</h2>
+      <h3>Your username :</h3>
+      <p>{{ user.username}}</p>
+      <h3>Your email address :</h3>
+      <p>{{ user.email}}</p>
+      </br>
+      <p>You have {{user.friends.length}} friends.</p>
     </div>
   </ion-content>
 </ion-view>

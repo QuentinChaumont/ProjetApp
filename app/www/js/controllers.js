@@ -126,10 +126,60 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar'])
     $scope.chat = Chats.get($stateParams.chatId);
   })
 
-  .controller('AccountCtrl', function($scope) {
+  .controller('FriendCtrl', function($rootScope, $scope, Resources) {
+    $scope.futureFriend = {};
+
+    $scope.friends = Resources.friends.query({username: $rootScope.username});
+    $scope.friendsRequest = Resources.friendsRequest.query({username: $rootScope.username});
+
+    //TODO modifier cette fonction pour qu'elle soit accessible dans tous les controlleurs et updatable
+    $scope.isConnected = function() {
+      if ($rootScope.username != undefined) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    $scope.acceptRequest = function(friend) {
+      Resources.friends.save({username: $rootScope.username}, friend);
+    };
+
+    $scope.declineRequest = function(friend) {
+      //TODO à debug : ne marche pas, pourtant coté serveur ça fonctionne (tests réalisés sous swagger)
+      Resources.friendsRequest.remove({username: $rootScope.username}, friend);
+    };
+
+    $scope.addRequest = function() {
+      // POST request in the future friend database
+      Resources.friendsRequest.save({username: $scope.futureFriend.username}, {username: $rootScope.username},
+        function () {
+          // everything went fine
+          $scope.futureFriend.requestSend = true;
+        },
+        function () {
+          // a problem happened
+          $scope.futureFriend.requestSend = false;
+        }
+      );
+    }
+  })
+
+  .controller('AccountCtrl', function($scope, $rootScope, Resources) {
     $scope.settings = {
       enableFriends: true
     };
+
+    //TODO modifier cette fonction pour qu'elle soit accessible dans tous les controlleurs et updatable
+    $scope.isConnected = function() {
+      if ($rootScope.username != undefined) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    $scope.user = Resources.user.get({username: $rootScope.username});
   });
 
 // Adds a marker to the map.

@@ -1,22 +1,20 @@
 <ion-view view-title="Friend">
   <ion-content class="padding">
-    <div>
-      <form ng-submit="addRequest()">
-        <input type="text" name="friendName" ng-model="futureFriend.username" placeholder="Add a friend">
-      </form>
-      <div ng-if="futureFriend.requestSend == true" class="anime-if">
-        Done.
-      </div>
-      <div ng-if="futureFriend.requestSend == false" class="anime-if">
-        Problem !
-      </div>
+
+    <!-- Warning message for unconnected users -->
+    <div ng-if="!isConnected()">
+      <h2>You are not connected.</h2>
+      <h4>Please log in to see your friends.</h4>
     </div>
-    <div ng-if="friendsRequest.length > 0" class="animate-if">
-      <h2>Demandes d'ajout</h2>
-      <ul>
-        <li ng-repeat="f_req in friendsRequest">
-          {{f_req.username}}
-          <span class="right-aligned">
+
+    <div ng-if="isConnected()">
+      <!-- User friends' requests list -->
+      <div ng-if="friendsRequest.length > 0" class="animate-if">
+        <h2>They want to add you as a friend :</h2>
+        <ul>
+          <li ng-repeat="f_req in friendsRequest">
+            {{f_req.username}}
+            <span class="right-aligned">
             <button ion-button icon-only color="secondary"
                     ng-click="acceptRequest(f_req)">
               <!-- TODO icons ne chargent pas -->
@@ -30,14 +28,30 @@
               Decline
             </button>
           </span>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <h2>Mes amis</h2>
-      <ul>
-        <li ng-repeat="f in friends">{{f.username}}</li>
-      </ul>
+          </li>
+        </ul>
+      </div>
+
+      <!-- User friends' list -->
+      <div>
+        <h2>My friends :</h2>
+        <!-- Search Bar to add new friends -->
+        <div>
+          <form ng-submit="addRequest()">
+            <input type="text" name="friendName" ng-model="futureFriend.username" placeholder="Add a friend">
+          </form>
+          <div ng-if="futureFriend.requestSend == true" class="anime-if">
+            Request successfully send to {{futureFriend.username}}.
+          </div>
+          <div ng-if="futureFriend.requestSend == false" class="anime-if">
+            Request coud not be send to {{futureFriend.username}}.
+          </div>
+        </div>
+        <ul>
+          <li ng-repeat="f in friends">{{f.username}}</li>
+        </ul>
+      </div>
+
     </div>
   </ion-content>
 </ion-view>
