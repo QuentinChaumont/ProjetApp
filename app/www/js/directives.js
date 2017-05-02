@@ -46,7 +46,7 @@ angular.module("ionic")
           scope.search.value = '';
           $timeout(function () {
             document.getElementById('input_search').focus();
-          }, 10);
+          }, 0);
         };
 
         scope.keyup = function(event_key){

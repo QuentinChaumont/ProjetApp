@@ -7,22 +7,20 @@
 
     <div ng-if = "position">
       <div class = "item range range-positive">
-        0<input id="selector_range" type= "range" min="0" max="101" ng-model='filtre_rayon' name = "rayon" ng-change="change()">
+        30<input id="selector_range" type= "range" min="30" max="2001" ng-model='filtre_rayon' name = "rayon" ng-change="change(filtre_rayon)">
         <i class="icon ion-ios-infinite"></i>
       </div>
-      <div class="text-center">{{filtre_rayon <= 100 ? filtre_rayon + ' km' : 'infinite'}}</div>
+      <div class="text-center">{{filtre_rayon <= 2000 ? filtre_rayon + ' m' : 'infinite'}}</div>
       <div class="text-center">
         <table class="list_friend">
           <thead>
-          <td>Id</td>
           <td>Nom</td>
           <td>Distance</td>
           </thead>
           <tbody>
           <tr ng-repeat="friend in list_friend | orderBy : 'distance' | filter : search.value"
-              ng-class="{oddRow: $odd}" ng-If="friend.distance < filtre_rayon*1000 || filtre_rayon > 100">
-            <td>{{friend.id}}</td>
-            <td>{{friend.name}}</td>
+              ng-class="{oddRow: $odd}" ng-If="friend.distance < filtre_rayon || filtre_rayon > 2000">
+            <td><a href="#/tab/friend">{{friend.name}}</a></td>
             <td>{{friend.distance > 1000 ? (friend.distance/1000 | number:0) + ' km' : friend.distance}}</td>
           </tr>
           </tbody>
