@@ -31,7 +31,7 @@ angular.module('jett.ionic.filter.bar', ['ionic']);
             '<input type="search" class="filter-bar-search" ng-model="data.filterText" placeholder="{{::config.placeholder}}"/>' +
             '<button class="filter-bar-clear button button-icon icon" ng-class="getClearButtonClass()"></button>' +
             '</label>' +
-            '<button class="filter-bar-cancel button button-clear button-positive" ng-bind-html="::cancelText"></button>' +
+            '<button class="filter-bar-cancel button button-clear button-positive" ng-bind-html="::cancelText" style="margin-right:4px;"></button>' +
             '</div>' +
             '</div>';
         }

@@ -1,25 +1,24 @@
+angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter.bar','ngStorage'])
 
-angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorage'])
-
-  .controller('LoginCtrl',  function($scope,$state, $ionicFilterBar,LoginService, Resources,$ionicPopup,$sessionStorage,$state) {
+  .controller('LoginCtrl',  function($scope,$state, $ionicFilterBar,LoginService, Resources,$ionicPopup,$sessionStorage) {
     $scope.$on('$ionicView.beforeEnter', function(){
       $scope.loginData = {};
 
       $scope.login = function() {
         LoginService.loginUser($scope.loginData.username, $scope.loginData.password).success(function(loginData) {
-           $scope.user = Resources.user.get({username: $scope.loginData.username}, function() {
+          $scope.user = Resources.user.get({username: $scope.loginData.username}, function() {
             // everything went fine
             console.log("login");
-             $sessionStorage.active = true;
-             $sessionStorage.username = $scope.loginData.username;
-             $sessionStorage.email = $scope.user.email;
-             $state.go("tab.home", {}, {reload: true})
-           })
+            $sessionStorage.active = true;
+            $sessionStorage.username = $scope.loginData.username;
+            $sessionStorage.email = $scope.user.email;
+            $state.go("tab.home", {}, {reload: true})
+          })
         }).error(function(data) {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Login failed!',
-                template: 'Please check your credentials!'
-            });
+          var alertPopup = $ionicPopup.alert({
+            title: 'Login failed!',
+            template: 'Please check your credentials!'
+          });
         });
       }
     })
@@ -32,58 +31,57 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorag
 
       $scope.signUp = function() {
         SignUpService.signUpUser($scope.signUpData.username,$scope.signUpData.email, $scope.signUpData.password).success(function(loginData) {
-           $scope.user = Resources.user.get({username: $scope.signUpData.username}, function() {
+          $scope.user = Resources.user.get({username: $scope.signUpData.username}, function() {
             // everything went fine
-              console.log("signUp");
-             $sessionStorage.active = true;
-             $sessionStorage.username = $scope.signUpData.username;
-             $sessionStorage.email = $scope.user.email;
-             $state.go("tab.home", {}, {reload: true})
-           })
+            console.log("signUp");
+            $sessionStorage.active = true;
+            $sessionStorage.username = $scope.signUpData.username;
+            $sessionStorage.email = $scope.user.email;
+            $state.go("tab.home", {}, {reload: true})
+          })
         }).error(function(data) {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Login failed!',
-                template: 'Please check your credentials!'
-            });
+          var alertPopup = $ionicPopup.alert({
+            title: 'Login failed!',
+            template: 'Please check your credentials!'
+          });
         });
       }
     })
   })
 
-  .controller('DashCtrl',  function($scope,$state, $ionicFilterBar,LoginService, Resources,$ionicPopup,$sessionStorage,$state) {
+  .controller('DashCtrl',  function($scope, $ionicFilterBar,LoginService, Resources,$ionicPopup,$sessionStorage,$state) {
+    $scope.selected = undefined;
+    $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois'];// Any function returning a promise object can be used to load values asynchronously
 
     $scope.$on('$ionicView.beforeEnter', function(){
 
       $scope.sessionUsername = $sessionStorage.username;
       $scope.sessionEmail = $sessionStorage.email;
-        if ($sessionStorage.active == null) {
-          $scope.session = false;
+      if ($sessionStorage.active == null) {
+        $scope.session = false;
 
-        }
-        else {
-          $scope.session = true;
-        }
+      }
+      else {
+        $scope.session = true;
+      }
 
-        $scope.login = function() {
-          $state.go("tab.login", {}, {reload: true});
-        }
-        $scope.signUp = function() {
-          $state.go("tab.signUp", {}, {reload: true});
-        }
+      $scope.login = function() {
+        $state.go("tab.login", {}, {reload: true});
+      }
+      $scope.signUp = function() {
+        $state.go("tab.signUp", {}, {reload: true});
+      }
 
-      })
+    })
   })
 
-  .controller('MapCtrl', function($scope,$ionicFilterBar, $ionicLoading, $location, $anchorScroll, Resources) {
+  .controller('MapCtrl', function($scope,$ionicFilterBar) {
     $scope.map_available = true;
     $scope.position = false;
-    $scope.filtre_rayon = 50;
+    $scope.filtre_rayon = 1000;
 
     var Enseirb_position = new google.maps.LatLng(44.8066376, -0.6073554);
     var current_position = {lat : 44.8066376, lng : -0.6073554};
-    var cercle_position,estimation_postition;
-
-
 
     // Option pour la carte
     var mapOptions = {
@@ -98,8 +96,11 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorag
       rotateControl: true
     };
 
+    //Creation de la carte
     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    cercle_position = new google.maps.Circle({
+
+    //Creation des cercles
+    var cercle_position = new google.maps.Circle({
       strokeColor: '#ff864b',
       strokeOpacity: 0.8,
       strokeWeight: 2,
@@ -109,7 +110,7 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorag
       center: map.center,
       radius: $scope.filtre_rayon
     });
-    estimation_postition = new google.maps.Circle({
+    var estimation_postition = new google.maps.Circle({
       strokeColor: '#a3afff',
       strokeOpacity: 0.8,
       strokeWeight: 2,
@@ -120,6 +121,7 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorag
       radius: $scope.filtre_rayon
     });
 
+    //Fonction qui permet de changer le rayon lorsqu'on l'augmente / diminue
     $scope.change = function(filtre_rayon){
       var valeur_rayon = parseFloat(filtre_rayon);
       if (valeur_rayon <= 2000)
@@ -140,26 +142,29 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorag
         map.setZoom(13);
       else if(valeur_rayon > 2000)
         map.setZoom(12);
-
-      //$scope.filtre_rayon = filtre_rayon;
-      //$location.hash('selector_range');
-      //$anchorScroll();
     };
 
     // --- ALLER CHERCHER LA LISTE D AMI SUR LE SERVER ---------------
     /*
-    var friends = Resources.friends.query({username: $rootScope.username});
-    var friend_position;
-    var list_friend = [];
-    var tmp_id = 1;
-    for friend in list_friends {
-      friend_position = Resource.friendsPosition({username: $rootScope.username},{friendusername: friend});
-      list_friend.push({id: tmp_id, name: friend, lat: friend_position.x, lng: friend_position.x});
-      tmp_id++;
-    }
-    */
+     var friends = Resources.friends.query({username: $rootScope.username});
+     var friend_position;
+     var list_friend = [];
+     var tmp_id = 1;
+     for friend in list_friends {
+     friend_position = Resource.friendsPosition({username: $rootScope.username},{friendusername: friend});
+     list_friend.push({id: tmp_id, name: friend, lat: friend_position.x, lng: friend_position.x});
+     tmp_id++;
+     }
+     */
+    var list_friend = [
+      {id: 1, name: "Thibaud", lat: 44.8076376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
+      {id: 2, name: "Quentin", lat: 44.8086376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
+      {id: 3, name: "Pad", lat: 44.8096376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
+      {id: 4, name: "test", lat: 43.494555, lng: 4.979117,info_bulle : new google.maps.InfoWindow()},
+      {id: 5, name : "test2", lat:43.50455, lng: 4.979117,info_bulle : new google.maps.InfoWindow()}
+    ];
 
-    //Ajouter un marker
+    // -----------------   Ajouter un marker personnalisé pour la position ---------------------------------------------
     var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 
     var myLocation = new google.maps.Marker({
@@ -182,118 +187,84 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorag
     myLocation.addListener('click', function() {
       fenetre.open(map, myLocation);
     });
-
-
-    function CenterControl(controlDiv, map){
-
-      // Set CSS for the control border.
-      var controlUI = document.createElement('div');
-      controlUI.style.backgroundColor = '#fff';
-      controlUI.style.border = '2px solid #fff';
-      controlUI.style.borderRadius = '3px';
-      controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-      controlUI.style.cursor = 'pointer';
-      controlUI.style.textAlign = 'center';
-      controlUI.style.marginRight = '10px';
-      controlUI.title = 'Click to recenter the map';
-      controlDiv.appendChild(controlUI);
-
-      // Set CSS for the control interior.
-      var controlText = document.createElement('div');
-      controlText.style.paddingLeft = '5px';
-      controlText.style.paddingRight = '5px';
-      controlText.innerHTML = '<img src="../img/icon_centre.ico" width="20px" height="20px"></img>';
-      controlUI.appendChild(controlText);
-
-      controlUI.addEventListener('click', function(){
-        goto_direction();
-      });
-    }
+    // -----------------------------------------------------------------------------------------------------------------
 
 
     function goto_direction(){
       map.setCenter({lat : current_position.lat, lng : current_position.lng});
     }
-
-    // Create the DIV to hold the control and call the CenterControl()
-    // constructor passing in this DIV.
+    // ------------------ AJOUT DES CONTROLES / LEGENDES SUR LA CARTE --------------------------------------------------
     var legend = document.createElement('div');
-    legend.innerHTML = '<h3>Legend</h3>';
-    var centerControl2 = new CenterControl(legend, map);
-    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(legend);
+    var centerControl2 = new CreateControl(legend, map,
+      '<h4 style="text-align: center;">Legend</h4><p style="color : #ff9d82;"><strong>-</strong> Filtre</p>' +
+      '<p style="color : #a3afff;"><strong>-</strong> Approximation</p>');
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(legend);
 
     var centerControlDiv = document.createElement('div');
-    var centerControl = new CenterControl(centerControlDiv, map);
-    centerControlDiv.index = 1;
+    var centerControl = new CreateControl(centerControlDiv, map, '<img src="../img/icon_centre.ico" width="20px" height="20px"></img>');
+    centerControlDiv.addEventListener('click', function(){
+      goto_direction();
+    });
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerControlDiv);
 
+    // ----------------------------------------------------------------------------------------------------------------
 
-    var list_friend = [
-      {id: 1, name: "Thibaud", lat: 44.8076376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
-      {id: 2, name: "Quentin", lat: 44.8086376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
-      {id: 3, name: "Pad", lat: 44.8096376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
-      {id: 4, name: "test", lat: 43.494555, lng: 4.979117,info_bulle : new google.maps.InfoWindow()},
-      {id: 5, name : "test2", lat:43.50455, lng: 4.979117,info_bulle : new google.maps.InfoWindow()}
-    ];
-
+    // -------------------- CREATION DU MARKER CLUSTER -----------------------------------------------------------------
     markers = list_friend.map(function(data,i) {
-      list_friend[i].info_bulle.setContent('<h3>' + data.name + '</h3>');
+      list_friend[i].info_bulle.setContent('<h3>' + data.name + '</h3>Distance : Non connue');
       return addMarker(map,data,data.info_bulle);
     });
-    // Add a marker clusterto manage the markers.
     markerCluster = new MarkerClusterer(map, markers,
       {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
     // -----------------------------------------------------------------------
-    // Permet de recuperer la géolocalisation
-    var markers, markerCluster;
-
     /* ---------- PERMET DE FAIRE UNE DEMO ------------------------------------
-    var compteur = 0;
-    var intervalID = setInterval(function() { // On met en place l'intervalle pour afficher la progression du temps
-      compteur = compteur + 1;
-      current_position.lng = current_position.lng + compteur*0.01;
-      myLocation.setPosition({lat : current_position.lat , lng : current_position.lng});
-      // On ajoute les distances avec les différents utilisateur
-      angular.forEach(list_friend, function (value, key) {
-        list_friend[key].distance = calcul_distance({lat : value.lat, lng : value.lng},current_position);
-        console.log(list_friend[key].distance);
-        var distance;
-        if(parseFloat(list_friend[key].distance) > 2000)
-          distance = list_friend[key].distance/1000 + ' km';
-        else
-          distance = list_friend[key].distance + ' m';
-        list_friend[key].info_bulle.setContent('<h3>' + list_friend[key].name + '</h3>Distance : ' + distance);
-      });
+     var compteur = 0;
+     var intervalID = setInterval(function() { // On met en place l'intervalle pour afficher la progression du temps
+     compteur = compteur + 1;
+     current_position.lng = current_position.lng + compteur*0.005;
+     myLocation.setPosition({lat : current_position.lat , lng : current_position.lng});
+     // On ajoute les distances avec les différents utilisateur
+     angular.forEach(list_friend, function (value, key) {
+     list_friend[key].distance = calcul_distance({lat : value.lat, lng : value.lng},current_position);
+     console.log(list_friend[key].distance);
+     var distance;
+     if(parseFloat(list_friend[key].distance) > 2000)
+     distance = list_friend[key].distance/1000 + ' km';
+     else
+     distance = list_friend[key].distance + ' m';
+     list_friend[key].info_bulle.setContent('<h3>' + list_friend[key].name + '</h3>Distance : ' + distance);
+     });
 
-      // On trie selon la distance
-      list_friend.sort(function (a, b) {
-        return a.distance - b.distance;
-      });
+     // On trie selon la distance
+     list_friend.sort(function (a, b) {
+     return a.distance - b.distance;
+     });
 
-      $scope.list_friend = list_friend;
-      $scope.$apply();
-    }, 5000);
+     $scope.list_friend = list_friend;
+     $scope.$apply();
+     }, 5000);
 
-    */
+     */
 
+    // Localisation du telephone
     var survId = navigator.geolocation.watchPosition(function (pos) {
       $scope.position  = true;
       current_position.lat = pos.coords.latitude;
       current_position.lng = pos.coords.longitude;
 
+      //Mise à jour de la map
       cercle_position.setCenter({lat : current_position.lat , lng : current_position.lng});
       estimation_postition.setCenter({lat : current_position.lat , lng:current_position.lng});
       estimation_postition.setRadius(pos.coords.accuracy);
       myLocation.setPosition({lat : current_position.lat , lng : current_position.lng});
 
-      var location, distance;
       if (list_friend[0] != undefined) {
+        var distance;
 
-        // On ajoute les distances avec les différents utilisateur
+        // On ajoute les distances avec les différents amis
         angular.forEach(list_friend, function (value, key) {
           list_friend[key].distance = calcul_distance(value,current_position);
-          var distance;
           if(parseFloat(list_friend[key].distance) > 2000)
             distance = list_friend[key].distance/1000 + ' km';
           else
@@ -311,57 +282,55 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorag
       }
     });
 
-
     //Permet d'arreter de se localiser
     //navigator.geolocation.clearWatch(survId);
 
   },{enableHighAccuracy:true, maximumAge:60000, timeout:10000})
 
+  .controller('ChatsCtrl', function($scope, Chats) {
+    // With the new view caching in Ionic, Controllers are only called
+    // when they are recreated or on app start, instead of every page change.
+    // To listen for when this page is active (for example, to refresh data),
+    // listen for the $ionicView.enter event:
+    //
+    //$scope.$on('$ionicView.enter', function(e) {
+    //});
 
-  .controller('AccountCtrl', function($scope,$sessionStorage,$state,$window,PasswordService, $ionicPopup) {
-    $scope.$on('$ionicView.beforeEnter', function(){
+    $scope.chats = Chats.all();
+    $scope.remove = function(chat) {
+      Chats.remove(chat);
+    };
+  })
 
-    $scope.sessionUsername = $sessionStorage.username;
-    $scope.sessionEmail = $sessionStorage.email;
+  .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
+    $scope.chat = Chats.get($stateParams.chatId);
+  })
 
-   $scope.logout = function() {
-    console.log("logout");
-    $sessionStorage.$reset();
-    $window.location.reload(true)
-   }
-   $scope.Data = {};
+  .controller('FriendCtrl', function($rootScope, $scope, Resources,$ionicFilterBar,$sessionStorage) {
+    var _selected;
 
-   $scope.password = function(){
-    console.log("password");
-    if ($scope.Data.password == $scope.Data.password2) {
-      PasswordService.changePassword($scope.sessionUsername,$scope.Data.actualPassword,$scope.Data.password).success(function() {
-        var alertPopup = $ionicPopup.alert({
-            title: 'Password changed !',
-            template: 'You just change your password.'
-        });
-      }).error(function() {
-          var alertPopup = $ionicPopup.alert({
-              title: 'Password change failed !',
-              template: 'Actual password is wrong'
-          });
+    $scope.selected = undefined;
+    $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+
+    // saisie du nom de la carte
+    $scope.friend_request = null;
+    $scope.search = "udazudzauid";
+    $scope.places = [{name: 'New York'}, {name: 'London'}, {name: 'Milan'}, {name: 'Paris'}];
+
+    $scope.showFilterBar = function () {
+      var filterBarInstance = $ionicFilterBar.show({
+        cancelText: "Cancel", //"<i class='ion-ios-close-outline'></i>",
+        items: $scope.places,
+        update: function (filteredItems, filterText) {
+          $scope.places = filteredItems;
+        }
       });
-    }
-    else {
-      var alertPopup = $ionicPopup.alert({
-          title: 'Password change failed !',
-          template: 'Passwords are different'
-      });
-    }
-   }
-   });
- })
-
-  .controller('FriendCtrl', function($scope, $sessionStorage, Resources) {
-    //TODO passer $scope.username en variable globale
+    };
     $scope.$on('$ionicView.beforeEnter', function(){
       $scope.sessionUsername = $sessionStorage.username;
       $scope.sessionEmail = $sessionStorage.email;
 
+      $scope.futureFriend = {};
 
       $scope.username = $sessionStorage.username;
       $scope.futureFriend = {};
@@ -390,74 +359,64 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorag
             $scope.futureFriend.requestSend = false;
           }
         );
-      }
+      };
       $scope.deleteFriend = function(friendUsername) {
         Resources.friend.remove({username: $scope.username, friend: friendUsername});
       };
     });
   })
-  //
-  // .controller('FriendCtrl', function($rootScope, $scope, Resources) {
-  //   $scope.futureFriend = {};
-  //
-  //   $rootScope.username = "hello";
-  //
-  //   $scope.friends = Resources.friends.query({username: $rootScope.username});
-  //   $scope.friendsRequest = Resources.friendsRequest.query({username: $rootScope.username});
-  //
-  //   //TODO modifier cette fonction pour qu'elle soit accessible dans tous les controlleurs et updatable
-  //   $scope.isConnected = function() {
-  //     if ($rootScope.username != undefined) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   };
-  //
-  //   $scope.delete = function(friend) {
-  //     Resources.friend.remove({username: $rootScope.username}, friend);
-  //   };
-  //
-  //   $scope.acceptRequest = function(friend) {
-  //     Resources.friends.save({username: $rootScope.username}, friend);
-  //   };
-  //
-  //   $scope.declineRequest = function(friend) {
-  //     //TODO à debug : ne marche pas, pourtant coté serveur ça fonctionne (tests réalisés sous swagger)
-  //     Resources.friendsRequest.remove({username: $rootScope.username}, friend);
-  //   };
-  //
-  //   $scope.addRequest = function() {
-  //     // POST request in the future friend database
-  //     Resources.friendsRequest.save({username: $scope.futureFriend.username}, {username: $rootScope.username},
-  //       function () {
-  //         // everything went fine
-  //         $scope.futureFriend.requestSend = true;
-  //       },
-  //       function () {
-  //         // a problem happened
-  //         $scope.futureFriend.requestSend = false;
-  //       }
-  //     );
-  //   }
-  // })
 
+  .controller('AccountCtrl', function($scope,$sessionStorage,$state,$window,PasswordService, $ionicPopup) {
+    $scope.$on('$ionicView.beforeEnter', function(){
 
-    .controller('TabsCtrl', function($scope, $sessionStorage, Resources) {
+      $scope.sessionUsername = $sessionStorage.username;
+      $scope.sessionEmail = $sessionStorage.email;
 
-      $scope.session=false;
-      $scope.$on('$ionicView.beforeEnter', function(){
-        $scope.session
+      $scope.logout = function() {
+        console.log("logout");
+        $sessionStorage.$reset();
+        $window.location.reload(true)
+      };
+      $scope.Data = {};
+
+      $scope.password = function(){
+        console.log("password");
+        if ($scope.Data.password == $scope.Data.password2) {
+          PasswordService.changePassword($scope.sessionUsername,$scope.Data.actualPassword,$scope.Data.password).success(function() {
+            var alertPopup = $ionicPopup.alert({
+              title: 'Password changed !',
+              template: 'You just change your password.'
+            });
+          }).error(function() {
+            var alertPopup = $ionicPopup.alert({
+              title: 'Password change failed !',
+              template: 'Actual password is wrong'
+            });
+          });
+        }
+        else {
+          var alertPopup = $ionicPopup.alert({
+            title: 'Password change failed !',
+            template: 'Passwords are different'
+          });
+        }
+      }
+    });
+  })
+  .controller('TabsCtrl', function($scope, $sessionStorage, Resources) {
+
+    $scope.session=false;
+    $scope.$on('$ionicView.beforeEnter', function(){
       if ($sessionStorage.active == null) {
         $scope.session = false;
-          console.log($sessionStorage.active, $scope.session);
-      }
-      else {
-        $scope.session = true;
         console.log($sessionStorage.active, $scope.session);
       }
-    })
-    });
+      else {
+          $scope.session = true;
+          console.log($sessionStorage.active, $scope.session);
+        }
+      });
+  });
 // Adds a marker to the map.
 function addMarker(map,info_friend,info_bulle){
   var marker = new google.maps.Marker({
@@ -468,8 +427,7 @@ function addMarker(map,info_friend,info_bulle){
   });
 
   marker.addListener('click', function() {
-
-    fenetre.open(map, marker);
+    info_bulle.open(map, marker);
   });
   return marker;
 }
@@ -486,3 +444,27 @@ function calcul_distance(pos1,pos2){
   var distance = Math.round(R * c);
   return distance;
 }
+
+function CreateControl(controlDiv, map,text){
+
+  // Set CSS for the control border.
+  var controlUI = document.createElement('div');
+  controlUI.style.backgroundColor = '#fff';
+  controlUI.style.border = '2px solid #fff';
+  controlUI.style.borderRadius = '3px';
+  controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+  controlUI.style.cursor = 'pointer';
+  //controlUI.style.textAlign = 'center';
+  controlUI.style.marginRight = '10px';
+  controlUI.title = 'Click to recenter the map';
+  controlDiv.appendChild(controlUI);
+
+  // Set CSS for the control interior.
+  var controlText = document.createElement('div');
+  controlText.style.paddingLeft = '5px';
+  controlText.style.paddingRight = '5px';
+  controlText.innerHTML = text;
+  controlUI.appendChild(controlText);
+}
+
+

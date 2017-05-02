@@ -2,22 +2,22 @@
   <ion-content class="padding has-header has-search-bar">
     <h2>Bienvenue {{sessionUsername}}</h2>
     <p>
-      <!-- <div id="pourtest"></div>
-      <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()">
-      </button>
-    {{search}}
-      <ion-list>
-        <ion-item ng-repeat="place in places">
-          <h2>{{place.name}}</h2>
-        </ion-item>
-      </ion-list>
-
-      <ion-search-bar placeholder="Search Books"></ion-search-bar> -->
-
-
+      <ion-search-bar placeholder="Search Books"></ion-search-bar>
       C'est une application qui permet de retrouver vos amis si ils sont partis au bar sans vous
       Commencez des maintenant à utiliser l'application avec les différents onglets
     </p>
+    <!-- NE PAS SUPPR
+    <div class="container-fluid">
+      Country Name <input type="text" class="form-control" ng-model="selected" typeahead="state for state in states | filter:$viewValue">
+    </div>
+    <div class="autocomplete-container"></div>
+    <h4>Static arrays</h4>
+    <pre>Model: {{selected | json}}</pre>
+    <input type="text" ng-model="selected" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
+    <div>
+      selected = {{selected}}
+    </div>
+    -->
 
     <button class="button button-block button-positive" ng-if="!session" ng-click="login()">Sign In</button>
     <button class="button button-block button-positive" ng-if="!session" ng-click="signUp()">Sign Up</button>

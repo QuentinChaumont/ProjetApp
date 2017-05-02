@@ -1,5 +1,5 @@
 <ion-view view-title="Friend">
-  <ion-content class="padding">
+  <ion-content class="padding has-header has-search-bar">
 
     <!-- Warning message for unconnected users -->
 
@@ -29,12 +29,26 @@
 
       <!-- User friends' list -->
       <div>
-        <h2>My friends :</h2>
+        <h2>My friends : <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()"></button></h2>
+
         <!-- Search Bar to add new friends -->
         <div>
-          <form ng-submit="addRequest()">
-            <input type="text" name="friendName" ng-model="futureFriend.username" placeholder="Add a friend">
-          </form>
+          <div ng-submit="addRequest()" class="">
+            <div class="item-input-wrapper ">
+              <span class="input-label">Username : </span>
+              <input type="text" ng-model="selected" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
+              <button ng-click="submit()" class="button button-clear input-button button-positive">Add</button>
+            </div>
+          </div>
+        </div>
+
+<!-- Recherche de thibaud -->
+        <div class="search-bar bar bar-header item-input-inset">
+          <div class="item-input-wrapper">
+            <form ng-submit="addRequest()">
+              <input type="text" name="friendName" ng-model="futureFriend.username" placeholder="Add a friend">
+            </form>
+          </div>
           <div ng-if="futureFriend.requestSend == true" class="anime-if">
             Request successfully send to {{futureFriend.username}}.
           </div>
@@ -42,10 +56,19 @@
             Request coud not be send to {{futureFriend.username}}.
           </div>
         </div>
+        <ion-list>
+          <ion-item ng-repeat="place in places">
+            <h2>{{place.name}}</h2>
+          </ion-item>
+        </ion-list>
+
+
         <ul>
           <li ng-repeat="f in friends">
             {{f.username}}
             <button ion-button icon-only color="danger" class="right-aligned" ng-click="delete(f_req)">
+          </li>
+        </ul>
     </div>
   </ion-content>
 </ion-view>
