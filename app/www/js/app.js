@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','jett.ionic.filter.bar'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','jett.ionic.filter.bar','ngStorage'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -36,8 +36,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','j
   // setup an abstract state for the tabs directive
     .state('tab', {
     url: '/tab',
-    abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'templates/tabs.html',
+    controller: 'TabsCtrl'
   })
 
   // Each tab has its own nav history stack:
@@ -81,6 +81,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','j
       }
     }
   })
+  .state('tab.login', {
+      url: '/login',
+      views: {
+        'tab-home': {
+      templateUrl: 'templates/login.html',
+      controller: 'LoginCtrl'
+    }
+  }
+})
+.state('tab.signUp', {
+    url: '/signUp',
+    views: {
+      'tab-home': {
+    templateUrl: 'templates/signUp.html',
+    controller: 'SignUpCtrl'
+  }
+}
+})
 
   .state('tab.account', {
     url: '/account',
@@ -90,9 +108,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','j
         controller: 'AccountCtrl'
       }
     }
-  });
+  })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/home');
 
 });

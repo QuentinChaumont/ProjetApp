@@ -4,7 +4,7 @@ angular.module('starter.services', ['ngResource'])
   .factory('Resources', function($resource) {
     var hostname = 'http://127.0.0.1:3000';
     return {
-      login: $resource(hostname.concat('/api/login')),
+      login: $resource(hostname.concat('/api/users/login')),
       users: $resource(hostname.concat('/api/users')),
       user: $resource(hostname.concat('/api/users/:username'),
         {
@@ -17,56 +17,62 @@ angular.module('starter.services', ['ngResource'])
     };
   })
 
-/*
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
+  .service('LoginService', function($q, $http, Resources) {
+      return {
+          loginUser: function(name, pw) {
+              var deferred = $q.defer();
+              var promise = deferred.promise;
+              var success = false;
+              var body = {username: name, password: pw}
+              var user = Resources.login.save(body, function() {
+               // everything went fine
+               deferred.resolve('Welcome ' + name + '!');
+              }, function() {
+                // error, create it
+                //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
+                deferred.reject('Wrong credentials.');
+              });
+              console.log(user);
 
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
-  }];
-
-  return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
+              promise.success = function(fn) {
+                  promise.then(fn);
+                  return promise;
+              }
+              promise.error = function(fn) {
+                  promise.then(null, fn);
+                  return promise;
+              }
+              return promise;
+          }
       }
-      return null;
-    }
-  };
-});
-*/
+  })
+  
+  .service('SignUpService', function($q, $http, Resources) {
+      return {
+          signUpUser: function(name, mail, pw) {
+              var deferred = $q.defer();
+              var promise = deferred.promise;
+              var success = false;
+              var body = {username: name, email: mail, password: pw}
+              var user = Resources.users.save(body, function() {
+               // everything went fine
+               deferred.resolve('Welcome ' + name + '!');
+              }, function() {
+                // error, create it
+                //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
+                deferred.reject('Wrong ids.');
+              });
+              console.log(user);
 
-
-
+              promise.success = function(fn) {
+                  promise.then(fn);
+                  return promise;
+              }
+              promise.error = function(fn) {
+                  promise.then(null, fn);
+                  return promise;
+              }
+              return promise;
+          }
+      }
+  })

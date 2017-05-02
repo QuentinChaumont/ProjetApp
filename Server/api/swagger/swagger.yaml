@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   version: "1.0.0"
-  title: ServU
+  title: SeekFriend
 
 host: 127.0.0.1:3000
 # basePath prefixes all resource paths
@@ -272,6 +272,7 @@ paths:
         "404":
           description: User or friend not found
     delete:
+      operationId: deleteUsersFriendsUser
       description: Delete a friend
       parameters:
         - $ref: "#/parameters/username"
@@ -348,8 +349,8 @@ definitions:
       password:
         type: string
         format: password
-        
-        
+
+
   login:
     type: object
     required:

@@ -1,19 +1,77 @@
-angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar'])
+
+angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorage'])
+
+  .controller('LoginCtrl',  function($scope,$state, $ionicFilterBar,LoginService, Resources,$ionicPopup,$sessionStorage,$state) {
+    $scope.$on('$ionicView.beforeEnter', function(){
+      $scope.loginData = {};
+
+      $scope.login = function() {
+        LoginService.loginUser($scope.loginData.username, $scope.loginData.password).success(function(loginData) {
+           $scope.user = Resources.user.get({username: $scope.loginData.username}, function() {
+            // everything went fine
+            console.log("login");
+             $sessionStorage.active = true;
+             $sessionStorage.username = $scope.loginData.username;
+             $sessionStorage.email = $scope.user.email;
+             $state.go("tab.home", {}, {reload: true})
+           })
+        }).error(function(data) {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Login failed!',
+                template: 'Please check your credentials!'
+            });
+        });
+      }
+    })
+  })
 
 
-  .controller('DashCtrl',  function($scope, $ionicFilterBar) {
-    $scope.search = "udazudzauid";
-    $scope.places = [{name: 'New York'}, {name: 'London'}, {name: 'Milan'}, {name: 'Paris'}];
+  .controller('SignUpCtrl',  function($scope,$state, $ionicFilterBar,SignUpService, Resources,$ionicPopup,$sessionStorage,$state) {
+    $scope.$on('$ionicView.beforeEnter', function(){
+      $scope.signUpData = {};
 
-    $scope.showFilterBar = function () {
-      var filterBarInstance = $ionicFilterBar.show({
-        cancelText: "Cancel",
-        items: $scope.places,
-        update: function (filteredItems, filterText) {
-          $scope.places = filteredItems;
+      $scope.signUp = function() {
+        SignUpService.signUpUser($scope.signUpData.username,$scope.signUpData.username, $scope.signUpData.password).success(function(loginData) {
+           $scope.user = Resources.user.get({username: $scope.signUpData.username}, function() {
+            // everything went fine
+              console.log("signUp");
+             $sessionStorage.active = true;
+             $sessionStorage.username = $scope.signUpData.username;
+             $sessionStorage.email = $scope.user.email;
+             $state.go("tab.home", {}, {reload: true})
+           })
+        }).error(function(data) {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Login failed!',
+                template: 'Please check your credentials!'
+            });
+        });
+      }
+    })
+  })
+
+  .controller('DashCtrl',  function($scope,$state, $ionicFilterBar,LoginService, Resources,$ionicPopup,$sessionStorage,$state) {
+
+    $scope.$on('$ionicView.beforeEnter', function(){
+
+      $scope.sessionUsername = $sessionStorage.username;
+      $scope.sessionEmail = $sessionStorage.email;
+        if ($sessionStorage.active == null) {
+          $scope.session = false;
+
         }
-      });
-    };
+        else {
+          $scope.session = true;
+        }
+
+        $scope.login = function() {
+          $state.go("tab.login", {}, {reload: true});
+        }
+        $scope.signUp = function() {
+          $state.go("tab.signUp", {}, {reload: true});
+        }
+
+      })
   })
 
   .controller('MapCtrl', function($scope,$ionicFilterBar, $ionicLoading, $location, $anchorScroll, Resources) {
@@ -259,87 +317,123 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar'])
 
   },{enableHighAccuracy:true, maximumAge:60000, timeout:10000})
 
-  .controller('ChatsCtrl', function($scope, Chats) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
 
-    $scope.chats = Chats.all();
-    $scope.remove = function(chat) {
-      Chats.remove(chat);
-    };
-  })
+  .controller('AccountCtrl', function($scope,$sessionStorage,$state,$window) {
+    $scope.$on('$ionicView.beforeEnter', function(){
 
-  .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-    $scope.chat = Chats.get($stateParams.chatId);
-  })
+    $scope.sessionUsername = $sessionStorage.username;
+    $scope.sessionEmail = $sessionStorage.email;
 
-  .controller('FriendCtrl', function($rootScope, $scope, Resources) {
-    $scope.futureFriend = {};
+   $scope.logout = function() {
+    console.log("logout");
+    $sessionStorage.$reset();
+    $window.location.reload(true)
+   }
+   });
+ })
 
-    $rootScope.username = "hello";
+  .controller('FriendCtrl', function($scope, $sessionStorage, Resources) {
+    //TODO passer $scope.username en variable globale
+    $scope.$on('$ionicView.beforeEnter', function(){
+      $scope.sessionUsername = $sessionStorage.username;
+      $scope.sessionEmail = $sessionStorage.email;
 
-    $scope.friends = Resources.friends.query({username: $rootScope.username});
-    $scope.friendsRequest = Resources.friendsRequest.query({username: $rootScope.username});
 
-    //TODO modifier cette fonction pour qu'elle soit accessible dans tous les controlleurs et updatable
-    $scope.isConnected = function() {
-      if ($rootScope.username != undefined) {
-        return true;
-      } else {
-        return false;
+      $scope.username = $sessionStorage.username;
+      $scope.futureFriend = {};
+
+      $scope.friends = Resources.friends.query({username: $scope.username});
+      $scope.friendsRequest = Resources.friendsRequest.query({username: $scope.username});
+
+      $scope.acceptRequest = function(friend) {
+        Resources.friends.save({username: $scope.username}, friend);
+      };
+
+      $scope.declineRequest = function(friend) {
+        //TODO à debug : ne marche pas, pourtant coté serveur ça fonctionne (tests réalisés sous swagger)
+        Resources.friendsRequest.remove({username: $scope.username}, friend);
+      };
+
+      $scope.addRequest = function() {
+        // POST request in the future friend database
+        Resources.friendsRequest.save({username: $scope.username}, {username: $scope.futureFriend.username},
+          function () {
+            // everything went fine
+            $scope.futureFriend.requestSend = true;
+          },
+          function () {
+            // a problem happened
+            $scope.futureFriend.requestSend = false;
+          }
+        );
       }
-    };
-
-    $scope.delete = function(friend) {
-      Resources.friend.remove({username: $rootScope.username}, friend);
-    };
-
-    $scope.acceptRequest = function(friend) {
-      Resources.friends.save({username: $rootScope.username}, friend);
-    };
-
-    $scope.declineRequest = function(friend) {
-      //TODO à debug : ne marche pas, pourtant coté serveur ça fonctionne (tests réalisés sous swagger)
-      Resources.friendsRequest.remove({username: $rootScope.username}, friend);
-    };
-
-    $scope.addRequest = function() {
-      // POST request in the future friend database
-      Resources.friendsRequest.save({username: $scope.futureFriend.username}, {username: $rootScope.username},
-        function () {
-          // everything went fine
-          $scope.futureFriend.requestSend = true;
-        },
-        function () {
-          // a problem happened
-          $scope.futureFriend.requestSend = false;
-        }
-      );
-    }
+      $scope.deleteFriend = function(friendUsername) {
+        Resources.friend.remove({username: $scope.username, friend: friendUsername});
+      };
+    });
   })
+  //
+  // .controller('FriendCtrl', function($rootScope, $scope, Resources) {
+  //   $scope.futureFriend = {};
+  //
+  //   $rootScope.username = "hello";
+  //
+  //   $scope.friends = Resources.friends.query({username: $rootScope.username});
+  //   $scope.friendsRequest = Resources.friendsRequest.query({username: $rootScope.username});
+  //
+  //   //TODO modifier cette fonction pour qu'elle soit accessible dans tous les controlleurs et updatable
+  //   $scope.isConnected = function() {
+  //     if ($rootScope.username != undefined) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   };
+  //
+  //   $scope.delete = function(friend) {
+  //     Resources.friend.remove({username: $rootScope.username}, friend);
+  //   };
+  //
+  //   $scope.acceptRequest = function(friend) {
+  //     Resources.friends.save({username: $rootScope.username}, friend);
+  //   };
+  //
+  //   $scope.declineRequest = function(friend) {
+  //     //TODO à debug : ne marche pas, pourtant coté serveur ça fonctionne (tests réalisés sous swagger)
+  //     Resources.friendsRequest.remove({username: $rootScope.username}, friend);
+  //   };
+  //
+  //   $scope.addRequest = function() {
+  //     // POST request in the future friend database
+  //     Resources.friendsRequest.save({username: $scope.futureFriend.username}, {username: $rootScope.username},
+  //       function () {
+  //         // everything went fine
+  //         $scope.futureFriend.requestSend = true;
+  //       },
+  //       function () {
+  //         // a problem happened
+  //         $scope.futureFriend.requestSend = false;
+  //       }
+  //     );
+  //   }
+  // })
 
-  .controller('AccountCtrl', function($scope, $rootScope, Resources) {
-    $scope.settings = {
-      enableFriends: true
-    };
 
-    //TODO modifier cette fonction pour qu'elle soit accessible dans tous les controlleurs et updatable
-    $scope.isConnected = function() {
-      if ($rootScope.username != undefined) {
-        return true;
-      } else {
-        return false;
+    .controller('TabsCtrl', function($scope, $sessionStorage, Resources) {
+
+      $scope.session=false;
+      $scope.$on('$ionicView.beforeEnter', function(){
+        $scope.session
+      if ($sessionStorage.active == null) {
+        $scope.session = false;
+          console.log($sessionStorage.active, $scope.session);
       }
-    }
-
-    $scope.user = Resources.user.get({username: $rootScope.username});
-  });
-
+      else {
+        $scope.session = true;
+        console.log($sessionStorage.active, $scope.session);
+      }
+    })
+    });
 // Adds a marker to the map.
 function addMarker(map,info_friend,info_bulle){
   var marker = new google.maps.Marker({
@@ -350,7 +444,8 @@ function addMarker(map,info_friend,info_bulle){
   });
 
   marker.addListener('click', function() {
-    info_bulle.open(map, marker);
+
+    fenetre.open(map, marker);
   });
   return marker;
 }
@@ -367,5 +462,3 @@ function calcul_distance(pos1,pos2){
   var distance = Math.round(R * c);
   return distance;
 }
-
-

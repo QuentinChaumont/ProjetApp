@@ -32,6 +32,8 @@ module.exports = {
 function postUsers(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
+
+        console.log("Connected correctly to server");
         db1.collection("users").findOne({$or:[{"username": req.body.username},{"email":req.body.email}]},function(error, exist) {
           console.log(exist);
             if(exist == null && error == null){
@@ -62,6 +64,9 @@ function postUsers(req, res, next) {
 function postLogin(req, res, next) {
   MongoClient.connect(url,  function(err, db1) {
     assert.equal(null, err);
+
+    console.log("Connected correctly to server");
+    console.log(req.body.username);
     db1.collection("users").findOne({"username": req.body.username,"password":req.body.password},function(error, exist){
         if(exist != null && error == null) {
             delete(exist.password);
@@ -79,6 +84,8 @@ function postLogin(req, res, next) {
 function getUsersUsername(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
+
+        console.log("Connected correctly to server");
         db1.collection("users").findOne({"username": req.swagger.params.username.value}, function (error, user) {
             if (user != null && error == null){
               delete(user.password)
