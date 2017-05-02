@@ -330,8 +330,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       $scope.sessionUsername = $sessionStorage.username;
       $scope.sessionEmail = $sessionStorage.email;
 
-      $scope.futureFriend = {};
-
       $scope.username = $sessionStorage.username;
       $scope.futureFriend = {};
 
