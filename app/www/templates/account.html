@@ -1,24 +1,31 @@
 <ion-view view-title="Account">
   <ion-content>
-    <!-- <div ng-if="!isConnected()">
-      <h2>You are not connected.</h2>
-      <button class="button button-block button-positive" ng-click="signInModal.show()">Sign In</button>
-      <button class="button button-block button-positive" ng-click="signUpModal.show()">Sign Up</button>
-    </div>
-    <div ng-if="isConnected()">
-      <h2>Hello {{username}}</h2>
-      <h3>Your username :</h3>
-      <p>{{ user.username}}</p>
-      <h3>Your email address :</h3>
-      <p>{{ user.email}}</p>
-      </br>
-      <p>You have {{user.friends.length}} friends.</p>
-    </div> -->
+
     <button class="button button-block button-positive" ng-click="logout()">Logout</button>
     <div>
+      <h2>Profil</h2>
+
       <br/>Username = {{sessionUsername}}
       <br/>Email = {{sessionEmail}}
 
+    </div>
+    <div class="list">
+      <h2>Change password</h2>
+      <label class="item item-input">
+        <span class="input-label">Actual Password</span>
+        <input type="password" ng-model="Data.actualPassword">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">New Password</span>
+        <input type="password" ng-model="Data.password">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Confirm Password</span>
+        <input type="password" ng-model="Data.password2">
+      </label>
+      <label class="item">
+        <button class="button button-block button-positive" ng-click="password()">Valider</button>
+      </label>
     </div>
   </ion-content>
 </ion-view>

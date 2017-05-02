@@ -6,7 +6,7 @@ angular.module('starter.services', ['ngResource'])
     return {
       login: $resource(hostname.concat('/api/users/login')),
       users: $resource(hostname.concat('/api/users')),
-      user: $resource(hostname.concat('/api/users/:username'),
+      user: $resource(hostname.concat('/api/users/:username'),null,
         {
         'update': { method:'PUT' } //create custom PUT request : https://docs.angularjs.org/api/ngResource/service/$resource
       }),
@@ -46,7 +46,7 @@ angular.module('starter.services', ['ngResource'])
           }
       }
   })
-  
+
   .service('SignUpService', function($q, $http, Resources) {
       return {
           signUpUser: function(name, mail, pw) {
@@ -61,6 +61,42 @@ angular.module('starter.services', ['ngResource'])
                 // error, create it
                 //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
                 deferred.reject('Wrong ids.');
+              });
+              console.log(user);
+
+              promise.success = function(fn) {
+                  promise.then(fn);
+                  return promise;
+              }
+              promise.error = function(fn) {
+                  promise.then(null, fn);
+                  return promise;
+              }
+              return promise;
+          }
+      }
+  })
+
+  .service('PasswordService', function($q, $http, Resources) {
+      return {
+          changePassword: function(name,actualpw,pw) {
+              var deferred = $q.defer();
+              var promise = deferred.promise;
+              var success = false;
+              var body = {username: name, password: actualpw}
+              var user = Resources.login.save(body, function() {
+                  Resources.user.update(body,{password: pw}, function() {
+                   // everything went fine
+                   deferred.resolve('password changed');
+                  }, function() {
+                    // error, create it
+                    //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
+                    deferred.reject('Wrong ids');
+                  });
+              }, function() {
+                // error, create it
+                //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
+                deferred.reject('Wrong ids');
               });
               console.log(user);
 

@@ -31,7 +31,7 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorag
       $scope.signUpData = {};
 
       $scope.signUp = function() {
-        SignUpService.signUpUser($scope.signUpData.username,$scope.signUpData.username, $scope.signUpData.password).success(function(loginData) {
+        SignUpService.signUpUser($scope.signUpData.username,$scope.signUpData.email, $scope.signUpData.password).success(function(loginData) {
            $scope.user = Resources.user.get({username: $scope.signUpData.username}, function() {
             // everything went fine
               console.log("signUp");
@@ -318,7 +318,7 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorag
   },{enableHighAccuracy:true, maximumAge:60000, timeout:10000})
 
 
-  .controller('AccountCtrl', function($scope,$sessionStorage,$state,$window) {
+  .controller('AccountCtrl', function($scope,$sessionStorage,$state,$window,PasswordService, $ionicPopup) {
     $scope.$on('$ionicView.beforeEnter', function(){
 
     $scope.sessionUsername = $sessionStorage.username;
@@ -328,6 +328,30 @@ angular.module('starter.controllers', ['ionic','jett.ionic.filter.bar','ngStorag
     console.log("logout");
     $sessionStorage.$reset();
     $window.location.reload(true)
+   }
+   $scope.Data = {};
+
+   $scope.password = function(){
+    console.log("password");
+    if ($scope.Data.password == $scope.Data.password2) {
+      PasswordService.changePassword($scope.sessionUsername,$scope.Data.actualPassword,$scope.Data.password).success(function() {
+        var alertPopup = $ionicPopup.alert({
+            title: 'Password changed !',
+            template: 'You just change your password.'
+        });
+      }).error(function() {
+          var alertPopup = $ionicPopup.alert({
+              title: 'Password change failed !',
+              template: 'Actual password is wrong'
+          });
+      });
+    }
+    else {
+      var alertPopup = $ionicPopup.alert({
+          title: 'Password change failed !',
+          template: 'Passwords are different'
+      });
+    }
    }
    });
  })
