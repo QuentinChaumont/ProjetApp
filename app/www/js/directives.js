@@ -46,7 +46,8 @@ angular.module("ionic")
           scope.search.value = '';
           $timeout(function () {
             document.getElementById('input_search').focus();
-          }, 0);
+            cordova.plugins.Keyboard.show(); //open keyboard manually
+          }, 1);
         };
 
         scope.keyup = function(event_key){
@@ -96,19 +97,6 @@ angular.module("ionic")
       '</button>' +
       '</div>'
     };
-  })
-
-  .directive('autoComplete', function($timeout) {
-    return function (scope, iElement, iAttrs) {
-      iElement.autocomplete({
-        source: scope[iAttrs.uiItems],
-        select: function () {
-          $timeout(function () {
-            iElement.trigger('input');
-          }, 0);
-        }
-      });
-    }
   })
 
   .directive('cardAutocomplete', ['$http', function($http) {

@@ -2,14 +2,15 @@
   <ion-content class="padding has-header has-search-bar">
     <div id="map" ng-show="map_available" data-tap-disabled="true"></div>
     <h2 class="title" ng-show="map_available" >List of Friends in this area</h2>
-    <p><ion-search-bar placeholder="Search Books"></ion-search-bar></p>
+    <p><ion-search-bar placeholder="Seach Friends"></ion-search-bar></p>
 
     <div ng-if = "position">
       <div class = "item range range-positive">
         30<input id="selector_range" type= "range" min="30" max="2001" ng-model='filtre_rayon' name = "rayon" ng-change="change(filtre_rayon)">
         <i class="icon ion-ios-infinite"></i>
       </div>
-      <div class="text-center">{{filtre_rayon <= 2000 ? filtre_rayon + ' m' : 'infinite'}}</div>
+      <h5><div class="text-center">{{filtre_rayon <= 2000 ? filtre_rayon + ' m' : 'infinite'}}</div></h5>
+      <br>
       <div class="text-center">
         <table class="list_friend">
           <thead>
@@ -19,8 +20,8 @@
           <tbody>
           <tr ng-repeat="friend in list_friend | orderBy : 'distance' | filter : search.value"
               ng-class="{oddRow: $odd}" ng-If="friend.distance < filtre_rayon || filtre_rayon > 2000">
-            <td><a href="#/tab/friend">{{friend.name}}</a></td>
-            <td>{{friend.distance > 1000 ? (friend.distance/1000 | number:0) + ' km' : friend.distance}}</td>
+            <td><button class="button button-positive button-outline" ng-click = "centre_marquer(friend.info_bulle,friend.marker)">{{friend.name}}</button></td>
+            <td style="vertical-align: middle;">{{friend.distance > 1000 ? (friend.distance/1000 | number:0) + ' km' : friend.distance}}</td>
           </tr>
           </tbody>
         </table>

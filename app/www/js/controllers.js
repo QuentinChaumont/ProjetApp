@@ -42,26 +42,26 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
             })
           }).error(function(data) {
             var alertPopup = $ionicPopup.alert({
-                title: 'Sign Up failed!',
-                template: 'Your username already exist.. Please try an other.'
+              title: 'Sign Up failed!',
+              template: 'Your username already exist.. Please try an other.'
             });
           });
         }
         else if(!bonmail($scope.signUpData.email)){
           var alertPopup = $ionicPopup.alert({
-              title: 'Sign Up failed!',
-              template: 'Your email is incorrect.. Please try again.'
+            title: 'Sign Up failed!',
+            template: 'Your email is incorrect.. Please try again.'
           });
         }
         else if(!samePasswords($scope.signUpData.password, $scope.signUpData.password2)){
           var alertPopup = $ionicPopup.alert({
-              title: 'Sign Up failed!',
-              template: 'Passwords are different.. Please try again.'
+            title: 'Sign Up failed!',
+            template: 'Passwords are different.. Please try again.'
           });
         }else if(!bonpassword($scope.signUpData.password)){
           var alertPopup = $ionicPopup.alert({
-              title: 'Sign Up failed!',
-              template: 'Password need minimum 6 characters.. Please try again.'
+            title: 'Sign Up failed!',
+            template: 'Password need minimum 6 characters.. Please try again.'
           });
         }
 
@@ -94,7 +94,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     })
   })
 
-  .controller('MapCtrl', function($scope,$ionicFilterBar,$sessionStorage) {
+  .controller('MapCtrl', function($scope,$ionicFilterBar,$sessionStorage,$ionicScrollDelegate) {
     $scope.sessionUsername = $sessionStorage.username;
     $scope.map_available = true;
     $scope.position = false;
@@ -170,6 +170,13 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
         map.setZoom(12);
     };
 
+    $scope.centre_marquer = function(info_bulle,marker){
+      $ionicScrollDelegate.scrollTop();
+      map.setCenter(marker.position);
+      map.setZoom(16);
+      info_bulle.open(map, marker);
+    };
+
     // --- ALLER CHERCHER LA LISTE D AMI SUR LE SERVER ---------------
     /*
      var friends = Resources.friends.query({username: $rootScope.username});
@@ -183,12 +190,29 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
      }
      */
     var list_friend = [
-      {id: 1, name: "Thibaud", lat: 44.8076376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
-      {id: 2, name: "Quentin", lat: 44.8086376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
-      {id: 3, name: "Pad", lat: 44.8096376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
-      {id: 4, name: "test", lat: 43.494555, lng: 4.979117,info_bulle : new google.maps.InfoWindow()},
-      {id: 5, name : "test2", lat:43.50455, lng: 4.979117,info_bulle : new google.maps.InfoWindow()}
+      {id: 1, name: "Thibaud", lat: 44.8076376, lng: -0.6073554},
+      {id: 2, name: "Quentin", lat: 44.8086376, lng: -0.6073554},
+      {id: 3, name: "Pad", lat: 44.8096376, lng: -0.6073554},
+      {id: 4, name: "test", lat: 43.494555, lng: 4.979117},
+      {id: 5, name : "test2", lat:43.50455, lng: 4.979117}
     ];
+
+    /* Faire un polygone
+     var flightPlanCoordinates = [
+     {lat: 44.8076376, lng: -0.6073554},
+     {lat: 44.8086376, lng: -0.6073554},
+     {lat: 44.8096376, lng: -0.6073554}
+     ];
+     var flightPath = new google.maps.Polyline({
+     path: flightPlanCoordinates,
+     geodesic: true,
+     strokeColor: '#FF0000',
+     strokeOpacity: 1.0,
+     strokeWeight: 2
+     });
+     flightPath.setMap(map);
+     */
+
 
     // -----------------   Ajouter un marker personnalisé pour la position ---------------------------------------------
     var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
@@ -222,8 +246,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     // ------------------ AJOUT DES CONTROLES / LEGENDES SUR LA CARTE --------------------------------------------------
     var legend = document.createElement('div');
     var centerControl2 = new CreateControl(legend, map,
-      '<h4 style="text-align: center;">Legend</h4><p style="color : #ff9d82;"><strong>-</strong> Filtre</p>' +
-      '<p style="color : #a3afff;"><strong>-</strong> Approximation</p>');
+      '<div style="color : #ff9d82;"><strong>-</strong> Filtre</div><div style="color : #a3afff;"><strong>-</strong> Approximation</div>');
     map.controls[google.maps.ControlPosition.RIGHT_TOP].push(legend);
 
     var centerControlDiv = document.createElement('div');
@@ -237,8 +260,10 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
     // -------------------- CREATION DU MARKER CLUSTER -----------------------------------------------------------------
     markers = list_friend.map(function(data,i) {
-      list_friend[i].info_bulle.setContent('<h3>' + data.name + '</h3>Distance : Non connue');
-      return addMarker(map,data,data.info_bulle);
+      list_friend[i].info_bulle = new google.maps.InfoWindow();
+      list_friend[i].info_bulle.setContent('<h3><a href="#/tab/friend/' + data.name + '">' + data.name + '</a></h3>Distance : Non connue');
+      list_friend[i].marker = addMarker(map,data,data.info_bulle);
+      return list_friend[i].marker
     });
     markerCluster = new MarkerClusterer(map, markers,
       {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
@@ -295,7 +320,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
             distance = list_friend[key].distance/1000 + ' km';
           else
             distance = list_friend[key].distance + ' m';
-          list_friend[key].info_bulle.setContent('<h3>' + list_friend[key].name + '</h3>Distance : ' + distance);
+          list_friend[key].info_bulle.setContent('<h3><a href="#/tab/friend/' + list_friend[key].name + '">' + list_friend[key].name + '</a></h3>Distance : ' + distance);
         });
 
         // On trie selon la distance
@@ -313,8 +338,26 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
   },{enableHighAccuracy:true, maximumAge:60000, timeout:10000})
 
+  .controller('ChatsCtrl', function($scope, Chats) {
+    // With the new view caching in Ionic, Controllers are only called
+    // when they are recreated or on app start, instead of every page change.
+    // To listen for when this page is active (for example, to refresh data),
+    // listen for the $ionicView.enter event:
+    //
+    //$scope.$on('$ionicView.enter', function(e) {
+    //});
 
-  .controller('FriendCtrl', function($rootScope, $state, $scope, $interval, Resources,$ionicFilterBar,$sessionStorage) {
+    $scope.chats = Chats.all();
+    $scope.remove = function(chat) {
+      Chats.remove(chat);
+    };
+  })
+
+  .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
+    $scope.chat = Chats.get($stateParams.chatId);
+  })
+
+  .controller('FriendCtrl', function($rootScope, $scope, Resources,$ionicFilterBar,$sessionStorage) {
     var _selected;
 
     $scope.selected = undefined;
@@ -430,13 +473,13 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
         }
         else if(!samePasswords($scope.Data.password, $scope.Data.password2)){
           var alertPopup = $ionicPopup.alert({
-              title: 'Password change failed!',
-              template: 'Passwords are different.. Please try again.'
+            title: 'Password change failed!',
+            template: 'Passwords are different.. Please try again.'
           });
         }else if(!bonpassword($scope.Data.password)){
           var alertPopup = $ionicPopup.alert({
-              title: 'Password change failed!',
-              template: 'Password need minimum 6 characters.. Please try again.'
+            title: 'Password change failed!',
+            template: 'Password need minimum 6 characters.. Please try again.'
           });
         }
       }
@@ -451,10 +494,10 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
         console.log($sessionStorage.active, $scope.session);
       }
       else {
-          $scope.session = true;
-          console.log($sessionStorage.active, $scope.session);
-        }
-      });
+        $scope.session = true;
+        console.log($sessionStorage.active, $scope.session);
+      }
+    });
   });
 // Adds a marker to the map.
 function addMarker(map,info_friend,info_bulle){
@@ -510,9 +553,9 @@ function CreateControl(controlDiv, map,text){
 function bonmail(mailteste)
 
 {
-	var reg = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i');
+  var reg = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i');
 
-	return(reg.test(mailteste));
+  return(reg.test(mailteste));
 }
 
 function samePasswords(pw, pw2){
