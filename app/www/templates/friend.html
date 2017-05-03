@@ -9,10 +9,10 @@
               <ion-icon class="icon ion-person-add balanced"></ion-icon>
               {{f_req.username}}
             </h3>
-            <ion-option-button ng-click="acceptRequest(f_req)" class="button-balanced">
+            <ion-option-button ng-click="acceptRequest(f_req.username)" class="button-balanced">
               Acccept
             </ion-option-button>
-            <ion-option-button ng-click="declineRequest(f_req)" class="button-assertive">
+            <ion-option-button ng-click="declineRequest(f_req.username)" class="button-assertive">
               Decline
             </ion-option-button>
           </ion-item>

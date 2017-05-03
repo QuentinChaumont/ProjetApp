@@ -314,7 +314,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
   },{enableHighAccuracy:true, maximumAge:60000, timeout:10000})
 
 
-  .controller('FriendCtrl', function($rootScope,$state, $scope, Resources,$ionicFilterBar,$sessionStorage) {
+  .controller('FriendCtrl', function($rootScope, $state, $scope, $interval, Resources,$ionicFilterBar,$sessionStorage) {
     var _selected;
 
     $scope.selected = undefined;
@@ -334,6 +334,12 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
         }
       });
     };
+
+    // the interval must be cancelled on destroy
+    $scope.$on('$destroy', function() {
+      $interval.cancel(refresh);
+    });
+
     $scope.$on('$ionicView.beforeEnter', function(){
       $scope.sessionUsername = $sessionStorage.username;
 
@@ -342,18 +348,31 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
       $scope.username = $sessionStorage.username;
       $scope.futureFriend = {};
+
       $scope.friends = Resources.friends.query({username: $scope.username});
       $scope.friendsRequest = Resources.friendsRequest.query({username: $scope.username});
 
-      $scope.acceptRequest = function(friend) {
-        Resources.friends.save({username: $scope.username}, friend, function(){
+      // refresh list every 30s
+      refresh = $interval(function() {
+        var newFriends = Resources.friends.query({username: $scope.username});
+        var newFriendsRequest = Resources.friendsRequest.query({username: $scope.username});
+        // only update if necessary
+        if ( !angular.equal($scope.friends, newFriends) ) {
+          $scope.friends = newFriends;
+        }
+        if ( !angular.equal($scope.friendsRequest, newFriendsRequest) ) {
+          $scope.friendsRequest  = newFriendsRequest;
+        }
+      }, 30000);
+
+      $scope.acceptRequest = function(friendUsername) {
+        Resources.friendsRequest.save({username: $scope.username, username: friendUsername}, function(){
           $state.go("tab.friend", {}, {reload: true});
         });
-
       };
 
-      $scope.declineRequest = function(friend) {
-        Resources.friendsRequest.remove({username: $scope.username, friend: friendUsername}, function(){
+      $scope.declineRequest = function(friendUsername) {
+        Resources.friendsRequest.remove({username: $scope.username, username: friendUsername}, function(){
           $state.go("tab.friend", {}, {reload: true});
         });
       };
