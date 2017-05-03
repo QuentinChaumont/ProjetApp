@@ -30,6 +30,8 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       $scope.signUpData = {};
 
       $scope.signUp = function() {
+        var hash = CryptoJS.SHA1($scope.Data.password);
+        console.log("password : ", $scope.Data.password, hash);
         if (bonmail($scope.signUpData.email) && samePasswords($scope.signUpData.password,$scope.signUpData.password2) && bonpassword($scope.signUpData.password)) {
           SignUpService.signUpUser($scope.signUpData.username,$scope.signUpData.email, $scope.signUpData.password).success(function(loginData) {
             $scope.user = Resources.user.get({username: $scope.signUpData.username}, function() {
@@ -70,8 +72,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
   })
 
   .controller('DashCtrl',  function($scope, $ionicFilterBar,LoginService, Resources,$ionicPopup,$sessionStorage,$state) {
-    $scope.selected = undefined;
-    $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois'];// Any function returning a promise object can be used to load values asynchronously
 
     $scope.$on('$ionicView.beforeEnter', function(){
 
@@ -94,18 +94,11 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     })
   })
 
-  .controller('MapCtrl', function($scope,$ionicFilterBar,$sessionStorage,$ionicScrollDelegate) {
+  .controller('MapCtrl', function($scope,$ionicFilterBar,$sessionStorage,$ionicScrollDelegate,Resources) {
     $scope.sessionUsername = $sessionStorage.username;
     $scope.map_available = true;
     $scope.position = false;
     $scope.filtre_rayon = 1000;
-
-    // $scope.user = Resources.user.get({username: $scope.sessionUsername}, function() {
-    //   // everything went fine
-    //   console.log("Maps");
-    //   console.log(user.username);
-    // })
-
     var Enseirb_position = new google.maps.LatLng(44.8066376, -0.6073554);
     var current_position = {lat : 44.8066376, lng : -0.6073554};
 
@@ -178,24 +171,27 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     };
 
     // --- ALLER CHERCHER LA LISTE D AMI SUR LE SERVER ---------------
-    /*
-     var friends = Resources.friends.query({username: $rootScope.username});
-     var friend_position;
-     var list_friend = [];
-     var tmp_id = 1;
-     for friend in list_friends {
-     friend_position = Resource.friendsPosition({username: $rootScope.username},{friendusername: friend});
-     list_friend.push({id: tmp_id, name: friend, lat: friend_position.x, lng: friend_position.x});
-     tmp_id++;
-     }
-     */
-    var list_friend = [
-      {id: 1, name: "Thibaud", lat: 44.8076376, lng: -0.6073554},
-      {id: 2, name: "Quentin", lat: 44.8086376, lng: -0.6073554},
-      {id: 3, name: "Pad", lat: 44.8096376, lng: -0.6073554},
-      {id: 4, name: "test", lat: 43.494555, lng: 4.979117},
-      {id: 5, name : "test2", lat:43.50455, lng: 4.979117}
-    ];
+      var list_friend=[]
+      Resources.friends.query({username: $scope.sessionUsername}).$promise.then(function(friends, Resource) {
+      var friend_position;
+      friends.forEach(function(friend) {
+        console.log(friend.username);
+        Resources.friendPosition.query({username: $scope.sessionUsername, friendusername: friend.username}).$promise.then(function(friend_position, Resource) {
+          //console.log(friend);
+          list_friend.push({name: friend.username, lat: friend_position[0].lat, lng:friend_position[0].lng,info_bulle : new google.maps.InfoWindow()});
+       })
+      });
+   });
+
+console.log("liste : ", list_friend);
+
+    // var list_friend = [
+    //   {id: 1, name: "Thibaud", lat: 44.8076376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
+    //   {id: 2, name: "Quentin", lat: 44.8086376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
+    //   {id: 3, name: "Pad", lat: 44.8096376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
+    //   {id: 4, name: "test", lat: 43.494555, lng: 4.979117,info_bulle : new google.maps.InfoWindow()},
+    //   {id: 5, name : "test2", lat:43.50455, lng: 4.979117,info_bulle : new google.maps.InfoWindow()}
+    // ];
 
     /* Faire un polygone
      var flightPlanCoordinates = [
@@ -259,8 +255,10 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     // ----------------------------------------------------------------------------------------------------------------
 
     // -------------------- CREATION DU MARKER CLUSTER -----------------------------------------------------------------
+
     markers = list_friend.map(function(data,i) {
       list_friend[i].info_bulle = new google.maps.InfoWindow();
+      console.log("<<<<<<<<",list_friend[i].name);
       list_friend[i].info_bulle.setContent('<h3><a href="#/tab/friend/' + data.name + '">' + data.name + '</a></h3>Distance : Non connue');
       list_friend[i].marker = addMarker(map,data,data.info_bulle);
       return list_friend[i].marker
@@ -300,9 +298,12 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
     // Localisation du telephone
     var survId = navigator.geolocation.watchPosition(function (pos) {
+      //sauvegarde dans la base de donnée
+      var test = Resources.userPosition.save({username: $scope.sessionUsername},{lat: pos.coords.latitude, lng: pos.coords.longitude});
       $scope.position  = true;
       current_position.lat = pos.coords.latitude;
       current_position.lng = pos.coords.longitude;
+      current_position.time = pos.timestamp
 
       //Mise à jour de la map
       cercle_position.setCenter({lat : current_position.lat , lng : current_position.lng});
@@ -457,7 +458,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       };
       $scope.Data = {};
       $scope.password = function(){
-        console.log("password");
+
         if (bonpassword($scope.Data.password) && samePasswords($scope.Data.password, $scope.Data.password2)) {
           PasswordService.changePassword($scope.sessionUsername,$scope.Data.actualPassword,$scope.Data.password).success(function() {
             var alertPopup = $ionicPopup.alert({
@@ -503,7 +504,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 function addMarker(map,info_friend,info_bulle){
   var marker = new google.maps.Marker({
     position: new google.maps.LatLng(info_friend.lat, info_friend.lng),
-    label: "" + info_friend.id,
+    label: "" + info_friend.name,
     map: map,
     title : "Location of " + info_friend.name
   });

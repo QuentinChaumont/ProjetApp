@@ -375,13 +375,11 @@ definitions:
   position:
     type: object
     required:
-      - x
-      - y
-      - z
+      - lat
+      - lng
     properties:
-      x:
-        type: integer
-      y:
-        type: integer
-      z:
-        type: integer
+      lat:
+        type: number
+      lng:
+        type: number
+      

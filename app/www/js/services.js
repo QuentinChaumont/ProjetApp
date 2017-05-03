@@ -10,10 +10,11 @@ angular.module('starter.services', ['ngResource'])
         {
         'update': { method:'PUT' } //create custom PUT request : https://docs.angularjs.org/api/ngResource/service/$resource
       }),
+      userPosition: $resource(hostname.concat('/api/users/:username/positions')),
       friend: $resource(hostname.concat('/api/users/:username/friends/:friend')),
       friends: $resource(hostname.concat('/api/users/:username/friends')),
       friendsRequest: $resource(hostname.concat('/api/users/:username/friendsRequest')),
-      friendsPosition: $resource(hostname.concat('/api/users/:username/friends/:friend/positions'))
+      friendPosition: $resource(hostname.concat('/api/users/:username/friends/:friendusername/positions'))
     };
   })
 
@@ -109,4 +110,4 @@ angular.module('starter.services', ['ngResource'])
               return promise;
           }
       }
-  });
+  })
