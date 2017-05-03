@@ -1,24 +1,24 @@
 <ion-view view-title="Friend">
   <ion-content class="padding has-header has-search-bar">
-
-    <!-- Warning message for unconnected users -->
-
       <!-- User friends' requests list -->
       <div ng-if="friendsRequest.length > 0" class="animate-if">
         <h2>They want to add you as a friend :</h2>
         <ul>
           <li ng-repeat="f_req in friendsRequest">
-            {{f_req.username}}
+            <h3 ng-class="{active: activeItem == f}">
+              {{f_req.username}}
+            </h3>
             <span class="right-aligned">
               <button ion-button ng-click="acceptRequest(f_req)"
-                      class="button button-icon animate-if right-aligned">
+                      class="button button-icon animate-if">
                 <i class="icon ion-person-add balanced"></i>
               </button>
               <button ion-button ng-click="declineRequest(f_req)"
-                      class="button button-icon animate-if right-aligned">
+                      class="button button-icon animate-if">
                 <i class="icon ion-ios-close-outline assertive"></i>
               </button>
             </span>
+            </h3>
           </li>
         </ul>
       </div>

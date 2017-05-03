@@ -5,9 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c0518189-6d22-439b-882d-482901dbcf49" name="Default" comment="Carte google map avec liste des friends">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/www/css/style.css" afterPath="$PROJECT_DIR$/app/www/css/style.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/www/js/controllers.js" afterPath="$PROJECT_DIR$/app/www/js/controllers.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/www/templates/friend.html" afterPath="$PROJECT_DIR$/app/www/templates/friend.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -60,8 +57,8 @@
       <file leaf-file-name="friend.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/www/templates/friend.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="10" column="22" lean-forward="false" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+            <state relative-caret-position="36">
+              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -181,8 +178,8 @@
     <handled-path value="$PROJECT_DIR$/Server/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1365" />
-    <option name="y" value="-11" />
+    <option name="x" value="-1" />
+    <option name="y" value="757" />
     <option name="width" value="1368" />
     <option name="height" value="780" />
   </component>
@@ -488,7 +485,7 @@
       <workItem from="1493645075287" duration="27146000" />
       <workItem from="1493717890332" duration="4696000" />
       <workItem from="1493739356458" duration="19689000" />
-      <workItem from="1493809199022" duration="2823000" />
+      <workItem from="1493809199022" duration="2984000" />
     </task>
     <task id="LOCAL-00001" summary="Template">
       <created>1492153977747</created>
@@ -536,10 +533,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="146639000" />
+    <option name="totallyTimeSpent" value="146800000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1365" y="-11" width="1368" height="780" extended-state="6" />
+    <frame x="-1" y="757" width="1368" height="780" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -899,8 +896,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/www/templates/friend.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="10" column="22" lean-forward="false" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+        <state relative-caret-position="36">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
         </state>
       </provider>
