@@ -30,8 +30,8 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       $scope.signUpData = {};
 
       $scope.signUp = function() {
-        var hash = CryptoJS.SHA1($scope.Data.password);
-        console.log("password : ", $scope.Data.password, hash);
+        // var hash = CryptoJS.SHA1($scope.Data.password);
+        // console.log("password : ", $scope.Data.password, hash);
         if (bonmail($scope.signUpData.email) && samePasswords($scope.signUpData.password,$scope.signUpData.password2) && bonpassword($scope.signUpData.password)) {
           SignUpService.signUpUser($scope.signUpData.username,$scope.signUpData.email, $scope.signUpData.password).success(function(loginData) {
             $scope.user = Resources.user.get({username: $scope.signUpData.username}, function() {
