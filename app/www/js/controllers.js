@@ -375,8 +375,8 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       };
 
       $scope.deleteFriend = function(friendUsername) {
-        console.log(friendUsername.username, $scope.username);
-        Resources.friend.remove({username: $scope.username, friend: friendUsername.username},function(){
+        console.log(friendUsername, $scope.username);
+        Resources.friend.remove({username: $scope.username, friend: friendUsername}, function(){
           $state.go("tab.friend", {}, {reload: true})
         });
 

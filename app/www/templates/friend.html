@@ -34,7 +34,7 @@
           </div>
         </div>
 
-<!-- Recherche de thibaud -->
+        <!-- Recherche de thibaud -->
         <div class="search-bar bar bar-header item-input-inset">
           <div class="item-input-wrapper">
             <form ng-submit="addRequest()">
@@ -48,11 +48,7 @@
             Request coud not be send to {{futureFriend.username}}.
           </div>
         </div>
-        <ion-list>
-          <ion-item ng-repeat="f in friends">
-            <h2>{{f.username}}<button ion-button icon-only color="danger" class="right-aligned" ng-click="deleteFriend(f)">x</button></h2>
-          </ion-item>
-        </ion-list>
+
         <!--
 
           <ion-item ng-repeat="f_req in friendsRequest" class="item item-icon-right">
