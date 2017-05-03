@@ -10,17 +10,13 @@
           <li ng-repeat="f_req in friendsRequest">
             {{f_req.username}}
             <span class="right-aligned">
-              <button ion-button icon-only color="secondary"
-                      ng-click="acceptRequest(f_req)">
-                <!-- TODO icons ne chargent pas -->
-                <ion-icon name='ion-person-add'></ion-icon>
-                Accept
+              <button ion-button ng-click="acceptRequest(f_req)"
+                      class="button button-icon animate-if right-aligned">
+                <i class="icon ion-person-add balanced"></i>
               </button>
-              <button ion-button icon-only color="danger"
-                      ng-click="declineRequest(f_req)">
-                <!-- TODO icons ne chargent pas -->
-                <ion-icon name='ion-ios-close-outline'></ion-icon>
-                Decline
+              <button ion-button ng-click="declineRequest(f_req)"
+                      class="button button-icon animate-if right-aligned">
+                <i class="icon ion-ios-close-outline assertive"></i>
               </button>
             </span>
           </li>
@@ -62,11 +58,15 @@
           </ion-item>
         </ion-list>
 
-
         <ul>
-          <li ng-repeat="f in friends">
-            {{f.username}}
-            <button ion-button icon-only color="danger" class="right-aligned" ng-click="delete(f_req)">
+          <li ng-repeat="f in friends" ng-click="setActive(f)">
+              <h3 ng-class="{active: activeItem == f}">
+                {{f.username}}
+                <button ion-button ng-click="delete(f)"
+                        ng-if="activeItem == f" class="button button-icon animate-if right-aligned">
+                  <i class="icon ion-ios-close-outline assertive"></i>
+                </button>
+              </h3>
           </li>
         </ul>
     </div>

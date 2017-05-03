@@ -330,11 +330,21 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       $scope.sessionUsername = $sessionStorage.username;
       $scope.sessionEmail = $sessionStorage.email;
 
+      $scope.activeItem = {};
+
       $scope.username = $sessionStorage.username;
       $scope.futureFriend = {};
 
       $scope.friends = Resources.friends.query({username: $scope.username});
       $scope.friendsRequest = Resources.friendsRequest.query({username: $scope.username});
+
+      $scope.setActive = function(friend) {
+        if ($scope.activeItem == friend) {
+          $scope.activeItem = {};
+        } else{
+          $scope.activeItem = friend;
+        }
+      }
 
       $scope.acceptRequest = function(friend) {
         Resources.friends.save({username: $scope.username}, friend);
