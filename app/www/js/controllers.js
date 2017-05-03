@@ -340,9 +340,9 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
         Resources.friends.save({username: $scope.username}, friend);
       };
 
-      $scope.declineRequest = function(friend) {
-        //TODO à debug : ne marche pas, pourtant coté serveur ça fonctionne (tests réalisés sous swagger)
-        Resources.friendsRequest.remove({username: $scope.username}, friend);
+      $scope.declineRequest = function(friendUsername) {
+        //TODO à tester: ne marche pas !? (à voir)
+        Resources.friendsRequest.remove({username: $scope.username, friend: friendUsername});
       };
 
       $scope.addRequest = function() {
@@ -358,6 +358,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
           }
         );
       };
+
       $scope.deleteFriend = function(friendUsername) {
         Resources.friend.remove({username: $scope.username, friend: friendUsername});
       };

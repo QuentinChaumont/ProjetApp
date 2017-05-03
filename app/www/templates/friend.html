@@ -4,13 +4,16 @@
       <div ng-if="friendsRequest.length > 0" class="animate-if">
         <h2>They want to add you as a friend :</h2>
         <ion-list>
-          <ion-item ng-repeat="f_req in friendsRequest">
-            <h2>{{f_req.username}}</h2>
-            <ion-option-button side="right" ng-click="acceptRequest(f_req)" class="balanced">
-              <ion-icon class="icon ion-person-add"></ion-icon>
+          <ion-item ng-repeat="f_req in friendsRequest" class="item item-icon-right">
+            <h3>
+              <ion-icon class="icon ion-person-add balanced"></ion-icon>
+              {{f_req.username}}
+            </h3>
+            <ion-option-button ng-click="acceptRequest(f_req)" class="button-balanced">
+              Acccept
             </ion-option-button>
-            <ion-option-button side="right" ng-click="declineRequest(f_req)" class="assertive">
-              <ion-icon class="icon ion-minus-circled"></ion-icon>
+            <ion-option-button ng-click="declineRequest(f_req)" class="button-assertive">
+              Decline
             </ion-option-button>
           </ion-item>
         </ion-list>
@@ -38,10 +41,10 @@
               <input type="text" name="friendName" ng-model="futureFriend.username" placeholder="Add a friend">
             </form>
           </div>
-          <div ng-if="futureFriend.requestSend == true" class="anime-if">
-            Request successfully send to {{futureFriend.username}}.
+          <div ng-if="angular.isDefined(futureFriend.requestSend)" class="anime-if">
+            Request successfully send to {{futureFriend.requestSend}}.
           </div>
-          <div ng-if="futureFriend.requestSend == false" class="anime-if">
+          <div ng-if="futureFriend.requestSend" class="anime-if">
             Request coud not be send to {{futureFriend.username}}.
           </div>
         </div>
@@ -51,11 +54,28 @@
           </ion-item>
         </ion-list>
 
-        <ion-list can-swipe="true">
-            <ion-item ng-repeat="f in friends">
-              <h2>{{f.username}}</h2>
-              <ion-option-button side="left" ng-click="deleteFriend(f)" class="assertive">
-                  <ion-icon class="icon ion-minus-circled"></ion-icon>
+        <!--
+
+          <ion-item ng-repeat="f_req in friendsRequest" class="item item-icon-right">
+            <h3>
+              <ion-icon class="icon ion-person-add balanced"></ion-icon>
+              {{f_req.username}}
+            </h3>
+            <ion-option-button ng-click="acceptRequest(f_req)" class="button-balanced">
+              Acccept
+            </ion-option-button>
+            <ion-option-button ng-click="declineRequest(f_req)" class="button-assertive">
+              Decline
+            </ion-option-button>
+        -->
+        <ion-list>
+            <ion-item ng-repeat="f in friends" class="item item-icon-right">
+              <h3>
+                <ion-icon class="icon ion-trash-a assertive"></ion-icon>
+                {{f.username}}
+              </h3>
+              <ion-option-button ng-click="deleteFriend(f.username)" class="button-assertive">
+                  Confirm
               </ion-option-button>
             </ion-item>
         </ion-list>
