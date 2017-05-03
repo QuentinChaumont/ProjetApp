@@ -3,24 +3,17 @@
       <!-- User friends' requests list -->
       <div ng-if="friendsRequest.length > 0" class="animate-if">
         <h2>They want to add you as a friend :</h2>
-        <ul>
-          <li ng-repeat="f_req in friendsRequest">
-            <h3 ng-class="{active: activeItem == f}">
-              {{f_req.username}}
-            </h3>
-            <span class="right-aligned">
-              <button ion-button ng-click="acceptRequest(f_req)"
-                      class="button button-icon animate-if">
-                <i class="icon ion-person-add balanced"></i>
-              </button>
-              <button ion-button ng-click="declineRequest(f_req)"
-                      class="button button-icon animate-if">
-                <i class="icon ion-ios-close-outline assertive"></i>
-              </button>
-            </span>
-            </h3>
-          </li>
-        </ul>
+        <ion-list>
+          <ion-item ng-repeat="f_req in friendsRequest">
+            <h2>{{f_req.username}}</h2>
+            <ion-option-button side="right" ng-click="acceptRequest(f_req)" class="balanced">
+              <ion-icon class="icon ion-person-add"></ion-icon>
+            </ion-option-button>
+            <ion-option-button side="right" ng-click="declineRequest(f_req)" class="assertive">
+              <ion-icon class="icon ion-minus-circled"></ion-icon>
+            </ion-option-button>
+          </ion-item>
+        </ion-list>
       </div>
 
       <!-- User friends' list -->
@@ -58,17 +51,14 @@
           </ion-item>
         </ion-list>
 
-        <ul>
-          <li ng-repeat="f in friends" ng-click="setActive(f)">
-              <h3 ng-class="{active: activeItem == f}">
-                {{f.username}}
-                <button ion-button ng-click="delete(f)"
-                        ng-if="activeItem == f" class="button button-icon animate-if right-aligned">
-                  <i class="icon ion-ios-close-outline assertive"></i>
-                </button>
-              </h3>
-          </li>
-        </ul>
+        <ion-list can-swipe="true">
+            <ion-item ng-repeat="f in friends">
+              <h2>{{f.username}}</h2>
+              <ion-option-button side="left" ng-click="deleteFriend(f)" class="assertive">
+                  <ion-icon class="icon ion-minus-circled"></ion-icon>
+              </ion-option-button>
+            </ion-item>
+        </ion-list>
     </div>
   </ion-content>
 </ion-view>
