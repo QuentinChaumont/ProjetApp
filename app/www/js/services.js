@@ -62,8 +62,6 @@ angular.module('starter.services', ['ngResource'])
                 //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
                 deferred.reject('Wrong ids.');
               });
-              console.log(user);
-
               promise.success = function(fn) {
                   promise.then(fn);
                   return promise;
@@ -111,4 +109,4 @@ angular.module('starter.services', ['ngResource'])
               return promise;
           }
       }
-  })
+  });

@@ -25,26 +25,46 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
   })
 
 
-  .controller('SignUpCtrl',  function($scope,$state, $ionicFilterBar,SignUpService, Resources,$ionicPopup,$sessionStorage,$state) {
+  .controller('SignUpCtrl',  function($scope,$state, $ionicFilterBar,SignUpService, Resources,$ionicPopup,$sessionStorage) {
     $scope.$on('$ionicView.beforeEnter', function(){
       $scope.signUpData = {};
 
       $scope.signUp = function() {
-        SignUpService.signUpUser($scope.signUpData.username,$scope.signUpData.email, $scope.signUpData.password).success(function(loginData) {
-          $scope.user = Resources.user.get({username: $scope.signUpData.username}, function() {
-            // everything went fine
-            console.log("signUp");
-            $sessionStorage.active = true;
-            $sessionStorage.username = $scope.signUpData.username;
-            $sessionStorage.email = $scope.user.email;
-            $state.go("tab.home", {}, {reload: true})
-          })
-        }).error(function(data) {
-          var alertPopup = $ionicPopup.alert({
-            title: 'Login failed!',
-            template: 'Please check your credentials!'
+        if (bonmail($scope.signUpData.email) && samePasswords($scope.signUpData.password,$scope.signUpData.password2) && bonpassword($scope.signUpData.password)) {
+          SignUpService.signUpUser($scope.signUpData.username,$scope.signUpData.email, $scope.signUpData.password).success(function(loginData) {
+            $scope.user = Resources.user.get({username: $scope.signUpData.username}, function() {
+              // everything went fine
+              console.log("signUp");
+              $sessionStorage.active = true;
+              $sessionStorage.username = $scope.signUpData.username;
+              $sessionStorage.email = $scope.user.email;
+              $state.go("tab.home", {}, {reload: true})
+            })
+          }).error(function(data) {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Sign Up failed!',
+                template: 'Your username already exist.. Please try an other.'
+            });
           });
-        });
+        }
+        else if(!bonmail($scope.signUpData.email)){
+          var alertPopup = $ionicPopup.alert({
+              title: 'Sign Up failed!',
+              template: 'Your email is incorrect.. Please try again.'
+          });
+        }
+        else if(!samePasswords($scope.signUpData.password, $scope.signUpData.password2)){
+          var alertPopup = $ionicPopup.alert({
+              title: 'Sign Up failed!',
+              template: 'Passwords are different.. Please try again.'
+          });
+        }else if(!bonpassword($scope.signUpData.password)){
+          var alertPopup = $ionicPopup.alert({
+              title: 'Sign Up failed!',
+              template: 'Password need minimum 6 characters.. Please try again.'
+          });
+        }
+
       }
     })
   })
@@ -56,7 +76,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     $scope.$on('$ionicView.beforeEnter', function(){
 
       $scope.sessionUsername = $sessionStorage.username;
-      $scope.sessionEmail = $sessionStorage.email;
       if ($sessionStorage.active == null) {
         $scope.session = false;
 
@@ -75,10 +94,17 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     })
   })
 
-  .controller('MapCtrl', function($scope,$ionicFilterBar) {
+  .controller('MapCtrl', function($scope,$ionicFilterBar,$sessionStorage) {
+    $scope.sessionUsername = $sessionStorage.username;
     $scope.map_available = true;
     $scope.position = false;
     $scope.filtre_rayon = 1000;
+
+    // $scope.user = Resources.user.get({username: $scope.sessionUsername}, function() {
+    //   // everything went fine
+    //   console.log("Maps");
+    //   console.log(user.username);
+    // })
 
     var Enseirb_position = new google.maps.LatLng(44.8066376, -0.6073554);
     var current_position = {lat : 44.8066376, lng : -0.6073554};
@@ -287,26 +313,8 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
   },{enableHighAccuracy:true, maximumAge:60000, timeout:10000})
 
-  .controller('ChatsCtrl', function($scope, Chats) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
 
-    $scope.chats = Chats.all();
-    $scope.remove = function(chat) {
-      Chats.remove(chat);
-    };
-  })
-
-  .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-    $scope.chat = Chats.get($stateParams.chatId);
-  })
-
-  .controller('FriendCtrl', function($rootScope, $scope, Resources,$ionicFilterBar,$sessionStorage) {
+  .controller('FriendCtrl', function($rootScope,$state, $scope, Resources,$ionicFilterBar,$sessionStorage) {
     var _selected;
 
     $scope.selected = undefined;
@@ -328,13 +336,11 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     };
     $scope.$on('$ionicView.beforeEnter', function(){
       $scope.sessionUsername = $sessionStorage.username;
+
       $scope.sessionEmail = $sessionStorage.email;
-
       $scope.activeItem = {};
-
       $scope.username = $sessionStorage.username;
       $scope.futureFriend = {};
-
       $scope.friends = Resources.friends.query({username: $scope.username});
       $scope.friendsRequest = Resources.friendsRequest.query({username: $scope.username});
 
@@ -347,12 +353,16 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       }
 
       $scope.acceptRequest = function(friend) {
-        Resources.friends.save({username: $scope.username}, friend);
+        Resources.friends.save({username: $scope.username}, friend, function(){
+          $state.go("tab.friend", {}, {reload: true});
+        });
+
       };
 
       $scope.declineRequest = function(friend) {
-        //TODO à debug : ne marche pas, pourtant coté serveur ça fonctionne (tests réalisés sous swagger)
-        Resources.friendsRequest.remove({username: $scope.username}, friend);
+        Resources.friendsRequest.remove({username: $scope.username}, friend, function(){
+          $state.go("tab.friend", {}, {reload: true});
+        });
       };
 
       $scope.addRequest = function() {
@@ -361,35 +371,38 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
           function () {
             // everything went fine
             $scope.futureFriend.requestSend = true;
+            $state.go("tab.friend", {}, {reload: true});
           },
           function () {
             // a problem happened
             $scope.futureFriend.requestSend = false;
+            $state.go("tab.friend", {}, {reload: true});
           }
         );
       };
       $scope.deleteFriend = function(friendUsername) {
-        Resources.friend.remove({username: $scope.username, friend: friendUsername});
+        console.log(friendUsername.username, $scope.username);
+        Resources.friend.remove({username: $scope.username, friend: friendUsername.username},function(){
+          $state.go("tab.friend", {}, {reload: true})
+        });
+
       };
     });
   })
 
   .controller('AccountCtrl', function($scope,$sessionStorage,$state,$window,PasswordService, $ionicPopup) {
     $scope.$on('$ionicView.beforeEnter', function(){
-
-      $scope.sessionUsername = $sessionStorage.username;
       $scope.sessionEmail = $sessionStorage.email;
-
+      $scope.sessionUsername = $sessionStorage.username;
       $scope.logout = function() {
         console.log("logout");
         $sessionStorage.$reset();
         $window.location.reload(true)
       };
       $scope.Data = {};
-
       $scope.password = function(){
         console.log("password");
-        if ($scope.Data.password == $scope.Data.password2) {
+        if (bonpassword($scope.Data.password) && samePasswords($scope.Data.password, $scope.Data.password2)) {
           PasswordService.changePassword($scope.sessionUsername,$scope.Data.actualPassword,$scope.Data.password).success(function() {
             var alertPopup = $ionicPopup.alert({
               title: 'Password changed !',
@@ -402,10 +415,15 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
             });
           });
         }
-        else {
+        else if(!samePasswords($scope.Data.password, $scope.Data.password2)){
           var alertPopup = $ionicPopup.alert({
-            title: 'Password change failed !',
-            template: 'Passwords are different'
+              title: 'Password change failed!',
+              template: 'Passwords are different.. Please try again.'
+          });
+        }else if(!bonpassword($scope.Data.password)){
+          var alertPopup = $ionicPopup.alert({
+              title: 'Password change failed!',
+              template: 'Password need minimum 6 characters.. Please try again.'
           });
         }
       }
@@ -476,3 +494,19 @@ function CreateControl(controlDiv, map,text){
 }
 
 
+function bonmail(mailteste)
+
+{
+	var reg = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i');
+
+	return(reg.test(mailteste));
+}
+
+function samePasswords(pw, pw2){
+  return pw==pw2;
+}
+
+function bonpassword(pw){
+  console.log(pw.length);
+  return pw.length > 5;
+}

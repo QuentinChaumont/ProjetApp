@@ -32,8 +32,8 @@
           <div ng-submit="addRequest()" class="">
             <div class="item-input-wrapper ">
               <span class="input-label">Username : </span>
-              <input type="text" ng-model="selected" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
-              <button ng-click="submit()" class="button button-clear input-button button-positive">Add</button>
+              <input type="text" name="friendName" ng-model="futureFriend.username" placeholder="Add a friend" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
+              <button ng-click="addRequest()" class="button button-clear input-button button-positive">Add</button>
             </div>
           </div>
         </div>
@@ -53,11 +53,10 @@
           </div>
         </div>
         <ion-list>
-          <ion-item ng-repeat="place in places">
-            <h2>{{place.name}}</h2>
+          <ion-item ng-repeat="f in friends">
+            <h2>{{f.username}}<button ion-button icon-only color="danger" class="right-aligned" ng-click="deleteFriend(f)">x</button></h2>
           </ion-item>
         </ion-list>
-
         <ul>
           <li ng-repeat="f in friends" ng-click="setActive(f)">
               <h3 ng-class="{active: activeItem == f}">
@@ -69,6 +68,7 @@
               </h3>
           </li>
         </ul>
+
     </div>
   </ion-content>
 </ion-view>

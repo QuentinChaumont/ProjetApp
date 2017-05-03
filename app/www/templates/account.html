@@ -1,31 +1,38 @@
 <ion-view view-title="Account">
   <ion-content>
 
-    <button class="button button-block button-positive" ng-click="logout()">Logout</button>
+
     <div>
       <h2>Profil</h2>
-
-      <br/>Username = {{sessionUsername}}
-      <br/>Email = {{sessionEmail}}
-
+      <ion-list>
+        <ion-item>
+          <h2>Username : {{sessionUsername}}</h2>
+        </ion-item>
+        <ion-item>
+          <h2>Email : {{sessionEmail}}</h2>
+        </ion-item>
+      </ion-list>
     </div>
     <div class="list">
       <h2>Change password</h2>
       <label class="item item-input">
-        <span class="input-label">Actual Password</span>
+        <span class="input-label">Actual Password :</span>
         <input type="password" ng-model="Data.actualPassword">
       </label>
       <label class="item item-input">
-        <span class="input-label">New Password</span>
+        <span class="input-label">New Password :</span>
         <input type="password" ng-model="Data.password">
       </label>
       <label class="item item-input">
-        <span class="input-label">Confirm Password</span>
+        <span class="input-label">Confirm Password :</span>
         <input type="password" ng-model="Data.password2">
       </label>
       <label class="item">
         <button class="button button-block button-positive" ng-click="password()">Valider</button>
       </label>
+    </div>
+    <div class="list">
+        <button class="button button-block button-positive" ng-click="logout()">Logout</button>
     </div>
   </ion-content>
 </ion-view>
