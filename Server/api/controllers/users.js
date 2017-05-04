@@ -21,7 +21,7 @@ module.exports = {
   postUsersFriends,
   getUsersFriendsRequest,
   postUsersFriendsRequest,
-  deleteUsersFriendsRequest,
+  deleteUsersFriendsRequestUser,
   getUsersFriendsUser,
   deleteUsersFriendsUser,
   getUsersFriendsUserPositions
@@ -298,14 +298,14 @@ function postUsersFriendsRequest(req, res, next) {
     });
 }
 
-// DELETE /users/{username}/friendsRequest
-function deleteUsersFriendsRequest(req, res, next) {
+// DELETE /users/{username}/friendsRequest/{friendusername}
+function deleteUsersFriendsRequestUser(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
         console.log("Connected correctly to server");
         db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error,user) {
-            if (user != null && error == null && user.friendsRequest.find(function (element) {return element.username == req.body.username})) {
-                const suppr = { "$pull" : {"friendsRequest" : {"username" : req.body.username}}};
+            if (user != null && error == null && user.friendsRequest.find(function (element) {return element.username == req.swagger.params.friendusername.value})) {
+                const suppr = { "$pull" : {"friendsRequest" : {"username" : req.swagger.params.friendusername.value}}};
                 db1.collection("users").update({"username" : req.swagger.params.username.value},  suppr,  function(err2, modif) {
                     if (!err2) {
                         res.status(204).send();

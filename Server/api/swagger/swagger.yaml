@@ -238,23 +238,20 @@ paths:
           description: Wrong format
         "404":
           description: User not found
+
+  /users/{username}/friendsRequest/{friendusername}:
+    x-swagger-router-controller: users
     delete:
-      operationId: deleteUsersFriendsRequest
+      operationId: deleteUsersFriendsRequestUser
       description: "Delete a friendship request"
       parameters:
-      - $ref: "#/parameters/username"
-      - name: friend
-        description: "friendship request to remove"
-        in: body
-        schema:
-          $ref: "#/definitions/friend"
-        required: true
+        - $ref: "#/parameters/username"
+        - $ref: "#/parameters/friendusername"
       responses:
         "204":
           description: Success
         "404":
           description: "Friendship request not found"
-
 
   /users/{username}/friends/{friendusername}:
     x-swagger-router-controller: users
