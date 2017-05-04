@@ -10,32 +10,40 @@ angular.module('starter.services', ['ngResource'])
         {
         'update': { method:'PUT' } //create custom PUT request : https://docs.angularjs.org/api/ngResource/service/$resource
       }),
+
       userPosition: $resource(hostname.concat('/api/users/:username/positions')),
       friend: $resource(hostname.concat('/api/users/:username/friends/:friend')),
       friends: $resource(hostname.concat('/api/users/:username/friends')),
       friendsRequest: $resource(hostname.concat('/api/users/:username/friendsRequest')),
       friendsRequestUser: $resource(hostname.concat('/api/users/:username/friendsRequest/:friendusername')),
       friendPosition: $resource(hostname.concat('/api/users/:username/friends/:friendusername/positions'))
+
     };
   })
 
-  .service('LoginService', function($q, $http, Resources) {
+  .service('LoginService', function($q, $http, Resources,$sessionStorage) {
       return {
           loginUser: function(name, pw) {
               var deferred = $q.defer();
               var promise = deferred.promise;
               var success = false;
               var body = {username: name, password: pw}
-              var user = Resources.login.save(body, function() {
+              var user = Resources.login.save(body, function(test) {
                // everything went fine
-               deferred.resolve('Welcome ' + name + '!');
+               test.$promise.then(function(res){
+                 console.log("token");
+                 $sessionStorage.token = res.token;
+                 deferred.resolve("succès");
+               }).catch(function(err){
+                 console.log("Error : service.js : LoginService : Token");
+                 throw err; // rethrow;
+               });
+
               }, function() {
                 // error, create it
                 //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
                 deferred.reject('Wrong credentials.');
               });
-              console.log(user);
-
               promise.success = function(fn) {
                   promise.then(fn);
                   return promise;
@@ -49,16 +57,24 @@ angular.module('starter.services', ['ngResource'])
       }
   })
 
-  .service('SignUpService', function($q, $http, Resources) {
+  .service('SignUpService', function($q, $http, Resources, $sessionStorage) {
       return {
           signUpUser: function(name, mail, pw) {
               var deferred = $q.defer();
               var promise = deferred.promise;
               var success = false;
               var body = {username: name, email: mail, password: pw}
-              var user = Resources.users.save(body, function() {
-               // everything went fine
-               deferred.resolve('Welcome ' + name + '!');
+              console.log('avant');
+              var user = Resources.users.save(body, function(test) {
+                console.log('après');
+                test.$promise.then(function(res){
+                  console.log("token");
+                  $sessionStorage.token = res.token;
+                  deferred.resolve("succès");
+                }).catch(function(err){
+                  console.log("Error : service.js : LoginService : Token");
+                  throw err; // rethrow;
+                });
               }, function() {
                 // error, create it
                 //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
@@ -77,13 +93,13 @@ angular.module('starter.services', ['ngResource'])
       }
   })
 
-  .service('PasswordService', function($q, $http, Resources) {
+  .service('PasswordService', function($q, $http, Resources, $sessionStorage) {
       return {
           changePassword: function(name,actualpw,pw) {
               var deferred = $q.defer();
               var promise = deferred.promise;
               var success = false;
-              var body = {username: name, password: actualpw}
+              var body = {username: name, password: actualpw, token: $sessionStorage.token}
               var user = Resources.login.save(body, function() {
                   Resources.user.update(body,{password: pw}, function() {
                    // everything went fine

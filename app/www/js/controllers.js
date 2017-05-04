@@ -6,7 +6,8 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
       $scope.login = function() {
         LoginService.loginUser($scope.loginData.username, $scope.loginData.password).success(function(loginData) {
-          $scope.user = Resources.user.get({username: $scope.loginData.username}, function() {
+          console.log(loginData);
+          $scope.user = Resources.user.get({username: $scope.loginData.username, token: $sessionStorage.token}, function() {
             // everything went fine
             console.log("login");
             $sessionStorage.active = true;
@@ -33,8 +34,10 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
         // var hash = CryptoJS.SHA1($scope.Data.password);
         // console.log("password : ", $scope.Data.password, hash);
         if (bonmail($scope.signUpData.email) && samePasswords($scope.signUpData.password,$scope.signUpData.password2) && bonpassword($scope.signUpData.password)) {
-          SignUpService.signUpUser($scope.signUpData.username,$scope.signUpData.email, $scope.signUpData.password).success(function(loginData) {
-            $scope.user = Resources.user.get({username: $scope.signUpData.username}, function() {
+          console.log('Pas de soucis');
+          SignUpService.signUpUser($scope.signUpData.username, $scope.signUpData.email, $scope.signUpData.password).success(function(loginData){
+            console.log("aaaaaa" , loginData);
+            $scope.user = Resources.user.get({username: $scope.signUpData.username, token: $sessionStorage.token}, function() {
               // everything went fine
               console.log("signUp");
               $sessionStorage.active = true;
@@ -172,15 +175,24 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
     // --- ALLER CHERCHER LA LISTE D AMI SUR LE SERVER ---------------
       var list_friend=[]
-      Resources.friends.query({username: $scope.sessionUsername}).$promise.then(function(friends, Resource) {
-      var friend_position;
-      friends.forEach(function(friend) {
-        console.log(friend.username);
-        Resources.friendPosition.query({username: $scope.sessionUsername, friendusername: friend.username}).$promise.then(function(friend_position, Resource) {
-          //console.log(friend);
-          list_friend.push({name: friend.username, lat: friend_position[0].lat, lng:friend_position[0].lng,info_bulle : new google.maps.InfoWindow()});
-       })
-      });
+      var friends = null;
+      var friend_position = null;
+      console.log($sessionStorage.token);
+      Resources.friends.query({username: $scope.sessionUsername, token: $sessionStorage.token}).$promise.then(function(friends, Resource) {
+        var friend_position;
+        friends.forEach(function(friend) {
+          console.log(friend.username);
+          Resources.friendPosition.query({username: $scope.sessionUsername, friendusername: friend.username ,token:$sessionStorage.token}).$promise.then(function(friend_position, Resource) {
+            //console.log(friend);
+            list_friend.push({name: friend.username, lat: friend_position[0].lat, lng:friend_position[0].lng,info_bulle : new google.maps.InfoWindow()});
+         }).catch(function(err){
+           console.log("Error : controllers.js : MapsCTRL : Friends_list");
+           throw err; // rethrow;
+         });
+        });
+   }).catch(function(err){
+     console.log("Error2 : controllers.js : MapsCTRL : Friends_list");
+     throw err; // rethrow;
    });
 
 console.log("liste : ", list_friend);
@@ -299,7 +311,7 @@ console.log("liste : ", list_friend);
     // Localisation du telephone
     var survId = navigator.geolocation.watchPosition(function (pos) {
       //sauvegarde dans la base de donnée
-      var test = Resources.userPosition.save({username: $scope.sessionUsername},{lat: pos.coords.latitude, lng: pos.coords.longitude});
+      var test = Resources.userPosition.save({username: $scope.sessionUsername, token: $sessionStorage.token},{lat: pos.coords.latitude, lng: pos.coords.longitude});
       $scope.position  = true;
       current_position.lat = pos.coords.latitude;
       current_position.lng = pos.coords.longitude;
@@ -354,10 +366,6 @@ console.log("liste : ", list_friend);
     };
   })
 
-  .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-    $scope.chat = Chats.get($stateParams.chatId);
-  })
-
   .controller('FriendCtrl', function($rootScope, $scope, $interval, $state, Resources,$ionicFilterBar,$sessionStorage) {
     var _selected;
 
@@ -392,19 +400,19 @@ console.log("liste : ", list_friend);
 
       $scope.username = $sessionStorage.username;
       $scope.futureFriend = {};
-
-      $scope.friends = Resources.friends.query({username: $scope.username});
-      $scope.friendsRequest = Resources.friendsRequest.query({username: $scope.username});
-
+      $scope.friends = Resources.friends.query({username: $scope.username, token: $sessionStorage.token});
+      $scope.friendsRequest = Resources.friendsRequest.query({username: $scope.username, token: $sessionStorage.token});
+      console.log($scope.friends);
+      console.log($scope.friendsRequest);
       // refresh view every 30s
       refresh = $interval(function() {
-        var newFriends = Resources.friends.query({username: $scope.username}, function() {
+        var newFriends = Resources.friends.query({username: $scope.username, token: $sessionStorage.token}, function() {
           if ( !angular.equals($scope.friends, newFriends) ) {
             // update view on change
             $scope.friends = newFriends;
           }
         });
-        var newFriendsRequest = Resources.friendsRequest.query({username: $scope.username}, function() {
+        var newFriendsRequest = Resources.friendsRequest.query({username: $scope.username, token: $sessionStorage.token}, function() {
           if ( !angular.equals($scope.friendsRequest, newFriendsRequest) ) {
             // update view on change
             $scope.friendsRequest  = newFriendsRequest;
@@ -413,13 +421,13 @@ console.log("liste : ", list_friend);
       }, 10000);
 
       $scope.acceptRequest = function(friendUsername) {
-        Resources.friends.save({username: $scope.username}, {username: friendUsername}, function(){
+        Resources.friends.save({username: $scope.username,token: $sessionStorage.token}, {username: friendUsername}, function(){
           $state.go("tab.friend", {}, {reload: true});
         });
       };
 
       $scope.declineRequest = function(friendUsername) {
-        Resources.friendsRequestUser.remove({username: $scope.username, friendusername: friendUsername}, function() {
+        Resources.friendsRequestUser.remove({username: $scope.username, friendusername: friendUsername, token: $sessionStorage.token}, function() {
           console.log('oui ' + friendUsername);
           $state.go("tab.friend", {}, {reload: true});
         }, function () {
@@ -430,7 +438,7 @@ console.log("liste : ", list_friend);
 
       $scope.addRequest = function() {
         // POST request in the future friend database
-        Resources.friendsRequest.save({username: $scope.username}, {username: $scope.futureFriend.username},
+        Resources.friendsRequest.save({username: $scope.username, token: $sessionStorage.token}, {username: $scope.futureFriend.username},
           function () {
             // everything went fine
             $scope.futureFriend.requestSend = true;
@@ -446,7 +454,7 @@ console.log("liste : ", list_friend);
 
       $scope.deleteFriend = function(friendUsername) {
         console.log(friendUsername, $scope.username);
-        Resources.friend.remove({username: $scope.username, friend: friendUsername}, function(){
+        Resources.friend.remove({username: $scope.username, friend: friendUsername, token: $sessionStorage.token}, function(){
           $state.go("tab.friend", {}, {reload: true})
         });
 
@@ -571,6 +579,5 @@ function samePasswords(pw, pw2){
 }
 
 function bonpassword(pw){
-  console.log(pw.length);
   return pw.length > 5;
 }

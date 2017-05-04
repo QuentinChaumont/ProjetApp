@@ -49,11 +49,11 @@ paths:
 # ######################
 #     API USER SIDE
 # ######################
-
+#users et login so codés en dur pour pouvoir y avoir accès sans token.
   /users:
-    x-swagger-router-controller: users
+    # x-swagger-router-controller: users
     post:
-      operationId: postUsers
+      # operationId: postUsers
       description: Add a new user
       parameters:
         - name: user
@@ -71,9 +71,9 @@ paths:
           description: Another user has the same username
 
   /users/login:
-    x-swagger-router-controller: users
+    # x-swagger-router-controller: users
     post:
-      operationId: postLogin
+      # operationId: postLogin
       description: Vérification du login
       parameters:
         - $ref: "#/parameters/login"
@@ -238,20 +238,23 @@ paths:
           description: Wrong format
         "404":
           description: User not found
-
-  /users/{username}/friendsRequest/{friendusername}:
-    x-swagger-router-controller: users
     delete:
-      operationId: deleteUsersFriendsRequestUser
+      operationId: deleteUsersFriendsRequest
       description: "Delete a friendship request"
       parameters:
-        - $ref: "#/parameters/username"
-        - $ref: "#/parameters/friendusername"
+      - $ref: "#/parameters/username"
+      - name: friend
+        description: "friendship request to remove"
+        in: body
+        schema:
+          $ref: "#/definitions/friend"
+        required: true
       responses:
         "204":
           description: Success
         "404":
           description: "Friendship request not found"
+
 
   /users/{username}/friends/{friendusername}:
     x-swagger-router-controller: users
@@ -379,4 +382,3 @@ definitions:
         type: number
       lng:
         type: number
-      
