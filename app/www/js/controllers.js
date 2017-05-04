@@ -419,7 +419,7 @@ console.log("liste : ", list_friend);
       };
 
       $scope.declineRequest = function(friendUsername) {
-        Resources.friendsRequest.remove({username: $scope.username}, {username: friendUsername}, function() {
+        Resources.friendsRequestUser.remove({username: $scope.username, friendusername: friendUsername}, function() {
           console.log('oui ' + friendUsername);
           $state.go("tab.friend", {}, {reload: true});
         }, function () {

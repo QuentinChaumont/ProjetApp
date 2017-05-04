@@ -7,6 +7,7 @@
     <list default="true" id="c0518189-6d22-439b-882d-482901dbcf49" name="Default" comment="Carte google map avec liste des friends">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/www/js/controllers.js" afterPath="$PROJECT_DIR$/app/www/js/controllers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/www/js/services.js" afterPath="$PROJECT_DIR$/app/www/js/services.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -45,10 +46,10 @@
         <entry file="file://$PROJECT_DIR$/app/www/js/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="107">
-              <caret line="421" column="80" lean-forward="false" selection-start-line="421" selection-start-column="80" selection-end-line="421" selection-end-column="80" />
+              <caret line="421" column="61" lean-forward="false" selection-start-line="421" selection-start-column="61" selection-end-line="421" selection-end-column="61" />
               <folding>
-                <marker date="1493889102597" expanded="true" signature="9168:9184" ph="..." />
-                <marker date="1493889102597" expanded="true" signature="9229:9245" ph="..." />
+                <marker date="1493891453208" expanded="true" signature="9168:9184" ph="..." />
+                <marker date="1493891453208" expanded="true" signature="9229:9245" ph="..." />
               </folding>
             </state>
           </provider>
@@ -77,8 +78,8 @@
       <file leaf-file-name="services.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/www/js/services.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="14" column="70" lean-forward="false" selection-start-line="14" selection-start-column="70" selection-end-line="14" selection-end-column="70" />
+            <state relative-caret-position="288">
+              <caret line="16" column="90" lean-forward="false" selection-start-line="16" selection-start-column="90" selection-end-line="16" selection-end-column="90" />
               <folding />
             </state>
           </provider>
@@ -147,7 +148,6 @@
         <option value="$PROJECT_DIR$/app/www/css/ionic.app.css" />
         <option value="$PROJECT_DIR$/app/www/manifest.json" />
         <option value="$PROJECT_DIR$/app/www/templates/tab-dash.html" />
-        <option value="$PROJECT_DIR$/app/www/js/services.js" />
         <option value="$PROJECT_DIR$/app/www/js/app.js" />
         <option value="$PROJECT_DIR$/app/www/css/ionic.filter.bar.scss" />
         <option value="$PROJECT_DIR$/app/www/css/ionic.filter.bar.css" />
@@ -160,10 +160,11 @@
         <option value="$PROJECT_DIR$/app/www/css/style.css" />
         <option value="$PROJECT_DIR$/app/www/templates/map.html" />
         <option value="$PROJECT_DIR$/app/www/templates/friend.html" />
-        <option value="$PROJECT_DIR$/app/www/js/controllers.js" />
         <option value="$PROJECT_DIR$/app/www/lib/ionic/js/angular/angular-resource.js" />
         <option value="$PROJECT_DIR$/Server/api/swagger/swagger.yaml" />
         <option value="$PROJECT_DIR$/Server/api/controllers/users.js" />
+        <option value="$PROJECT_DIR$/app/www/js/services.js" />
+        <option value="$PROJECT_DIR$/app/www/js/controllers.js" />
       </list>
     </option>
   </component>
@@ -180,7 +181,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1367" />
+    <option name="x" value="1365" />
     <option name="y" value="-11" />
     <option name="width" value="1368" />
     <option name="height" value="780" />
@@ -1398,10 +1399,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="168857000" />
+    <option name="totallyTimeSpent" value="168996000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1367" y="-11" width="1368" height="780" extended-state="6" />
+    <frame x="1365" y="-11" width="1368" height="780" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24304539" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1483,8 +1484,8 @@
         <state relative-caret-position="651">
           <caret line="31" column="26" lean-forward="false" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
           <folding>
-            <marker date="1493889102597" expanded="true" signature="9168:9184" ph="..." />
-            <marker date="1493889102597" expanded="true" signature="9229:9245" ph="..." />
+            <marker date="1493891453208" expanded="true" signature="9168:9184" ph="..." />
+            <marker date="1493891453208" expanded="true" signature="9229:9245" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1685,22 +1686,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/www/css/ionic.app.css" />
-    <entry file="file://$PROJECT_DIR$/app/www/js/services.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="70" lean-forward="false" selection-start-line="14" selection-start-column="70" selection-end-line="14" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/www/templates/friend.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="70" lean-forward="false" selection-start-line="14" selection-start-column="70" selection-end-line="14" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/www/lib/ionic/js/angular/angular-resource.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="365">
@@ -1795,14 +1780,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Server/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3456">
-          <caret line="207" column="0" lean-forward="true" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/www/templates/map.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -1811,13 +1788,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/www/js/services.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="16" column="90" lean-forward="false" selection-start-line="16" selection-start-column="90" selection-end-line="16" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/www/templates/friend.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="70" lean-forward="false" selection-start-line="14" selection-start-column="70" selection-end-line="14" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3456">
+          <caret line="207" column="0" lean-forward="true" selection-start-line="207" selection-start-column="0" selection-end-line="207" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/www/js/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="107">
-          <caret line="421" column="80" lean-forward="false" selection-start-line="421" selection-start-column="80" selection-end-line="421" selection-end-column="80" />
+          <caret line="421" column="61" lean-forward="false" selection-start-line="421" selection-start-column="61" selection-end-line="421" selection-end-column="61" />
           <folding>
-            <marker date="1493889102597" expanded="true" signature="9168:9184" ph="..." />
-            <marker date="1493889102597" expanded="true" signature="9229:9245" ph="..." />
+            <marker date="1493891453208" expanded="true" signature="9168:9184" ph="..." />
+            <marker date="1493891453208" expanded="true" signature="9229:9245" ph="..." />
           </folding>
         </state>
       </provider>

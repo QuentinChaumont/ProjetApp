@@ -14,6 +14,7 @@ angular.module('starter.services', ['ngResource'])
       friend: $resource(hostname.concat('/api/users/:username/friends/:friend')),
       friends: $resource(hostname.concat('/api/users/:username/friends')),
       friendsRequest: $resource(hostname.concat('/api/users/:username/friendsRequest')),
+      friendsRequestUser: $resource(hostname.concat('/api/users/:username/friendsRequest/:friendusername')),
       friendPosition: $resource(hostname.concat('/api/users/:username/friends/:friendusername/positions'))
     };
   })
