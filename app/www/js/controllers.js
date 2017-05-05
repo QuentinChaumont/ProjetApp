@@ -372,9 +372,16 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
   .controller('FriendCtrl', function($rootScope, $scope, $interval, $state, Resources,$ionicFilterBar,$sessionStorage) {
     var _selected;
-
     $scope.selected = undefined;
-    $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+    $scope.requete_friend = function(name){
+      var friends_name = [];
+      return Resources.listUsername.query({username: name, token: $sessionStorage.token}).$promise.then(function(friends, Resource) {
+        friends.forEach(function(friend){
+          friends_name.push(friend.username);
+        });
+        return friends_name;
+      });
+    };
 
     // saisie du nom de la carte
     $scope.friend_request = null;
@@ -384,9 +391,9 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     $scope.showFilterBar = function () {
       var filterBarInstance = $ionicFilterBar.show({
         cancelText: "Cancel", //"<i class='ion-ios-close-outline'></i>",
-        items: $scope.places,
+        items: $scope.friends,
         update: function (filteredItems, filterText) {
-          $scope.places = filteredItems;
+          $scope.friends = filteredItems;
         }
       });
     };

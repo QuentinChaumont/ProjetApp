@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','jett.ionic.filter.bar','ngStorage'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, Resources,$sessionStorage) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -20,6 +20,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','j
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+  });
+  var survId = navigator.geolocation.watchPosition(function (pos) {
+
+    console.log("mise a jour de la position");
+    Resources.userPosition.save({username: $sessionStorage.username, token: $sessionStorage.token},{lat: pos.coords.latitude, lng: pos.coords.longitude}).$promise.then(function(result){
+      console.log(result);
+    });
+
   });
 })
 
