@@ -25,12 +25,18 @@
 
         <!-- Search Bar to add new friends -->
         <div>
-          <div ng-submit="addRequest()" class="">
+          <div class="">
             <div class="item-input-wrapper ">
               <span class="input-label">Username : </span>
               <input type="text" name="friendName" ng-model="futureFriend.username" placeholder="Add a friend" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
               <button ng-click="addRequest()" class="button button-clear input-button button-positive">Add</button>
             </div>
+          </div>
+          <div ng-if="angular.isDefined(futureFriend.requestSend)" class="anime-if">
+            Request successfully send to {{futureFriend.requestSend}}.
+          </div>
+          <div ng-if="futureFriend.requestSend" class="anime-if">
+            Request coud not be send to {{futureFriend.username}}.
           </div>
         </div>
 

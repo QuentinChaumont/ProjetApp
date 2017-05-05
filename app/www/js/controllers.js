@@ -97,7 +97,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     })
   })
 
-  .controller('MapCtrl', function($scope,$ionicFilterBar,$sessionStorage,$ionicScrollDelegate,Resources) {
+  .controller('MapCtrl', function($scope,$ionicFilterBar,$sessionStorage,$ionicScrollDelegate,Resources,$q) {
     $scope.sessionUsername = $sessionStorage.username;
     $scope.map_available = true;
     $scope.position = false;
@@ -174,28 +174,41 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     };
 
     // --- ALLER CHERCHER LA LISTE D AMI SUR LE SERVER ---------------
-      var list_friend=[]
-      var friends = null;
-      var friend_position = null;
-      console.log($sessionStorage.token);
-      Resources.friends.query({username: $scope.sessionUsername, token: $sessionStorage.token}).$promise.then(function(friends, Resource) {
-        var friend_position;
-        friends.forEach(function(friend) {
-          console.log(friend.username);
-          Resources.friendPosition.query({username: $scope.sessionUsername, friendusername: friend.username ,token:$sessionStorage.token}).$promise.then(function(friend_position, Resource) {
-            //console.log(friend);
-            list_friend.push({name: friend.username, lat: friend_position[0].lat, lng:friend_position[0].lng,info_bulle : new google.maps.InfoWindow()});
-         }).catch(function(err){
-           console.log("Error : controllers.js : MapsCTRL : Friends_list");
-           throw err; // rethrow;
-         });
+    var list_friend=[];
+    var friends = null;
+    var friend_position = null;
+    console.log($sessionStorage.token);
+    Resources.friends.query({username: $scope.sessionUsername, token: $sessionStorage.token}).$promise.then(function(friends, Resource) {
+      var friend_position;
+      var promiseHash = [];
+      friends.forEach(function(friend){
+        console.log(friend.username);
+        promiseHash.push(Resources.friendPosition.query({username: $scope.sessionUsername, friendusername: friend.username, token: $sessionStorage.token}).$promise.then(function(friend_position, Resource) {
+          //console.log(friend);
+          list_friend.push({name: friend.username, lat: friend_position[0].lat, lng:friend_position[0].lng,info_bulle : new google.maps.InfoWindow()});
+        }).catch(function(err){
+          console.log("Error : controllers.js : MapsCTRL : Friends_list");
+          throw err; // rethrow;
+        }));
+      });
+      $q.all(promiseHash).then(function(){
+        // -------------------- CREATION DU MARKER CLUSTER -----------------------------------------------------------------
+        markers = list_friend.map(function(data,i) {
+          list_friend[i].info_bulle = new google.maps.InfoWindow();
+          list_friend[i].info_bulle.setContent('<h3><a href="#/tab/friend/' + data.name + '">' + data.name + '</a></h3>Distance : Non connue');
+          list_friend[i].marker = addMarker(map,data,data.info_bulle);
+          return list_friend[i].marker
         });
-   }).catch(function(err){
-     console.log("Error2 : controllers.js : MapsCTRL : Friends_list");
-     throw err; // rethrow;
-   });
+        markerCluster = new MarkerClusterer(map, markers,
+          {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
-console.log("liste : ", list_friend);
+      });
+    }).catch(function(err){
+      console.log("Error2 : controllers.js : MapsCTRL : Friends_list");
+      throw err; // rethrow;
+    });
+
+    console.log("liste : ", list_friend);
 
     // var list_friend = [
     //   {id: 1, name: "Thibaud", lat: 44.8076376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
@@ -266,18 +279,6 @@ console.log("liste : ", list_friend);
 
     // ----------------------------------------------------------------------------------------------------------------
 
-    // -------------------- CREATION DU MARKER CLUSTER -----------------------------------------------------------------
-
-    markers = list_friend.map(function(data,i) {
-      list_friend[i].info_bulle = new google.maps.InfoWindow();
-      console.log("<<<<<<<<",list_friend[i].name);
-      list_friend[i].info_bulle.setContent('<h3><a href="#/tab/friend/' + data.name + '">' + data.name + '</a></h3>Distance : Non connue');
-      list_friend[i].marker = addMarker(map,data,data.info_bulle);
-      return list_friend[i].marker
-    });
-    markerCluster = new MarkerClusterer(map, markers,
-      {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-
     // -----------------------------------------------------------------------
     /* ---------- PERMET DE FAIRE UNE DEMO ------------------------------------
      var compteur = 0;
@@ -309,19 +310,26 @@ console.log("liste : ", list_friend);
      */
 
     // Localisation du telephone
+    var first_time = true;
     var survId = navigator.geolocation.watchPosition(function (pos) {
+      console.log("mise a jour de la position");
       //sauvegarde dans la base de donnée
       var test = Resources.userPosition.save({username: $scope.sessionUsername, token: $sessionStorage.token},{lat: pos.coords.latitude, lng: pos.coords.longitude});
       $scope.position  = true;
       current_position.lat = pos.coords.latitude;
       current_position.lng = pos.coords.longitude;
-      current_position.time = pos.timestamp
+      current_position.time = pos.timestamp;
+
+      if(first_time == true){
+        first_time = false;
+        map.setCenter(current_position);
+      }
 
       //Mise à jour de la map
-      cercle_position.setCenter({lat : current_position.lat , lng : current_position.lng});
-      estimation_postition.setCenter({lat : current_position.lat , lng:current_position.lng});
+      cercle_position.setCenter(current_position);
+      estimation_postition.setCenter(current_position);
       estimation_postition.setRadius(pos.coords.accuracy);
-      myLocation.setPosition({lat : current_position.lat , lng : current_position.lng});
+      myLocation.setPosition(current_position);
 
       if (list_friend[0] != undefined) {
         var distance;

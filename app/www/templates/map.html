@@ -21,7 +21,7 @@
           <tr ng-repeat="friend in list_friend | orderBy : 'distance' | filter : search.value"
               ng-class="{oddRow: $odd}" ng-If="friend.distance < filtre_rayon || filtre_rayon > 2000">
             <td><button class="button button-positive button-outline" ng-click = "centre_marquer(friend.info_bulle,friend.marker)">{{friend.name}}</button></td>
-            <td style="vertical-align: middle;">{{friend.distance > 1000 ? (friend.distance/1000 | number:0) + ' km' : friend.distance}}</td>
+            <td style="vertical-align: middle;">{{friend.distance > 1000 ? (friend.distance/1000 | number:0) + ' km' : friend.distance + ' m'}}</td>
           </tr>
           </tbody>
         </table>
