@@ -20,30 +20,33 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       rotateControl: true
     };
     //Creation de la carte
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    var map = new google.maps.Map(document.getElementById("map2"), mapOptions);
 
-    Resources.friendPosition.query({
-      username: $sessionStorage.username,
-      friendusername : $scope.username,
+    Resources.user.get({
+      username: $scope.username,
       token: $sessionStorage.token
     }).$promise.then(function (positions, Resource) {
-      var friend_position;
-      if (positions != undefined && positions.length > 1){
-        map.setCenter({lat : positions[0].lat, lng : positions[0].lng});
-        var date = new Date(positions[0].date);
-        var date2 = new Date(positions[positions.length -1].date);
-        $scope.date1 = date.toLocaleTimeString("fr-FR") + ' ' + date.toLocaleDateString("fr-FR");
-        $scope.date2 = date2.toLocaleTimeString("fr-FR") + ' ' + date2.toLocaleDateString("fr-FR");
+      console.log(positions);
+      if (positions.ghostMode) {
+        var friend_position;
 
-        var flightPath = new google.maps.Polyline({
-          path: positions,
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-        flightPath.setMap(map);
-      }
+        if (positions.positions != undefined && positions.positions.length > 1){
+          map.setCenter({lat : positions.positions[0].lat, lng : positions.positions[0].lng});
+          var date = new Date(positions.positions[0].date);
+          var date2 = new Date(positions.positions[positions.positions.length -1].date);
+          $scope.date1 = date.toLocaleTimeString("fr-FR") + ' ' + date.toLocaleDateString("fr-FR");
+          $scope.date2 = date2.toLocaleTimeString("fr-FR") + ' ' + date2.toLocaleDateString("fr-FR");
+
+          var flightPath = new google.maps.Polyline({
+            path: positions,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+          });
+          flightPath.setMap(map);
+        }
+    }
     });
   })
   .controller('LoginCtrl',  function($scope,$state, $ionicFilterBar,LoginService, Resources,$ionicPopup,$sessionStorage) {
@@ -56,6 +59,8 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
             // everything went fine
             console.log("login");
             $sessionStorage.active = true;
+            sessionStorage.enable= true;
+            $sessionStorage.ghostMode=true;
             $sessionStorage.username = $scope.loginData.username;
             $sessionStorage.email = $scope.user.email;
             $state.go("tab.home", {}, {reload: true})
@@ -83,6 +88,9 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
             $scope.user = Resources.user.get({username: $scope.signUpData.username, token: $sessionStorage.token}, function() {
               // everything went fine
               $sessionStorage.active = true;
+              sessionStorage.enable= true;
+
+              $sessionStorage.ghostMode=true;
               $sessionStorage.username = $scope.signUpData.username;
               $sessionStorage.email = $scope.user.email;
               $state.go("tab.home", {}, {reload: true})
@@ -226,10 +234,14 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       var friend_position;
       var promiseHash = [];
       friends.forEach(function(friend){
-        console.log(friend.username);
-        promiseHash.push(Resources.friendPosition.query({username: $scope.sessionUsername, friendusername: friend.username, token: $sessionStorage.token}).$promise.then(function(friend_position, Resource) {
-          //console.log(friend);
-          list_friend.push({name: friend.username, lat: friend_position[0].lat, lng:friend_position[0].lng,info_bulle : new google.maps.InfoWindow()});
+        //console.log(friend.username);
+        promiseHash.push(Resources.user.get({username: friend.username, token: $sessionStorage.token}).$promise.then(function(friend_position, Resource) {
+          console.log(friend_position);
+          console.log('<<<<<<<<<<<<<<',friend_position.positions[0]);
+          if (friend_position.ghostMode) {
+            list_friend.push({name: friend.username, lat: friend_position.positions[friend_position.positions.length-1].lat, lng:friend_position.positions[friend_position.positions.length-1].lng,info_bulle : new google.maps.InfoWindow()});
+          }
+
         }).catch(function(err){
           console.log("Error : controllers.js : MapsCTRL : Friends_list");
           throw err; // rethrow;
@@ -238,10 +250,10 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       $q.all(promiseHash).then(function(){
         // -------------------- CREATION DU MARKER CLUSTER -----------------------------------------------------------------
         markers = list_friend.map(function(data,i) {
-          list_friend[i].info_bulle = new google.maps.InfoWindow();
-          list_friend[i].info_bulle.setContent('<h3><a href="#/tab/friend/' + data.name + '">' + data.name + '</a></h3>Distance : Non connue');
-          list_friend[i].marker = addMarker(map,data,data.info_bulle);
-          return list_friend[i].marker
+            list_friend[i].info_bulle = new google.maps.InfoWindow();
+            list_friend[i].info_bulle.setContent('<h3><a href="#/tab/friend/' + data.name + '">' + data.name + '</a></h3>Distance : Non connue');
+            list_friend[i].marker = addMarker(map,data,data.info_bulle);
+            return list_friend[i].marker
         });
         markerCluster = new MarkerClusterer(map, markers,
           {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
@@ -347,7 +359,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     // Localisation du telephone
     var first_time = true;
     var survId = navigator.geolocation.watchPosition(function (pos) {
-      console.log("mise a jour de la position");
       //sauvegarde dans la base de donnée
       console.log("Position");
       $scope.position  = true;
@@ -394,20 +405,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
   },{enableHighAccuracy:true, maximumAge:60000, timeout:10000})
 
-  .controller('ChatsCtrl', function($scope, Chats) {
-    // With the new view caching in Ionic, Controllers are only called
-    // when they are recreated or on app start, instead of every page change.
-    // To listen for when this page is active (for example, to refresh data),
-    // listen for the $ionicView.enter event:
-    //
-    //$scope.$on('$ionicView.enter', function(e) {
-    //});
-
-    $scope.chats = Chats.all();
-    $scope.remove = function(chat) {
-      Chats.remove(chat);
-    };
-  })
 
   .controller('FriendCtrl', function($rootScope, $scope, $interval, $state, Resources,$ionicFilterBar,$sessionStorage,$ionicModal) {
     var _selected;
@@ -504,8 +501,24 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     });
   })
 
-  .controller('AccountCtrl', function($scope,$sessionStorage,$state,$window,PasswordService, $ionicPopup) {
+  .controller('AccountCtrl', function($scope,$sessionStorage,$state,$window,PasswordService, $ionicPopup, Resources) {
+
     $scope.$on('$ionicView.beforeEnter', function(){
+      $scope.settings = {
+        enableFriendsLocalisation: $sessionStorage.enable,
+        modeFantome: $sessionStorage.ghostMode
+      };
+      $scope.enablePosition= function(){
+        $sessionStorage.enable =$scope.settings.enableFriendsLocalisation
+      }
+      $scope.modeFantome= function(){
+        $sessionStorage.ghostMode = $scope.settings.modeFantome;
+        var test = Resources.user.update({username: $sessionStorage.username, token: $sessionStorage.token},{ghostMode: $sessionStorage.ghostMode}, function(){
+          console.log(test);
+        });
+      }
+      $sessionStorage.enable=$scope.settings.enableFriendsLocalisation
+      console.log($sessionStorage.enable);
       $scope.sessionEmail = $sessionStorage.email;
       $scope.sessionUsername = $sessionStorage.username;
       $scope.logout = function() {

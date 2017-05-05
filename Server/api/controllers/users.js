@@ -139,8 +139,9 @@ function putUsersUsername(req, res, next) {
                     if(use != null && error == null){
                         if (req.body.username) use.username = req.body.username;
                         if (req.body.email) use.email = req.body.email;
-                        if (req.body.password) use.password = req.body.password;
-
+                        if (req.body.password) use.password = md5(req.body.password);
+                        if (req.body.ghostMode!=null) use.ghostMode = req.body.ghostMode;
+                        console.log(req.body.ghostMode);
                         db1.collection("users").update({"username" : req.swagger.params.username.value}, use,  function(err2, modif){
                             if (!err2) res.status(204).send();
                             else{

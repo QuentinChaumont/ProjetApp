@@ -121,3 +121,31 @@ angular.module('starter.services', ['ngResource'])
           }
       }
   })
+  .service('GhostModeService', function($q, $http, Resources, $sessionStorage) {
+      return {
+          modeFantome: function(ghostMode) {
+              var deferred = $q.defer();
+              var promise = deferred.promise;
+              var success = false;
+              var body = {username: $sessionStorage.username, token: $sessionStorage.token}
+              var user = Resources.user.update(body,{ghostMode: ghostMode}, function() {
+                   // everything went fine
+                   deferred.resolve('ghostmode changed');
+                  }, function() {
+                    // error, create it
+                    //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
+                    deferred.reject('Wrong ids');
+                  });
+              
+              promise.success = function(fn) {
+                  promise.then(fn);
+                  return promise;
+              }
+              promise.error = function(fn) {
+                  promise.then(null, fn);
+                  return promise;
+              }
+              return promise;
+          }
+      }
+  })

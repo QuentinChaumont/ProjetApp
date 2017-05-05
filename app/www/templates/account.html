@@ -13,8 +13,21 @@
         </ion-item>
       </ion-list>
     </div>
+
+      <h2>Settings</h2>
+    <ion-list>
+    <ion-toggle  ng-model="settings.enableFriendsLocalisation" ng-click="enablePosition()">
+      Localisation Storage
+    </ion-toggle>
+  </ion-list>
+  <ion-list>
+  <ion-toggle  ng-model="settings.modeFantome" ng-click="modeFantome()">
+    Ghost mode
+  </ion-toggle>
+</ion-list>
+  </div>
     <div class="list">
-      <h2>Change password</h2>
+      <h4>Change password</h4>
       <label class="item item-input">
         <span class="input-label">Actual Password :</span>
         <input type="password" ng-model="Data.actualPassword">
@@ -31,6 +44,7 @@
         <button class="button button-block button-positive" ng-click="password()">Valider</button>
       </label>
     </div>
+
     <div class="list">
         <button class="button button-block button-positive" ng-click="logout()">Logout</button>
     </div>
