@@ -1,5 +1,51 @@
 angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter.bar','ngStorage'])
 
+  .controller('FriendUsernameCtrl',  function($scope,$location, Resources,$sessionStorage,$state){
+    $scope.closeModal = function(){
+      $state.go("tab.friend", {}, {reload: false});
+    };
+
+    var parametre= $location.url().split('/');
+    $scope.username = parametre[3];
+    // Option pour la carte
+    var mapOptions = {
+      center: new google.maps.LatLng(44.8066376, -0.6073554),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      disableDefaultUI: false,
+      zoom: 15,
+      zoomControl: true,
+      mapTypeControl: false,
+      scaleControl: true,
+      streetViewControl: false,
+      rotateControl: true
+    };
+    //Creation de la carte
+    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+    Resources.friendPosition.query({
+      username: $sessionStorage.username,
+      friendusername : $scope.username,
+      token: $sessionStorage.token
+    }).$promise.then(function (positions, Resource) {
+      var friend_position;
+      if (positions != undefined && positions.length > 1){
+        map.setCenter({lat : positions[0].lat, lng : positions[0].lng});
+        var date = new Date(positions[0].date);
+        var date2 = new Date(positions[positions.length -1].date);
+        $scope.date1 = date.toLocaleTimeString("fr-FR") + ' ' + date.toLocaleDateString("fr-FR");
+        $scope.date2 = date2.toLocaleTimeString("fr-FR") + ' ' + date2.toLocaleDateString("fr-FR");
+
+        var flightPath = new google.maps.Polyline({
+          path: positions,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        flightPath.setMap(map);
+      }
+    });
+  })
   .controller('LoginCtrl',  function($scope,$state, $ionicFilterBar,LoginService, Resources,$ionicPopup,$sessionStorage) {
     $scope.$on('$ionicView.beforeEnter', function(){
       $scope.loginData = {};
@@ -363,7 +409,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     };
   })
 
-  .controller('FriendCtrl', function($rootScope, $scope, $interval, $state, Resources,$ionicFilterBar,$sessionStorage) {
+  .controller('FriendCtrl', function($rootScope, $scope, $interval, $state, Resources,$ionicFilterBar,$sessionStorage,$ionicModal) {
     var _selected;
     $scope.selected = undefined;
     $scope.requete_friend = function(name){
@@ -378,9 +424,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
     // saisie du nom de la carte
     $scope.friend_request = null;
-    $scope.search = "udazudzauid";
-    $scope.places = [{name: 'New York'}, {name: 'London'}, {name: 'Milan'}, {name: 'Paris'}];
-
     $scope.showFilterBar = function () {
       var filterBarInstance = $ionicFilterBar.show({
         cancelText: "Cancel", //"<i class='ion-ios-close-outline'></i>",

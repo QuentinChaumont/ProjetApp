@@ -34,92 +34,101 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','j
 
 
 
-.config(function($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider) {
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
-  $stateProvider
+    // Ionic uses AngularUI Router which uses the concept of states
+    // Learn more here: https://github.com/angular-ui/ui-router
+    // Set up the various states which the app can be in.
+    // Each state's controller can be found in controllers.js
+    $stateProvider
 
-  // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: '/tab',
-    templateUrl: 'templates/tabs.html',
-    controller: 'TabsCtrl'
-  })
+    // setup an abstract state for the tabs directive
+      .state('tab', {
+        url: '/tab',
+        templateUrl: 'templates/tabs.html',
+        controller: 'TabsCtrl'
+      })
 
-  // Each tab has its own nav history stack:
+      // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
+      .state('tab.dash', {
+        url: '/dash',
+        views: {
+          'tab-dash': {
+            templateUrl: 'templates/tab-dash.html',
+            controller: 'DashCtrl'
+          }
+        }
+      })
 
-  .state('tab.home', {
-    url: '/home',
-    views: {
-      'tab-home': {
-        templateUrl: 'templates/home.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
+      .state('tab.home', {
+        url: '/home',
+        views: {
+          'tab-home': {
+            templateUrl: 'templates/home.html',
+            controller: 'DashCtrl'
+          }
+        }
+      })
 
-  .state('tab.map', {
-    url: '/map',
-    views: {
-      'tab-map': {
-        templateUrl: 'templates/map.html',
-        controller: 'MapCtrl'
-      }
-    }
-  })
+      .state('tab.map', {
+        url: '/map',
+        views: {
+          'tab-map': {
+            templateUrl: 'templates/map.html',
+            controller: 'MapCtrl'
+          }
+        }
+      })
 
-  .state('tab.friend', {
-    url: '/friend',
-    views: {
-      'tab-friend': {
-        templateUrl: 'templates/friend.html',
-        controller: 'FriendCtrl'
-      }
-    }
-  })
-  .state('tab.login', {
-      url: '/login',
-      views: {
-        'tab-home': {
-      templateUrl: 'templates/login.html',
-      controller: 'LoginCtrl'
-    }
-  }
-})
-.state('tab.signUp', {
-    url: '/signUp',
-    views: {
-      'tab-home': {
-    templateUrl: 'templates/signUp.html',
-    controller: 'SignUpCtrl'
-  }
-}
-})
+      .state('tab.friend', {
+        url: '/friend',
+        views: {
+          'tab-friend': {
+            templateUrl: 'templates/friend.html',
+            controller: 'FriendCtrl'
+          }
+        }
+      })
+      .state('tab.login', {
+        url: '/login',
+        views: {
+          'tab-home': {
+            templateUrl: 'templates/login.html',
+            controller: 'LoginCtrl'
+          }
+        }
+      })
+      .state('tab.signUp', {
+        url: '/signUp',
+        views: {
+          'tab-home': {
+            templateUrl: 'templates/signUp.html',
+            controller: 'SignUpCtrl'
+          }
+        }
+      })
+      .state('tab.friend_username', {
+        url: '/friend/:username',
+        views: {
+          'tab-friend': {
+            templateUrl: 'templates/friend_username.html',
+            controller: 'FriendUsernameCtrl'
+          }
+        }
+      })
 
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/account.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  })
+      .state('tab.account', {
+        url: '/account',
+        views: {
+          'tab-account': {
+            templateUrl: 'templates/account.html',
+            controller: 'AccountCtrl'
+          }
+        }
+      })
 
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/home');
+    // if none of the above states are matched, use this as the fallback
+    $urlRouterProvider.otherwise('/tab/home');
 
-});
+  });

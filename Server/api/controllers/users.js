@@ -186,11 +186,12 @@ function deleteUsersUsername(req, res, next) {
 // GET /users/{username}/positions
 function getUsersPositions(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
-        assert.equal(null, err);
-        console.log("Connected correctly to server");
+        //assert.equal(null, err);
+        console.log("Get users positions");
         db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error, use) {
-            if(use != null && error == null && use.friends != null){
-                res.json(use.friends);
+            console.log("------->", use);
+            if(use != null && error == null && use.positions != null){
+                res.json(use.positions);
             }
             else{
                 res.status(409).send();

@@ -21,8 +21,9 @@
 
       <!-- User friends' list -->
       <div>
-        <h2>My friends : <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()"></button></h2>
+        <h2>Search<button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()"></button></h2>
         <!-- Search Bar to add new friends -->
+
         <div>
           <div class="">
             <div class="item-input-wrapper ">
@@ -73,11 +74,12 @@
               Decline
             </ion-option-button>
         -->
+        <h2>List of Friends</h2>
         <ion-list>
             <ion-item ng-repeat="f in friends" class="item item-icon-right">
               <h3>
                 <ion-icon class="icon ion-trash-a assertive"></ion-icon>
-                {{f.username}}
+                <a href="#/tab/friend/{{f.username}}">{{f.username}}</a>
               </h3>
               <ion-option-button ng-click="deleteFriend(f.username)" class="button-assertive">
                   Confirm

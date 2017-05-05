@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/app/www/js/controllers.js" description="// Option pour la carte" line="119" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="c0518189-6d22-439b-882d-482901dbcf49" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/www/templates/friend_username.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Server/api/controllers/users.js" afterPath="$PROJECT_DIR$/Server/api/controllers/users.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/www/js/app.js" afterPath="$PROJECT_DIR$/app/www/js/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/www/js/controllers.js" afterPath="$PROJECT_DIR$/app/www/js/controllers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/www/js/directives.js" afterPath="$PROJECT_DIR$/app/www/js/directives.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/www/templates/friend.html" afterPath="$PROJECT_DIR$/app/www/templates/friend.html" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -23,42 +23,44 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="home.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/www/templates/home.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="20" column="88" lean-forward="false" selection-start-line="20" selection-start-column="83" selection-end-line="20" selection-end-column="88" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="login.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/www/templates/login.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="0" column="45" lean-forward="false" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="45" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="signUp.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/www/templates/signUp.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="friend.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="friend.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/www/templates/friend.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="803">
-              <caret line="60" column="3" lean-forward="false" selection-start-line="60" selection-start-column="3" selection-end-line="60" selection-end-column="3" />
+            <state relative-caret-position="147">
+              <caret line="28" column="12" lean-forward="true" selection-start-line="28" selection-start-column="12" selection-end-line="28" selection-end-column="45" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="friend_username.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/www/templates/friend_username.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="9" column="34" lean-forward="false" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="map.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/www/templates/map.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="63">
+              <caret line="3" column="44" lean-forward="false" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
+              <folding>
+                <element signature="n#style#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#1;n#div#1;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -66,22 +68,16 @@
       <file leaf-file-name="controllers.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/www/js/controllers.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="350" column="7" lean-forward="true" selection-start-line="350" selection-start-column="7" selection-end-line="350" selection-end-column="7" />
+            <state relative-caret-position="189">
+              <caret line="33" column="66" lean-forward="false" selection-start-line="33" selection-start-column="66" selection-end-line="33" selection-end-column="66" />
               <folding>
-                <marker date="1493991949190" expanded="true" signature="9982:9998" ph="..." />
-                <marker date="1493991949190" expanded="true" signature="10043:10059" ph="..." />
+                <element signature="e#2904#4863#0" expanded="false" />
+                <element signature="e#4986#5439#0" expanded="false" />
+                <element signature="e#5561#15207#0" expanded="false" />
+                <element signature="e#15320#15769#0" expanded="false" />
+                <marker date="1494002089398" expanded="true" signature="11521:11537" ph="..." />
+                <marker date="1494002089398" expanded="true" signature="11582:11598" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/www/js/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="23" column="12" lean-forward="false" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -89,45 +85,9 @@
       <file leaf-file-name="directives.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/www/js/directives.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="52" column="8" lean-forward="true" selection-start-line="52" selection-start-column="8" selection-end-line="66" selection-end-column="10" />
+            <state relative-caret-position="589">
+              <caret line="100" column="0" lean-forward="false" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="users.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Server/api/controllers/users.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="588">
-              <caret line="232" column="53" lean-forward="true" selection-start-line="232" selection-start-column="53" selection-end-line="232" selection-end-column="53" />
-              <folding>
-                <marker date="1493990992515" expanded="true" signature="312:354" ph="{&quot;getUsersUsername&quot;: getUsersUsername...}" />
-                <marker date="1493990992515" expanded="true" signature="12772:12778" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="12772:12782" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="12899:13794" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="12950:13790" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="13148:13782" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="13314:13731" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="13564:13715" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="13597:13668" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="13891:14750" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="13942:14746" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="14142:14738" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="14295:14656" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="14423:14640" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="14475:14575" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="14673:14728" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="14853:16533" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="14904:16529" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="15101:16521" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="15254:16470" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="15496:16454" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="15528:16387" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="15658:16363" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="15819:16284" ph="{...}" />
-                <marker date="1493990992515" expanded="true" signature="16089:16254" ph="{...}" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -136,17 +96,42 @@
         <entry file="file://$PROJECT_DIR$/app/www/js/services.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="378">
-              <caret line="18" column="106" lean-forward="false" selection-start-line="18" selection-start-column="106" selection-end-line="18" selection-end-column="106" />
+              <caret line="18" column="93" lean-forward="false" selection-start-line="18" selection-start-column="79" selection-end-line="18" selection-end-column="93" />
+              <folding>
+                <element signature="e#3611#4983#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="users.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Server/api/controllers/users.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="197">
+              <caret line="186" column="26" lean-forward="false" selection-start-line="186" selection-start-column="26" selection-end-line="186" selection-end-column="26" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Server/app.js">
+      <file leaf-file-name="swagger.yaml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Server/api/swagger/swagger.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="136" column="15" lean-forward="true" selection-start-line="136" selection-start-column="15" selection-end-line="136" selection-end-column="15" />
+            <state relative-caret-position="186">
+              <caret line="275" column="45" lean-forward="false" selection-start-line="275" selection-start-column="45" selection-end-line="275" selection-end-column="45" />
+              <folding>
+                <marker date="1493990992535" expanded="true" signature="421:549" ph="parameters: &lt;3 keys&gt;" />
+                <marker date="1493990992535" expanded="true" signature="1383:1833" ph="/users: &lt;1 key&gt;" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/www/js/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1302">
+              <caret line="38" column="8" lean-forward="false" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -156,16 +141,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>info_bulle</find>
-      <find>&lt;h3&gt;</find>
-      <find>body</find>
-      <find>hasB</find>
-      <find>hasBody</find>
-      <find>interval</find>
-      <find>acceptRequest</find>
-      <find>list_friend</find>
-      <find>MyLocation</find>
-      <find>console.log</find>
       <find>ion-option-button</find>
       <find>p</find>
       <find>pas de toke</find>
@@ -181,11 +156,21 @@
       <find>friends</find>
       <find>userPosition</find>
       <find>/users/{username}/positions</find>
-      <find>getUsersPositions</find>
       <find>\$scope.change</find>
       <find>/users/{username}/friends/</find>
       <find>getUsersFriendsUser</find>
       <find>friend</find>
+      <find>S</find>
+      <find>sign</find>
+      <find>signUp.</find>
+      <find>signUp.h</find>
+      <find>signUp.ht</find>
+      <find>signUp.html</find>
+      <find>friendPosition</find>
+      <find>login</find>
+      <find>$sessionStorage</find>
+      <find>getUsersPositions</find>
+      <find>reload</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -209,16 +194,17 @@
         <option value="$PROJECT_DIR$/app/www/js/ui-bootstrap-tpls-2.5.0.min.js" />
         <option value="$PROJECT_DIR$/app/www/index.html" />
         <option value="$PROJECT_DIR$/app/www/templates/home.html" />
-        <option value="$PROJECT_DIR$/app/www/js/directives.js" />
         <option value="$PROJECT_DIR$/app/www/css/style.css" />
         <option value="$PROJECT_DIR$/app/www/lib/ionic/js/angular/angular-resource.js" />
         <option value="$PROJECT_DIR$/Server/api/swagger/swagger.yaml" />
-        <option value="$PROJECT_DIR$/Server/api/controllers/users.js" />
         <option value="$PROJECT_DIR$/app/www/js/services.js" />
         <option value="$PROJECT_DIR$/app/www/templates/map.html" />
-        <option value="$PROJECT_DIR$/app/www/js/controllers.js" />
+        <option value="$PROJECT_DIR$/app/www/js/directives.js" />
         <option value="$PROJECT_DIR$/app/www/js/app.js" />
+        <option value="$PROJECT_DIR$/Server/api/controllers/users.js" />
         <option value="$PROJECT_DIR$/app/www/templates/friend.html" />
+        <option value="$PROJECT_DIR$/app/www/js/controllers.js" />
+        <option value="$PROJECT_DIR$/app/www/templates/friend_username.html" />
       </list>
     </option>
   </component>
@@ -322,6 +308,10 @@
               <option name="myItemId" value="api" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -377,6 +367,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ProjetApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ProjetApp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -416,11 +428,10 @@
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
           <PATH vcs="Git" revision="">$PROJECT_DIR$/Server/api/controllers/users.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/Server/api/swagger/swagger.yaml</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/Server/app.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/www/css/ionic.filter.bar.css</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/package.json</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/www/js/app.js</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/app/www/js/controllers.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/app/www/js/services.js</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -720,11 +731,18 @@
       <option name="project" value="LOCAL" />
       <updated>1493984294294</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Mise a jour position tout le temps&#10;barre de recherche username">
+      <created>1493992964236</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1493992964236</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="183635000" />
+    <option name="totallyTimeSpent" value="193625000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -789,7 +807,8 @@
     <MESSAGE value="Map super stylé de fou" />
     <MESSAGE value="Barre de recherche friend" />
     <MESSAGE value="Map avec les marker + lien vers /friends/username" />
-    <option name="LAST_COMMIT_MESSAGE" value="Map avec les marker + lien vers /friends/username" />
+    <MESSAGE value="Mise a jour position tout le temps&#10;barre de recherche username" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mise a jour position tout le temps&#10;barre de recherche username" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -798,18 +817,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/www/js/controllers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="31" column="26" lean-forward="false" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
-          <folding>
-            <marker date="1493991949190" expanded="true" signature="9982:9998" ph="..." />
-            <marker date="1493991949190" expanded="true" signature="10043:10059" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/www/css/ionic.app.css" />
     <entry file="file://$PROJECT_DIR$/app/www/templates/tab-chats.html" />
     <entry file="file://$PROJECT_DIR$/app/www/templates/friend.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -985,16 +992,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/www/templates/map.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" column="127" lean-forward="false" selection-start-line="8" selection-start-column="121" selection-end-line="8" selection-end-column="127" />
-          <folding>
-            <element signature="n#style#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#1;n#div#1;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/www/js/ui-bootstrap-tpls-2.5.0.min.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="463">
@@ -1008,357 +1005,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Server/api/swagger/swagger.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="278" column="38" lean-forward="false" selection-start-line="278" selection-start-column="19" selection-end-line="278" selection-end-column="38" />
-          <folding>
-            <marker date="1493990992535" expanded="true" signature="421:549" ph="parameters: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="1383:1833" ph="/users: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="1388:1833" ph="post: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="1444:1458" ph="Add a new user" />
-            <marker date="1493990992535" expanded="true" signature="1465:1646" ph="parameters: &lt;1 item&gt;" />
-            <marker date="1493990992535" expanded="true" signature="1493:1497" ph="user" />
-            <marker date="1493990992535" expanded="true" signature="1512:1516" ph="body" />
-            <marker date="1493990992535" expanded="true" signature="1540:1559" ph="User's informations" />
-            <marker date="1493990992535" expanded="true" signature="1580:1584" ph="true" />
-            <marker date="1493990992535" expanded="true" signature="1595:1646" ph="schema: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="1621:1646" ph="##/definit…/user_post" />
-            <marker date="1493990992535" expanded="true" signature="1653:1833" ph="responses: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="1672:1709" ph="201: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="1702:1709" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="1718:1760" ph="400: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="1748:1760" ph="Wrong format" />
-            <marker date="1493990992535" expanded="true" signature="1769:1833" ph="409: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="1799:1833" ph="Another u…e username" />
-            <marker date="1493990992535" expanded="true" signature="1837:2203" ph="/users/login: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="1896:2203" ph="post: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="1952:1973" ph="Vérificat…n du login" />
-            <marker date="1493990992535" expanded="true" signature="1980:2028" ph="parameters: &lt;1 item&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2008:2028" ph="##/parameters/login" />
-            <marker date="1493990992535" expanded="true" signature="2035:2203" ph="responses: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2054:2150" ph="201: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2084:2091" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="2102:2150" ph="schema : &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2130:2150" ph="##/definitions/user" />
-            <marker date="1493990992535" expanded="true" signature="2159:2203" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2189:2203" ph="User not found" />
-            <marker date="1493990992535" expanded="true" signature="2207:3375" ph="/users/{username}: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2259:2264" ph="users" />
-            <marker date="1493990992535" expanded="true" signature="2269:2572" ph="get: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2293:2309" ph="getUsersUsername" />
-            <marker date="1493990992535" expanded="true" signature="2329:2343" ph="Returns a user" />
-            <marker date="1493990992535" expanded="true" signature="2350:2399" ph="parameters: &lt;1 item&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2376:2399" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="2406:2572" ph="responses: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2425:2519" ph="200: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2455:2462" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="2473:2519" ph="schema: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2499:2519" ph="##/definitions/user" />
-            <marker date="1493990992535" expanded="true" signature="2528:2572" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2558:2572" ph="User not found" />
-            <marker date="1493990992535" expanded="true" signature="2577:3117" ph="put: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2601:2617" ph="putUsersUsername" />
-            <marker date="1493990992535" expanded="true" signature="2637:2650" ph="Update a user" />
-            <marker date="1493990992535" expanded="true" signature="2657:2879" ph="parameters: &lt;2 items&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2685:2708" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="2725:2729" ph="user" />
-            <marker date="1493990992535" expanded="true" signature="2744:2748" ph="body" />
-            <marker date="1493990992535" expanded="true" signature="2772:2791" ph="User's informations" />
-            <marker date="1493990992535" expanded="true" signature="2812:2816" ph="true" />
-            <marker date="1493990992535" expanded="true" signature="2827:2879" ph="schema: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2855:2879" ph="##/definit…s/user_put" />
-            <marker date="1493990992535" expanded="true" signature="2886:3117" ph="responses: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2905:2942" ph="204: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2935:2942" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="2951:2993" ph="400: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="2981:2993" ph="Wrong format" />
-            <marker date="1493990992535" expanded="true" signature="3002:3046" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3032:3046" ph="User not found" />
-            <marker date="1493990992535" expanded="true" signature="3055:3117" ph="409: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3085:3117" ph="Another u…ame pseudo" />
-            <marker date="1493990992535" expanded="true" signature="3122:3375" ph="delete: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3149:3168" ph="deleteUsersUsername" />
-            <marker date="1493990992535" expanded="true" signature="3188:3201" ph="Delete a user" />
-            <marker date="1493990992535" expanded="true" signature="3208:3259" ph="parameters: &lt;1 item&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3236:3259" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="3266:3375" ph="responses: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3285:3322" ph="204: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3315:3322" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="3331:3375" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3361:3375" ph="User not found" />
-            <marker date="1493990992535" expanded="true" signature="3379:4300" ph="/users/{u…/positions: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3441:3446" ph="users" />
-            <marker date="1493990992535" expanded="true" signature="3451:3804" ph="get: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3475:3492" ph="getUsersPositions" />
-            <marker date="1493990992535" expanded="true" signature="3512:3526" ph="Returns a user" />
-            <marker date="1493990992535" expanded="true" signature="3533:3582" ph="parameters: &lt;1 item&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3559:3582" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="3589:3804" ph="responses: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3608:3751" ph="200: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3638:3645" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="3656:3751" ph="schema: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3682:3687" ph="array" />
-            <marker date="1493990992535" expanded="true" signature="3700:3751" ph="items: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3727:3751" ph="##/definit…s/position" />
-            <marker date="1493990992535" expanded="true" signature="3760:3804" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3790:3804" ph="User not found" />
-            <marker date="1493990992535" expanded="true" signature="3809:4300" ph="post: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3834:3852" ph="postUsersPositions" />
-            <marker date="1493990992535" expanded="true" signature="3872:3886" ph="Add a new user" />
-            <marker date="1493990992535" expanded="true" signature="3893:4113" ph="parameters: &lt;2 items&gt;" />
-            <marker date="1493990992535" expanded="true" signature="3921:3944" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="3961:3969" ph="position" />
-            <marker date="1493990992535" expanded="true" signature="3984:3988" ph="body" />
-            <marker date="1493990992535" expanded="true" signature="4012:4027" ph="User's position" />
-            <marker date="1493990992535" expanded="true" signature="4048:4052" ph="true" />
-            <marker date="1493990992535" expanded="true" signature="4063:4113" ph="schema: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4089:4113" ph="##/definit…s/position" />
-            <marker date="1493990992535" expanded="true" signature="4120:4300" ph="responses: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4139:4176" ph="201: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4169:4176" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="4185:4227" ph="400: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4215:4227" ph="Wrong format" />
-            <marker date="1493990992535" expanded="true" signature="4236:4300" ph="409: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4266:4300" ph="Another u…e username" />
-            <marker date="1493990992535" expanded="true" signature="4304:5298" ph="/users/{u…e}/friends: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4364:4369" ph="users" />
-            <marker date="1493990992535" expanded="true" signature="4374:4783" ph="get: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4398:4413" ph="getUsersFriends" />
-            <marker date="1493990992535" expanded="true" signature="4433:4473" ph="Returns a…o the user" />
-            <marker date="1493990992535" expanded="true" signature="4480:4531" ph="parameters: &lt;1 item&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4508:4531" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="4538:4783" ph="responses: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4557:4700" ph="200: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4587:4596" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="4607:4700" ph="schema: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4633:4638" ph="array" />
-            <marker date="1493990992535" expanded="true" signature="4651:4700" ph="items: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4678:4700" ph="##/definitions/friend" />
-            <marker date="1493990992535" expanded="true" signature="4709:4783" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4739:4783" ph="This user…no friends" />
-            <marker date="1493990992535" expanded="true" signature="4788:5298" ph="post: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4813:4829" ph="postUsersFriends" />
-            <marker date="1493990992535" expanded="true" signature="4849:4863" ph="Add a friend" />
-            <marker date="1493990992535" expanded="true" signature="4870:5072" ph="parameters: &lt;2 items&gt;" />
-            <marker date="1493990992535" expanded="true" signature="4896:4919" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="4934:4940" ph="friend" />
-            <marker date="1493990992535" expanded="true" signature="4962:4977" ph="friend to add" />
-            <marker date="1493990992535" expanded="true" signature="4990:4994" ph="body" />
-            <marker date="1493990992535" expanded="true" signature="5003:5049" ph="schema: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5027:5049" ph="##/definitions/friend" />
-            <marker date="1493990992535" expanded="true" signature="5068:5072" ph="true" />
-            <marker date="1493990992535" expanded="true" signature="5079:5298" ph="responses: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5098:5194" ph="201: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5128:5135" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="5146:5194" ph="schema: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5172:5194" ph="##/definitions/friend" />
-            <marker date="1493990992535" expanded="true" signature="5203:5245" ph="400: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5233:5245" ph="Wrong format" />
-            <marker date="1493990992535" expanded="true" signature="5254:5298" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5284:5298" ph="User not found" />
-            <marker date="1493990992535" expanded="true" signature="5302:6761" ph="/users/{u…ndsRequest: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5369:5374" ph="users" />
-            <marker date="1493990992535" expanded="true" signature="5379:5777" ph="get: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5403:5425" ph="getUsersF…ndsRequest" />
-            <marker date="1493990992535" expanded="true" signature="5445:5485" ph="Returns a…o the user" />
-            <marker date="1493990992535" expanded="true" signature="5492:5543" ph="parameters: &lt;1 item&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5520:5543" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="5550:5777" ph="responses: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5569:5712" ph="200: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5599:5608" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="5619:5712" ph="schema: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5645:5650" ph="array" />
-            <marker date="1493990992535" expanded="true" signature="5663:5712" ph="items: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5690:5712" ph="##/definitions/friend" />
-            <marker date="1493990992535" expanded="true" signature="5721:5777" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5751:5777" ph="This user… not exist" />
-            <marker date="1493990992535" expanded="true" signature="5782:6299" ph="post: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5807:5830" ph="postUsers…ndsRequest" />
-            <marker date="1493990992535" expanded="true" signature="5850:5864" ph="Add a friend" />
-            <marker date="1493990992535" expanded="true" signature="5871:6073" ph="parameters: &lt;2 items&gt;" />
-            <marker date="1493990992535" expanded="true" signature="5897:5920" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="5935:5941" ph="friend" />
-            <marker date="1493990992535" expanded="true" signature="5963:5978" ph="friend to add" />
-            <marker date="1493990992535" expanded="true" signature="5991:5995" ph="body" />
-            <marker date="1493990992535" expanded="true" signature="6004:6050" ph="schema: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6028:6050" ph="##/definitions/friend" />
-            <marker date="1493990992535" expanded="true" signature="6069:6073" ph="true" />
-            <marker date="1493990992535" expanded="true" signature="6080:6299" ph="responses: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6099:6195" ph="201: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6129:6136" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="6147:6195" ph="schema: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6173:6195" ph="##/definitions/friend" />
-            <marker date="1493990992535" expanded="true" signature="6204:6246" ph="400: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6234:6246" ph="Wrong format" />
-            <marker date="1493990992535" expanded="true" signature="6255:6299" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6285:6299" ph="User not found" />
-            <marker date="1493990992535" expanded="true" signature="6304:6761" ph="delete: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6331:6356" ph="deleteUse…ndsRequest" />
-            <marker date="1493990992535" expanded="true" signature="6376:6405" ph="Delete a …ip request" />
-            <marker date="1493990992535" expanded="true" signature="6412:6629" ph="parameters: &lt;2 items&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6438:6461" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="6476:6482" ph="friend" />
-            <marker date="1493990992535" expanded="true" signature="6504:6534" ph="friendshi… to remove" />
-            <marker date="1493990992535" expanded="true" signature="6547:6551" ph="body" />
-            <marker date="1493990992535" expanded="true" signature="6560:6606" ph="schema: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6584:6606" ph="##/definitions/friend" />
-            <marker date="1493990992535" expanded="true" signature="6625:6629" ph="true" />
-            <marker date="1493990992535" expanded="true" signature="6636:6761" ph="responses: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6655:6692" ph="204: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6685:6692" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="6701:6761" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6731:6761" ph="Friendshi… not found" />
-            <marker date="1493990992535" expanded="true" signature="6766:7561" ph="/users/{u…dusername}: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6843:6848" ph="users" />
-            <marker date="1493990992535" expanded="true" signature="6853:7242" ph="get: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6877:6896" ph="getUsersFriendsUser" />
-            <marker date="1493990992535" expanded="true" signature="6916:6953" ph="Returns i…the friend" />
-            <marker date="1493990992535" expanded="true" signature="6960:7057" ph="parameters: &lt;2 items&gt;" />
-            <marker date="1493990992535" expanded="true" signature="6988:7011" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="7028:7057" ph="##/paramet…ndusername" />
-            <marker date="1493990992535" expanded="true" signature="7064:7242" ph="responses: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7083:7179" ph="200: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7113:7120" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="7131:7179" ph="schema: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7157:7179" ph="##/definitions/friend" />
-            <marker date="1493990992535" expanded="true" signature="7188:7242" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7218:7242" ph="User or f… not found" />
-            <marker date="1493990992535" expanded="true" signature="7247:7561" ph="delete: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7274:7296" ph="deleteUse…riendsUser" />
-            <marker date="1493990992535" expanded="true" signature="7316:7331" ph="Delete a friend" />
-            <marker date="1493990992535" expanded="true" signature="7338:7435" ph="parameters: &lt;2 items&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7366:7389" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="7406:7435" ph="##/paramet…ndusername" />
-            <marker date="1493990992535" expanded="true" signature="7442:7561" ph="responses: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7461:7498" ph="204: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7491:7498" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="7507:7561" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7537:7561" ph="User or f… not found" />
-            <marker date="1493990992535" expanded="true" signature="7565:8059" ph="/users/{u…/positions: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7652:7657" ph="users" />
-            <marker date="1493990992535" expanded="true" signature="7662:8059" ph="get: &lt;4 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7686:7714" ph="getUsersF…rPositions" />
-            <marker date="1493990992535" expanded="true" signature="7734:7768" ph="Returns t…the friend" />
-            <marker date="1493990992535" expanded="true" signature="7775:7872" ph="parameters: &lt;2 items&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7803:7826" ph="##/paramet…s/username" />
-            <marker date="1493990992535" expanded="true" signature="7843:7872" ph="##/paramet…ndusername" />
-            <marker date="1493990992535" expanded="true" signature="7879:8059" ph="responses: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7898:7996" ph="200: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7928:7935" ph="Success" />
-            <marker date="1493990992535" expanded="true" signature="7946:7996" ph="schema: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="7972:7996" ph="##/definit…s/position" />
-            <marker date="1493990992535" expanded="true" signature="8005:8059" ph="404: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8035:8059" ph="User or f… not found" />
-            <marker date="1493990992535" expanded="true" signature="8119:8506" ph="user: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8135:8141" ph="object" />
-            <marker date="1493990992535" expanded="true" signature="8146:8506" ph="properties: &lt;5 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8164:8194" ph="username: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8188:8194" ph="string" />
-            <marker date="1493990992535" expanded="true" signature="8201:8228" ph="email: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8222:8228" ph="string" />
-            <marker date="1493990992535" expanded="true" signature="8235:8317" ph="friends: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8258:8263" ph="array" />
-            <marker date="1493990992535" expanded="true" signature="8272:8317" ph="items: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8295:8317" ph="##/definitions/friend" />
-            <marker date="1493990992535" expanded="true" signature="8324:8413" ph="friendsRequest: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8354:8359" ph="array" />
-            <marker date="1493990992535" expanded="true" signature="8368:8413" ph="items: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8391:8413" ph="##/definitions/friend" />
-            <marker date="1493990992535" expanded="true" signature="8420:8506" ph="positions: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8445:8450" ph="array" />
-            <marker date="1493990992535" expanded="true" signature="8459:8506" ph="items: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8482:8506" ph="##/definit…s/position" />
-            <marker date="1493990992535" expanded="true" signature="8510:8749" ph="user_post: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8531:8537" ph="object" />
-            <marker date="1493990992535" expanded="true" signature="8542:8599" ph="required: &lt;3 items&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8560:8568" ph="username" />
-            <marker date="1493990992535" expanded="true" signature="8577:8582" ph="email" />
-            <marker date="1493990992535" expanded="true" signature="8591:8599" ph="password" />
-            <marker date="1493990992535" expanded="true" signature="8605:8749" ph="properties: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8623:8653" ph="username: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8647:8653" ph="string" />
-            <marker date="1493990992535" expanded="true" signature="8660:8687" ph="email: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8681:8687" ph="string" />
-            <marker date="1493990992535" expanded="true" signature="8694:8749" ph="password: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8718:8724" ph="string" />
-            <marker date="1493990992535" expanded="true" signature="8741:8749" ph="password" />
-            <marker date="1493990992535" expanded="true" signature="8754:8929" ph="user_put: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8774:8780" ph="object" />
-            <marker date="1493990992535" expanded="true" signature="8785:8929" ph="properties: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8803:8833" ph="username: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8827:8833" ph="string" />
-            <marker date="1493990992535" expanded="true" signature="8840:8867" ph="email: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8861:8867" ph="string" />
-            <marker date="1493990992535" expanded="true" signature="8874:8929" ph="password: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8898:8904" ph="string" />
-            <marker date="1493990992535" expanded="true" signature="8921:8929" ph="password" />
-            <marker date="1493990992535" expanded="true" signature="8934:9120" ph="login: &lt;3 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8951:8957" ph="object" />
-            <marker date="1493990992535" expanded="true" signature="8962:9005" ph="required: &lt;2 items&gt;" />
-            <marker date="1493990992535" expanded="true" signature="8980:8988" ph="username" />
-            <marker date="1493990992535" expanded="true" signature="8997:9005" ph="password" />
-            <marker date="1493990992535" expanded="true" signature="9010:9120" ph="properties: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="9028:9058" ph="username: &lt;1 key&gt;" />
-            <marker date="1493990992535" expanded="true" signature="9052:9058" ph="string" />
-            <marker date="1493990992535" expanded="true" signature="9065:9120" ph="password: &lt;2 keys&gt;" />
-            <marker date="1493990992535" expanded="true" signature="9089:9095" ph="string" />
-            <marker date="1493990992535" expanded="true" signature="9112:9120" ph="password" />
-            <marker date="1493990992535" expanded="true" signature="9142:9148" ph="object" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/www/js/directives.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="52" column="8" lean-forward="true" selection-start-line="52" selection-start-column="8" selection-end-line="66" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Server/api/controllers/users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="588">
-          <caret line="232" column="53" lean-forward="true" selection-start-line="232" selection-start-column="53" selection-end-line="232" selection-end-column="53" />
-          <folding>
-            <marker date="1493990992515" expanded="true" signature="312:354" ph="{&quot;getUsersUsername&quot;: getUsersUsername...}" />
-            <marker date="1493990992515" expanded="true" signature="12772:12778" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="12772:12782" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="12899:13794" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="12950:13790" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="13148:13782" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="13314:13731" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="13564:13715" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="13597:13668" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="13891:14750" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="13942:14746" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="14142:14738" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="14295:14656" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="14423:14640" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="14475:14575" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="14673:14728" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="14853:16533" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="14904:16529" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="15101:16521" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="15254:16470" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="15496:16454" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="15528:16387" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="15658:16363" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="15819:16284" ph="{...}" />
-            <marker date="1493990992515" expanded="true" signature="16089:16254" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/www/js/services.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="18" column="106" lean-forward="false" selection-start-line="18" selection-start-column="106" selection-end-line="18" selection-end-column="106" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Server/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="421">
@@ -1367,29 +1013,63 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/www/js/app.js">
+    <entry file="file://$PROJECT_DIR$/app/node_modules/bower/lib/commands/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="23" column="12" lean-forward="false" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="12" />
+        <state relative-caret-position="442">
+          <caret line="72" column="39" lean-forward="true" selection-start-line="72" selection-start-column="39" selection-end-line="72" selection-end-column="39" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/www/js/controllers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="350" column="7" lean-forward="true" selection-start-line="350" selection-start-column="7" selection-end-line="350" selection-end-column="7" />
-          <folding>
-            <marker date="1493991949190" expanded="true" signature="9982:9998" ph="..." />
-            <marker date="1493991949190" expanded="true" signature="10043:10059" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/www/templates/home.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
-          <caret line="20" column="88" lean-forward="false" selection-start-line="20" selection-start-column="83" selection-end-line="20" selection-end-column="88" />
+          <caret line="20" column="86" lean-forward="true" selection-start-line="20" selection-start-column="86" selection-end-line="20" selection-end-column="86" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/www/templates/signUp.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="7" column="16" lean-forward="false" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/api/swagger/swagger.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="275" column="45" lean-forward="false" selection-start-line="275" selection-start-column="45" selection-end-line="275" selection-end-column="45" />
+          <folding>
+            <marker date="1493990992535" expanded="true" signature="421:549" ph="parameters: &lt;3 keys&gt;" />
+            <marker date="1493990992535" expanded="true" signature="1383:1833" ph="/users: &lt;1 key&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/www/js/services.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="18" column="93" lean-forward="false" selection-start-line="18" selection-start-column="79" selection-end-line="18" selection-end-column="93" />
+          <folding>
+            <element signature="e#3611#4983#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Server/api/controllers/users.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="186" column="26" lean-forward="false" selection-start-line="186" selection-start-column="26" selection-end-line="186" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/www/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1302">
+          <caret line="38" column="8" lean-forward="false" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
           <folding />
         </state>
       </provider>
@@ -1397,23 +1077,56 @@
     <entry file="file://$PROJECT_DIR$/app/www/templates/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="0" column="45" lean-forward="false" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/www/templates/signUp.html">
+    <entry file="file://$PROJECT_DIR$/app/www/js/controllers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="189">
+          <caret line="33" column="66" lean-forward="false" selection-start-line="33" selection-start-column="66" selection-end-line="33" selection-end-column="66" />
+          <folding>
+            <element signature="e#2904#4863#0" expanded="false" />
+            <element signature="e#4986#5439#0" expanded="false" />
+            <element signature="e#5561#15207#0" expanded="false" />
+            <element signature="e#15320#15769#0" expanded="false" />
+            <marker date="1494002089398" expanded="true" signature="11521:11537" ph="..." />
+            <marker date="1494002089398" expanded="true" signature="11582:11598" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/www/js/directives.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="100" column="0" lean-forward="false" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/www/templates/map.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="3" column="44" lean-forward="false" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
+          <folding>
+            <element signature="n#style#0;n#td#1;n#tr#0;n#tbody#0;n#table#0;n#div#1;n#div#1;n#ion-content#0;n#ion-view#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/www/templates/friend.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="803">
-          <caret line="60" column="3" lean-forward="false" selection-start-line="60" selection-start-column="3" selection-end-line="60" selection-end-column="3" />
+        <state relative-caret-position="147">
+          <caret line="28" column="12" lean-forward="true" selection-start-line="28" selection-start-column="12" selection-end-line="28" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/www/templates/friend_username.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="9" column="34" lean-forward="false" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
           <folding />
         </state>
       </provider>
