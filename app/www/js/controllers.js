@@ -6,7 +6,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
       $scope.login = function() {
         LoginService.loginUser($scope.loginData.username, $scope.loginData.password).success(function(loginData) {
-          console.log(loginData);
           $scope.user = Resources.user.get({username: $scope.loginData.username, token: $sessionStorage.token}, function() {
             // everything went fine
             console.log("login");
@@ -34,12 +33,9 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
         // var hash = CryptoJS.SHA1($scope.Data.password);
         // console.log("password : ", $scope.Data.password, hash);
         if (bonmail($scope.signUpData.email) && samePasswords($scope.signUpData.password,$scope.signUpData.password2) && bonpassword($scope.signUpData.password)) {
-          console.log('Pas de soucis');
           SignUpService.signUpUser($scope.signUpData.username, $scope.signUpData.email, $scope.signUpData.password).success(function(loginData){
-            console.log("aaaaaa" , loginData);
             $scope.user = Resources.user.get({username: $scope.signUpData.username, token: $sessionStorage.token}, function() {
               // everything went fine
-              console.log("signUp");
               $sessionStorage.active = true;
               $sessionStorage.username = $scope.signUpData.username;
               $sessionStorage.email = $scope.user.email;
@@ -97,7 +93,8 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     })
   })
 
-  .controller('MapCtrl', function($scope,$ionicFilterBar,$sessionStorage,$ionicScrollDelegate,Resources,$q) {
+
+  .controller('MapCtrl', function($scope,$ionicFilterBar,$sessionStorage,$ionicScrollDelegate,Resources, $window, $q) {
     $scope.sessionUsername = $sessionStorage.username;
     $scope.map_available = true;
     $scope.position = false;
@@ -174,6 +171,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     };
 
     // --- ALLER CHERCHER LA LISTE D AMI SUR LE SERVER ---------------
+
     var list_friend=[];
     var friends = null;
     var friend_position = null;
@@ -181,6 +179,10 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     Resources.friends.query({username: $scope.sessionUsername, token: $sessionStorage.token}).$promise.then(function(friends, Resource) {
       var friend_position;
       var promiseHash = [];
+      console.log("ok",friends[0].message);
+      if (friends[0].message=="TimeOut") {
+        disconnect($sessionStorage,$window);
+      }
       friends.forEach(function(friend){
         console.log(friend.username);
         promiseHash.push(Resources.friendPosition.query({username: $scope.sessionUsername, friendusername: friend.username, token: $sessionStorage.token}).$promise.then(function(friend_position, Resource) {
@@ -209,14 +211,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     });
 
     console.log("liste : ", list_friend);
-
-    // var list_friend = [
-    //   {id: 1, name: "Thibaud", lat: 44.8076376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
-    //   {id: 2, name: "Quentin", lat: 44.8086376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
-    //   {id: 3, name: "Pad", lat: 44.8096376, lng: -0.6073554,info_bulle : new google.maps.InfoWindow()},
-    //   {id: 4, name: "test", lat: 43.494555, lng: 4.979117,info_bulle : new google.maps.InfoWindow()},
-    //   {id: 5, name : "test2", lat:43.50455, lng: 4.979117,info_bulle : new google.maps.InfoWindow()}
-    // ];
 
     /* Faire un polygone
      var flightPlanCoordinates = [
@@ -278,7 +272,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(centerControlDiv);
 
     // ----------------------------------------------------------------------------------------------------------------
-
     // -----------------------------------------------------------------------
     /* ---------- PERMET DE FAIRE UNE DEMO ------------------------------------
      var compteur = 0;
@@ -314,7 +307,10 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     var survId = navigator.geolocation.watchPosition(function (pos) {
       console.log("mise a jour de la position");
       //sauvegarde dans la base de donnée
-      var test = Resources.userPosition.save({username: $scope.sessionUsername, token: $sessionStorage.token},{lat: pos.coords.latitude, lng: pos.coords.longitude});
+      console.log("Position");
+      Resources.userPosition.save({username: $scope.sessionUsername, token: $sessionStorage.token},{lat: pos.coords.latitude, lng: pos.coords.longitude}).$promise.then(function(result){
+        console.log(result);
+      });
       $scope.position  = true;
       current_position.lat = pos.coords.latitude;
       current_position.lng = pos.coords.longitude;
@@ -410,8 +406,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       $scope.futureFriend = {};
       $scope.friends = Resources.friends.query({username: $scope.username, token: $sessionStorage.token});
       $scope.friendsRequest = Resources.friendsRequest.query({username: $scope.username, token: $sessionStorage.token});
-      console.log($scope.friends);
-      console.log($scope.friendsRequest);
       // refresh view every 30s
       refresh = $interval(function() {
         var newFriends = Resources.friends.query({username: $scope.username, token: $sessionStorage.token}, function() {
@@ -436,11 +430,9 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
       $scope.declineRequest = function(friendUsername) {
         Resources.friendsRequestUser.remove({username: $scope.username, friendusername: friendUsername, token: $sessionStorage.token}, function() {
-          console.log('oui ' + friendUsername);
           $state.go("tab.friend", {}, {reload: true});
         }, function () {
           // damn
-          console.log('non ' + friendUsername);
         });
       };
 
@@ -461,7 +453,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       };
 
       $scope.deleteFriend = function(friendUsername) {
-        console.log(friendUsername, $scope.username);
         Resources.friend.remove({username: $scope.username, friend: friendUsername, token: $sessionStorage.token}, function(){
           $state.go("tab.friend", {}, {reload: true})
         });
@@ -476,8 +467,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       $scope.sessionUsername = $sessionStorage.username;
       $scope.logout = function() {
         console.log("logout");
-        $sessionStorage.$reset();
-        $window.location.reload(true)
+        disconnect($sessionStorage,$window);
       };
       $scope.Data = {};
       $scope.password = function(){
@@ -515,11 +505,9 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     $scope.$on('$ionicView.beforeEnter', function(){
       if ($sessionStorage.active == null) {
         $scope.session = false;
-        console.log($sessionStorage.active, $scope.session);
       }
       else {
         $scope.session = true;
-        console.log($sessionStorage.active, $scope.session);
       }
     });
   });
@@ -588,4 +576,8 @@ function samePasswords(pw, pw2){
 
 function bonpassword(pw){
   return pw.length > 5;
+}
+function disconnect($sessionStorage,$window){
+  $sessionStorage.$reset();
+  $window.location.reload(true);
 }

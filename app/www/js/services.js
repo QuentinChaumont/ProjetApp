@@ -16,7 +16,8 @@ angular.module('starter.services', ['ngResource'])
       friends: $resource(hostname.concat('/api/users/:username/friends')),
       friendsRequest: $resource(hostname.concat('/api/users/:username/friendsRequest')),
       friendsRequestUser: $resource(hostname.concat('/api/users/:username/friendsRequest/:friendusername')),
-      friendPosition: $resource(hostname.concat('/api/users/:username/friends/:friendusername/positions'))
+      friendPosition: $resource(hostname.concat('/api/users/:username/friends/:friendusername/positions')),
+      listUsername: $resource(hostname.concat('/api/users/list/:username'))
 
     };
   })
@@ -31,7 +32,6 @@ angular.module('starter.services', ['ngResource'])
               var user = Resources.login.save(body, function(test) {
                // everything went fine
                test.$promise.then(function(res){
-                 console.log("token");
                  $sessionStorage.token = res.token;
                  deferred.resolve("succès");
                }).catch(function(err){
@@ -41,7 +41,6 @@ angular.module('starter.services', ['ngResource'])
 
               }, function() {
                 // error, create it
-                //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
                 deferred.reject('Wrong credentials.');
               });
               promise.success = function(fn) {
@@ -64,11 +63,8 @@ angular.module('starter.services', ['ngResource'])
               var promise = deferred.promise;
               var success = false;
               var body = {username: name, email: mail, password: pw}
-              console.log('avant');
               var user = Resources.users.save(body, function(test) {
-                console.log('après');
                 test.$promise.then(function(res){
-                  console.log("token");
                   $sessionStorage.token = res.token;
                   deferred.resolve("succès");
                 }).catch(function(err){
@@ -77,7 +73,6 @@ angular.module('starter.services', ['ngResource'])
                 });
               }, function() {
                 // error, create it
-                //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
                 deferred.reject('Wrong ids.');
               });
               promise.success = function(fn) {
@@ -114,8 +109,6 @@ angular.module('starter.services', ['ngResource'])
                 //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
                 deferred.reject('Wrong ids');
               });
-              console.log(user);
-
               promise.success = function(fn) {
                   promise.then(fn);
                   return promise;

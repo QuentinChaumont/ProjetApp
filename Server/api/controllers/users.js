@@ -13,6 +13,7 @@ var NBR_MAX_POSITION = 50;
 module.exports = {
   //postUsers,
   //postLogin,
+  getUsers,
   getUsersUsername,
   putUsersUsername,
   deleteUsersUsername,
@@ -26,6 +27,18 @@ module.exports = {
   getUsersFriendsUser,
   deleteUsersFriendsUser,
   getUsersFriendsUserPositions
+}
+
+// GET /users/{username}/friendsRequest
+function getUsers(req, res, next) {
+  MongoClient.connect(url,  function(err, db1) {
+      assert.equal(null, err);
+      console.log("<<<<<<<<<<<Connected correctly to server");
+      db1.collection("users").find({"username" : {$regex : req.swagger.params.username.value}},{_id:0, username:1}).toArray(function(err, items) {
+        res.json(items);
+      db1.close();
+      });
+});
 }
 //utilisé les $set
 
@@ -281,10 +294,10 @@ function postUsersFriendsRequest(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
         console.log("Connected correctly to server");
+        if (req.swagger.params.username.value != req.body.username) {
         db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error, user) {
             if(user != null && error == null &&  !user.friends.find(function(element){return element.username == req.body.username}) && !user.friendsRequest.find(function(element){return element.username == req.body.username})){
               db1.collection("users").findOne({"username": req.body.username},function(error, user2) {
-                console.log(user2.friendsRequest.find(function(element){return element.username == req.swagger.params.username.value}));
                   if(user2 != null && error == null &&  !user2.friends.find(function(element){return element.username == req.swagger.params.username.value}) && !user2.friendsRequest.find(function(element){return element.username == req.swagger.params.username.value})){
                     const friend = { "$push" : {"friendsRequest" : {"username" : req.swagger.params.username.value}}};
                     db1.collection("users").update({"username" : req.body.username},  friend,  function(err2, modif){
@@ -302,6 +315,11 @@ function postUsersFriendsRequest(req, res, next) {
                 res.status(404).send();
             }
         });
+      }
+      else {
+
+        res.status(400).send();
+      }
     });
 }
 

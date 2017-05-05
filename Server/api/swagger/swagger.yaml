@@ -27,7 +27,7 @@ parameters:
     in: path
     type: string
     required: true
-
+    
   friendusername:
     name: friendusername
     description: "Name of the user"
@@ -50,8 +50,25 @@ paths:
 #     API USER SIDE
 # ######################
 #users et login so codés en dur pour pouvoir y avoir accès sans token.
+
+  /users/list/{username}:
+    x-swagger-router-controller: users
+    get:
+      operationId: getUsers
+      description: Retourne des utilisateur
+      parameters:
+        - $ref: "#/parameters/username"
+      responses:
+        "200":
+          description: Success
+        "400":
+          description: Wrong format
+        "409":
+          description: Another user has the same username
+          
   /users:
-    # x-swagger-router-controller: users
+
+
     post:
       # operationId: postUsers
       description: Add a new user
