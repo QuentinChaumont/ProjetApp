@@ -5,9 +5,11 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
+
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','jett.ionic.filter.bar','ngStorage'])
 
-.run(function($ionicPlatform, Resources,$sessionStorage) {
+
+.run(function($ionicPlatform, Resources,$sessionStorage, $window) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -21,14 +23,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','j
       StatusBar.styleDefault();
     }
   });
+  if ($sessionStorage.username) {
+
   var survId = navigator.geolocation.watchPosition(function (pos) {
-
     console.log("mise a jour de la position");
-    Resources.userPosition.save({username: $sessionStorage.username, token: $sessionStorage.token},{lat: pos.coords.latitude, lng: pos.coords.longitude}).$promise.then(function(result){
-      console.log(result);
-    });
-
+    Resources.userPosition.save({username: $sessionStorage.username, token: $sessionStorage.token},{lat: pos.coords.latitude, lng: pos.coords.longitude});
   });
+}
 })
 
 

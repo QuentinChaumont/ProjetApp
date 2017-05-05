@@ -3,6 +3,7 @@ var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
 var jwt    = require('jsonwebtoken');
 var config = require('./config');
+var md5 = require('md5');
 // Connection URL
 var url = 'mongodb://127.0.0.1:27017/SeekFriend';
 
@@ -35,8 +36,10 @@ function getUsers(req, res, next) {
       assert.equal(null, err);
       console.log("<<<<<<<<<<<Connected correctly to server");
       db1.collection("users").find({"username" : {$regex : req.swagger.params.username.value}},{_id:0, username:1}).toArray(function(err, items) {
-        res.json(items);
-      db1.close();
+        if (!err2) res.json(items);
+        else{
+            res.status(400).send();
+        }
       });
 });
 }
@@ -285,7 +288,6 @@ function getUsersFriendsRequest(req, res, next) {
                 res.status(409).send();
             }
         });
-
     });
 }
 
@@ -398,17 +400,23 @@ function getUsersFriendsUserPositions(req, res, next) {
     MongoClient.connect(url,  function(err, db1) {
         assert.equal(null, err);
         console.log("Connected correctly to server");
-        db1.collection("users").findOne({"username": req.swagger.params.username.value, },function(error, use) {
+        db1.collection("users").findOne({"username": req.swagger.params.username.value },function(error, use) {
             if(use != null && error == null && use.friends.find(function(element){return element.username == req.swagger.params.friendusername.value})){
+              console.log(use);
                 db1.collection("users").findOne({"username": req.swagger.params.friendusername.value},function(error, user) {
-                  if(use != null && error == null){
+                  console.log('<<<<<<<<<<<',user);
+                  if(user != null && error == null){
                     res.json(user.positions);
                   }
+
+
                   else res.status(404).send();
+
                 });
             }
             else{
-                res.status(404).send();
+
+              res.status(404).send();
             }
         });
     });

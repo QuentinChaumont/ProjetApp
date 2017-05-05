@@ -19,6 +19,7 @@ var methodOverride = require('method-override');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var request = require('request');
 var jwt = require('jsonwebtoken');
+var md5 = require('md5');
 var express = require('express')
     , http = require('http')
     , app = express()
@@ -68,13 +69,13 @@ apiRouter.post('/users', function (req, res, next) {
 	        console.log(user);
 	          if(user == null && error == null){
 	                var data = req.body;
+									data.password=md5(data.password);
 	                data.friends = [];
 	                data.friendsRequest = [];
 	                data.positions = [];
 	                db1.collection("users").insert(data,function(err, probe) {
 	                        if (!err){
-														delete(data.password);
-														var token = jwt.sign(data, config.secret, {expiresIn: 1440});
+														var token = jwt.sign(data, config.secret, {});
 														console.log("Post/users ??");
 														res.json({
 															success: 200,
@@ -98,11 +99,9 @@ apiRouter.post('/users/login', function (req, res, next) {
 	MongoClient.connect(url,  function(err, db1) {
     assert.equal(null, err);
     console.log("Connected correctly to server");
-    db1.collection("users").findOne({"username": req.body.username,"password":req.body.password},function(error, user){
+    db1.collection("users").findOne({"username": req.body.username,"password":md5(req.body.password)},function(error, user){
         if(user != null && error == null) {
-            delete(user.password);
-            var token = jwt.sign(user, config.secret, {expiresIn: 1000000 // expires in 24 hours
-            });
+            var token = jwt.sign(user, config.secret, {});
               res.json({
                 success: true,
                 message: 'Enjoy your token!',
@@ -120,35 +119,35 @@ apiRouter.post('/users/login', function (req, res, next) {
 
 app.use('/api', apiRouter);
 
-app.use(function(req, res, next) {
-
-  // check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
-  // decode token
-  if (token) {
-    // verifies secret and checks exp
-    jwt.verify(token, config.secret, function(err, decoded) {
-      if (err) {
-				console.log("Fail token  -- > Error de décryptage");
-        return res.json([{ success: false, message: 'TimeOut' }]);
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
-        next();
-      }
-    });
-
-  } else {
-    // if there is no token
-    // return an error
-		console.log("pas de token");
-    return res.status(403).send({
-        success: false,
-        message: 'No token provided.'
-    });
-
-  }
-});
+// app.use(function(req, res, next) {
+//
+//   // check header or url parameters or post parameters for token
+//   var token = req.body.token || req.query.token || req.headers['x-access-token'];
+//   // decode token
+//   if (token) {
+//     // verifies secret and checks exp
+//     jwt.verify(token, config.secret, function(err, decoded) {
+//       if (err) {
+// 				console.log("Fail token  -- > Error de décryptage");
+//         return res.json({ success: false, message: 'TimeOut' });
+//       } else {
+//         // if everything is good, save to request for use in other routes
+//         req.decoded = decoded;
+//         next();
+//       }
+//     });
+//
+//   } else {
+//     // if there is no token
+//     // return an error
+// 		console.log("pas de token");
+//     return res.status(403).send({
+//         success: false,
+//         message: 'No token provided.'
+//     });
+//
+//   }
+// });
 
 SwaggerExpress.create(config2, function(err, swaggerExpress) {
 

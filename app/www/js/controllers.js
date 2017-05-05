@@ -179,10 +179,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     Resources.friends.query({username: $scope.sessionUsername, token: $sessionStorage.token}).$promise.then(function(friends, Resource) {
       var friend_position;
       var promiseHash = [];
-      console.log("ok",friends[0].message);
-      if (friends[0].message=="TimeOut") {
-        disconnect($sessionStorage,$window);
-      }
       friends.forEach(function(friend){
         console.log(friend.username);
         promiseHash.push(Resources.friendPosition.query({username: $scope.sessionUsername, friendusername: friend.username, token: $sessionStorage.token}).$promise.then(function(friend_position, Resource) {
@@ -308,9 +304,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       console.log("mise a jour de la position");
       //sauvegarde dans la base de donnée
       console.log("Position");
-      Resources.userPosition.save({username: $scope.sessionUsername, token: $sessionStorage.token},{lat: pos.coords.latitude, lng: pos.coords.longitude}).$promise.then(function(result){
-        console.log(result);
-      });
       $scope.position  = true;
       current_position.lat = pos.coords.latitude;
       current_position.lng = pos.coords.longitude;
