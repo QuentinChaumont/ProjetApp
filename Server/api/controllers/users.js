@@ -2,10 +2,11 @@
 var MongoClient = require('mongodb').MongoClient
     , assert = require('assert');
 var jwt    = require('jsonwebtoken');
-var config = require('./config');
+var config = require('../../config');
 var md5 = require('md5');
 // Connection URL
-var url = 'mongodb://127.0.0.1:27017/SeekFriend';
+var url = 'mongodb://' + config.mongoHostname + ':' + config.mongoPort + '/SeekFriend';
+
 
 var util = require('util');
 
@@ -36,7 +37,7 @@ function getUsers(req, res, next) {
       assert.equal(null, err);
       console.log("<<<<<<<<<<<Connected correctly to server");
       db1.collection("users").find({"username" : {$regex : req.swagger.params.username.value}},{_id:0, username:1}).toArray(function(err, items) {
-        if (!err2) res.json(items);
+        if (!err) res.json(items);
         else{
             res.status(400).send();
         }

@@ -25,8 +25,10 @@ var express = require('express')
     , app = express()
     , server = http.createServer(app);
 var MongoClient = require('mongodb').MongoClient, assert = require('assert');
-var config = require('./api/controllers/config');
-var url = 'mongodb://127.0.0.1:27017/SeekFriend';
+var MongoClient = require('mongodb').MongoClient, assert = require('assert');
+
+var config = require('./config');
+var url = 'mongodb://' + config.mongoHostname + ':' + config.mongoPort + '/SeekFriend';
 
 
 module.exports = app; // for testing
@@ -157,5 +159,5 @@ SwaggerExpress.create(config2, function(err, swaggerExpress) {
     // install middleware
     swaggerExpress.register(app);
     console.log("serveur bien lancé");
-    server.listen(3000,'127.0.0.1');
+    server.listen(config.port);
 });
