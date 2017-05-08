@@ -1,7 +1,7 @@
 angular.module('starter.services', ['ngResource'])
 
   .constant('Config', {
-    apiUrl: 'http://127.0.0.1:3000/api'
+    apiUrl: 'http://tpriou.rmorpheus.enseirb.fr:3000/api'
   })
 
   // defines all routes
