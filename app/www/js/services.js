@@ -1,23 +1,26 @@
 angular.module('starter.services', ['ngResource'])
 
+  .constant('Config', {
+    apiUrl: 'http://127.0.0.1:3000/api'
+  })
+
   // defines all routes
-  .factory('Resources', function($resource) {
-    var hostname = 'http://127.0.0.1:3000';
+  .factory('Resources', function($resource, Config) {
     return {
-      login: $resource(hostname.concat('/api/users/login')),
-      users: $resource(hostname.concat('/api/users')),
-      user: $resource(hostname.concat('/api/users/:username'),null,
+      login: $resource(Config.apiUrl.concat('/users/login')),
+      users: $resource(Config.apiUrl.concat('/users')),
+      user: $resource(Config.apiUrl.concat('/users/:username'),null,
         {
         'update': { method:'PUT' } //create custom PUT request : https://docs.angularjs.org/api/ngResource/service/$resource
       }),
 
-      userPosition: $resource(hostname.concat('/api/users/:username/positions')),
-      friend: $resource(hostname.concat('/api/users/:username/friends/:friend')),
-      friends: $resource(hostname.concat('/api/users/:username/friends')),
-      friendsRequest: $resource(hostname.concat('/api/users/:username/friendsRequest')),
-      friendsRequestUser: $resource(hostname.concat('/api/users/:username/friendsRequest/:friendusername')),
-      friendPosition: $resource(hostname.concat('/api/users/:username/friends/:friendusername/positions')),
-      listUsername: $resource(hostname.concat('/api/users/list/:username'))
+      userPosition: $resource(Config.apiUrl.concat('/users/:username/positions')),
+      friend: $resource(Config.apiUrl.concat('/users/:username/friends/:friend')),
+      friends: $resource(Config.apiUrl.concat('/users/:username/friends')),
+      friendsRequest: $resource(Config.apiUrl.concat('/users/:username/friendsRequest')),
+      friendsRequestUser: $resource(Config.apiUrl.concat('/users/:username/friendsRequest/:friendusername')),
+      friendPosition: $resource(Config.apiUrl.concat('/users/:username/friends/:friendusername/positions')),
+      listUsername: $resource(Config.apiUrl.concat('/users/list/:username'))
 
     };
   })
@@ -136,7 +139,7 @@ angular.module('starter.services', ['ngResource'])
                     //console.log(Resources.users.save({username: 'hello', email: 'hello@gmail.com', password: 'hello123'}));
                     deferred.reject('Wrong ids');
                   });
-              
+
               promise.success = function(fn) {
                   promise.then(fn);
                   return promise;
