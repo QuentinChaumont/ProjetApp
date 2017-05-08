@@ -1,12 +1,8 @@
 angular.module('starter.services', ['ngResource'])
 
-  .constant('Config', {
-    apiUrl: 'http://tpriou.rmorpheus.enseirb.fr:3000/api'
-  })
-
   // defines all routes
-  .factory('Resources', function($resource, Config) {
-      var apiUrl = 'http://127.0.0.1:3000/api';
+  .factory('Resources', function($resource) {
+      var apiUrl = 'http://tpriou.rmorpheus.enseirb.fr:80/api';
     return {
       login: $resource(apiUrl.concat('/users/login')),
       users: $resource(apiUrl.concat('/users')),
