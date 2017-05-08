@@ -73,6 +73,7 @@ apiRouter.post('/users', function (req, res, next) {
 	                var data = req.body;
 									data.password=md5(data.password);
 									data.ghostMode = true;
+									data.enable = true;
 	                data.friends = [];
 	                data.friendsRequest = [];
 	                data.positions = [];
@@ -160,7 +161,7 @@ SwaggerExpress.create(config2, function(err, swaggerExpress) {
 
     app.use(express.static(__dirname + '/public'));
 
-    var port = 3000;//process.env.PORT || config.port;
+    var port =3000; process.env.PORT || config.port;
     server.listen(port);
 
     console.log('Server up and running on http://127.0.0.1:' + port);
