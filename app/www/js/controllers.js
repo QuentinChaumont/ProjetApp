@@ -58,7 +58,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
         LoginService.loginUser($scope.loginData.username, $scope.loginData.password).success(function(loginData) {
           $scope.user=Resources.user.get({username: $scope.loginData.username, token: $sessionStorage.token}, function(user) {
             // everything went fine
-            console.log($scope.user.ghostMode,$scope.user.enable);
             $sessionStorage.active = true;
             $sessionStorage.enable = $scope.user.enable;
             $sessionStorage.ghostMode = $scope.user.ghostMode;
@@ -449,7 +448,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       };
       $scope.enablePosition= function(){
         $sessionStorage.enable = $scope.settings.enableFriendsLocalisation
-        Resources.user.update({username: $sessionStorage.username, token: $sessionStorage.token},{enable: $sessionStorage.enable}, function(){console.log("bite");
+        Resources.user.update({username: $sessionStorage.username, token: $sessionStorage.token},{enable: $sessionStorage.enable}, function(){
         });
       }
       $scope.modeFantome= function(){

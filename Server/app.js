@@ -161,7 +161,7 @@ SwaggerExpress.create(config2, function(err, swaggerExpress) {
 
     app.use(express.static(__dirname + '/public'));
 
-    var port =3000; process.env.PORT || config.port;
+    var port = process.env.PORT || config.port;
     server.listen(port);
 
     console.log('Server up and running on http://127.0.0.1:' + port);
