@@ -3,15 +3,15 @@
     <div class = "row">
       <div class = "col">
         <button ng-click="closeModal()" class="button button-positive button-outline">Previous</button></div>
-      <div class = "col"><h2>Page de {{username}}</h2></div>
+      <div class = "col"><h2>{{username}}'s Page</h2></div>
       <div class = "col"></div>
     </div>
-    <div id="map2"></div>
+    <div id="map"></div>
     Value between : {{date1}} and {{date2}}
-    <table class="list_friend">
+    <table class="list_friend" style="text-align:center;">
       <thead>
       <td>Distance</td>
-      <td>Last Connexion</td>
+      <td>Last Connection</td>
       </thead>
       <tbody>
       <tr ng-repeat="position in list_position" ng-class="{oddRow: $odd}">

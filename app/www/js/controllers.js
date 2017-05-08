@@ -21,36 +21,32 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       rotateControl: true
     };
     //Creation de la carte
-    var map = new google.maps.Map(document.getElementById("map2"), mapOptions);
+    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
     Resources.user.get({
       username: $scope.username,
       token: $sessionStorage.token
-    }).$promise.then(function (positions, Resource) {
-      if (!positions.ghostMode) {
-        if (positions.positions != undefined && positions.positions.length > 1){
-          map.setCenter({lat : positions.positions[0].lat, lng : positions.positions[0].lng});
-          var date = new Date(positions.positions[0].date);
-          var date2 = new Date(positions.positions[positions.positions.length -1].date);
+    }).$promise.then(function (user, Resource) {
+      if (!user.ghostMode) {
+        if (user.positions != undefined && user.positions.length > 1){
+          map.setCenter({lat : user.positions[user.positions.length -1].lat, lng : user.positions[user.positions.length -1].lng});
+          var date = new Date(user.positions[0].date);
+          var date2 = new Date(user.positions[user.positions.length -1].date);
           $scope.date1 = date.toLocaleTimeString("fr-FR") + ' ' + date.toLocaleDateString("fr-FR");
           $scope.date2 = date2.toLocaleTimeString("fr-FR") + ' ' + date2.toLocaleDateString("fr-FR");
 
           var distance, date_pos;
-          angular.forEach(positions, function (value, key) {
-            console.log(value);
+          angular.forEach(user.positions, function (value, key) {
             distance = calcul_distance(value,$sessionStorage.current_position);
-            date_pos = new Date(positions[key].date);
+            date_pos = new Date(value.date);
             date_pos = date_pos.toLocaleTimeString("fr-FR") + ' ' + date_pos.toLocaleDateString("fr-FR");
             if(parseFloat(distance) > 2000)
               distance = distance/1000 + ' km';
             else
               distance = distance + ' m';
-            console.log("salut");
-            $scope.list_position.push({distance : distance, date : date_pos});
-            console.log("non");
+            $scope.list_position.push({distance : distance, dateString : date_pos});
           });
 
-          /*
           var flightPath = new google.maps.Polyline({
             path: positions,
             geodesic: true,
@@ -59,7 +55,6 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
             strokeWeight: 2
           });
           flightPath.setMap(map);
-*/
         }
     }
     });

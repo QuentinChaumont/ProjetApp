@@ -66,7 +66,6 @@ app.use(function(req, res, next) {
 apiRouter.post('/users', function (req, res, next) {
 	    MongoClient.connect(url,  function(err, db1) {
 	      assert.equal(null, err);
-	      console.log("Connected correctly to server");
 	      db1.collection("users").findOne({$or:[{"username": req.body.username},{"email":req.body.email}]},function(error, user) {
 	        console.log(user);
 	          if(user == null && error == null){
@@ -101,7 +100,6 @@ apiRouter.post('/users', function (req, res, next) {
 apiRouter.post('/users/login', function (req, res, next) {
 	MongoClient.connect(url,  function(err, db1) {
     assert.equal(null, err);
-    console.log("Connected correctly to server");
     db1.collection("users").findOne({"username": req.body.username,"password":md5(req.body.password)},function(error, user){
         if(user != null && error == null) {
             var token = jwt.sign(user, config.secret, {});
