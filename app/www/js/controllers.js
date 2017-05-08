@@ -4,7 +4,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     $scope.closeModal = function(){
       $state.go("tab.friend", {}, {reload: false});
     };
-
+    $scope.list_position = [];
     // Carte pour chaque friend
     var parametre= $location.url().split('/');
     $scope.username = parametre[3];
@@ -27,8 +27,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       username: $scope.username,
       token: $sessionStorage.token
     }).$promise.then(function (positions, Resource) {
-      if (positions.ghostMode) {
-        var friend_position;
+      if (!positions.ghostMode) {
         if (positions.positions != undefined && positions.positions.length > 1){
           map.setCenter({lat : positions.positions[0].lat, lng : positions.positions[0].lng});
           var date = new Date(positions.positions[0].date);
@@ -36,6 +35,22 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
           $scope.date1 = date.toLocaleTimeString("fr-FR") + ' ' + date.toLocaleDateString("fr-FR");
           $scope.date2 = date2.toLocaleTimeString("fr-FR") + ' ' + date2.toLocaleDateString("fr-FR");
 
+          var distance, date_pos;
+          angular.forEach(positions, function (value, key) {
+            console.log(value);
+            distance = calcul_distance(value,$sessionStorage.current_position);
+            date_pos = new Date(positions[key].date);
+            date_pos = date_pos.toLocaleTimeString("fr-FR") + ' ' + date_pos.toLocaleDateString("fr-FR");
+            if(parseFloat(distance) > 2000)
+              distance = distance/1000 + ' km';
+            else
+              distance = distance + ' m';
+            console.log("salut");
+            $scope.list_position.push({distance : distance, date : date_pos});
+            console.log("non");
+          });
+
+          /*
           var flightPath = new google.maps.Polyline({
             path: positions,
             geodesic: true,
@@ -44,6 +59,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
             strokeWeight: 2
           });
           flightPath.setMap(map);
+*/
         }
     }
     });
@@ -230,7 +246,13 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       friends.forEach(function(friend){
         promiseHash.push(Resources.user.get({username: friend.username, token: $sessionStorage.token}).$promise.then(function(friend_position, Resource) {
           if (!friend_position.ghostMode) {
-            list_friend.push({name: friend.username, lat: friend_position.positions[friend_position.positions.length-1].lat, lng:friend_position.positions[friend_position.positions.length-1].lng,info_bulle : new google.maps.InfoWindow()});
+            var date = new Date(friend_position.positions[friend_position.positions.length -1].date);
+            date = date.toLocaleTimeString("fr-FR") + ' ' + date.toLocaleDateString("fr-FR");
+            list_friend.push({name: friend.username,
+              lat: friend_position.positions[friend_position.positions.length-1].lat,
+              lng:friend_position.positions[friend_position.positions.length-1].lng,
+              date : date,
+              info_bulle : new google.maps.InfoWindow()});
           }
 
         }).catch(function(err){

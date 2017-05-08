@@ -1,18 +1,19 @@
 angular.module('starter.services', ['ngResource'])
 
-.constant('Config', {
-  apiUrl: 'http://127.0.0.1:3000/api'
-})
+  .constant('Config', {
+    //apiUrl: 'http://tpriou.rmorpheus.enseirb.fr:3000/api'
+  })
+
   // defines all routes
-  .factory('Resources', function($resource) {
-      var apiUrl = 'http://tpriou.rmorpheus.enseirb.fr:80/api';
+  .factory('Resources', function($resource, Config) {
+    var apiUrl = 'http://127.0.0.1:3000/api';
     return {
       login: $resource(apiUrl.concat('/users/login')),
       users: $resource(apiUrl.concat('/users')),
       user: $resource(apiUrl.concat('/users/:username'),null,
         {
-        'update': { method:'PUT' } //create custom PUT request : https://docs.angularjs.org/api/ngResource/service/$resource
-      }),
+          'update': { method:'PUT' } //create custom PUT request : https://docs.angularjs.org/api/ngResource/service/$resource
+        }),
 
       userPosition: $resource(apiUrl.concat('/users/:username/positions')),
       friend: $resource(apiUrl.concat('/users/:username/friends/:friend')),
@@ -21,8 +22,10 @@ angular.module('starter.services', ['ngResource'])
       friendsRequestUser: $resource(apiUrl.concat('/users/:username/friendsRequest/:friendusername')),
       friendPosition: $resource(apiUrl.concat('/users/:username/friends/:friendusername/positions')),
       listUsername: $resource(apiUrl.concat('/users/list/:username'))
-  };
-})
+
+    };
+  })
+
   .service('LoginService', function($q, $http, Resources,$sessionStorage) {
       return {
           loginUser: function(name, pw) {

@@ -1,5 +1,5 @@
-<ion-view name="tab-friend_username" view-title="Information of {{username}}">
-  <ion-content class="padding">
+<ion-view view-title="Information of {{username}}">
+  <ion-content class="padding has-header has-search-bar">
     <div class = "row">
       <div class = "col">
         <button ng-click="closeModal()" class="button button-positive button-outline">Previous</button></div>
@@ -8,5 +8,17 @@
     </div>
     <div id="map2"></div>
     Value between : {{date1}} and {{date2}}
+    <table class="list_friend">
+      <thead>
+      <td>Distance</td>
+      <td>Last Connexion</td>
+      </thead>
+      <tbody>
+      <tr ng-repeat="position in list_position" ng-class="{oddRow: $odd}">
+        <td style="vertical-align: middle;">{{position.distance}}</td>
+        <td style="vertical-align: middle;">{{position.dateString}}</td>
+      </tr>
+      </tbody>
+    </table>
   </ion-content>
 </ion-view>

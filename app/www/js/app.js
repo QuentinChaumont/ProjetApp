@@ -29,7 +29,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','j
     if ($sessionStorage.enable) {
       Resources.userPosition.save({username: $sessionStorage.username, token: $sessionStorage.token},{lat: pos.coords.latitude, lng: pos.coords.longitude});
     }
-
+    $sessionStorage.current_position = {lat : pos.coords.latitude, lng : pos.coords.longitude};
   });
 }
 })
