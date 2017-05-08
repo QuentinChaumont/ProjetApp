@@ -79,7 +79,6 @@ apiRouter.post('/users', function (req, res, next) {
 	                db1.collection("users").insert(data,function(err, probe) {
 	                        if (!err){
 														var token = jwt.sign(data, config.secret, {});
-														console.log("Post/users ??");
 														res.json({
 															success: 200,
 															message: 'Enjoy your token!',
@@ -161,10 +160,10 @@ SwaggerExpress.create(config2, function(err, swaggerExpress) {
 
     app.use(express.static(__dirname + '/public'));
 
-    var port = process.env.PORT || config.port;
+    var port = 3000;//process.env.PORT || config.port;
     server.listen(port);
 
     console.log('Server up and running on http://127.0.0.1:' + port);
-    
+
 
 });
