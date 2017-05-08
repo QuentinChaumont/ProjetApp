@@ -1,15 +1,15 @@
 angular.module('starter.services', ['ngResource'])
 
-  // defines all routes
+// defines all routes
   .factory('Resources', function($resource) {
-      var apiUrl = 'http://tpriou.rmorpheus.enseirb.fr:80/api';
+    var apiUrl = 'http://127.0.0.1:3000/api';
     return {
       login: $resource(apiUrl.concat('/users/login')),
       users: $resource(apiUrl.concat('/users')),
       user: $resource(apiUrl.concat('/users/:username'),null,
         {
-        'update': { method:'PUT' } //create custom PUT request : https://docs.angularjs.org/api/ngResource/service/$resource
-      }),
+          'update': { method:'PUT' } //create custom PUT request : https://docs.angularjs.org/api/ngResource/service/$resource
+        }),
 
       userPosition: $resource(apiUrl.concat('/users/:username/positions')),
       friend: $resource(apiUrl.concat('/users/:username/friends/:friend')),
