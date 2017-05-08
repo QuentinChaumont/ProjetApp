@@ -6,21 +6,22 @@ angular.module('starter.services', ['ngResource'])
 
   // defines all routes
   .factory('Resources', function($resource, Config) {
+      var apiUrl = 'http://127.0.0.1:3000/api';
     return {
-      login: $resource(Config.apiUrl.concat('/users/login')),
-      users: $resource(Config.apiUrl.concat('/users')),
-      user: $resource(Config.apiUrl.concat('/users/:username'),null,
+      login: $resource(apiUrl.concat('/users/login')),
+      users: $resource(apiUrl.concat('/users')),
+      user: $resource(apiUrl.concat('/users/:username'),null,
         {
         'update': { method:'PUT' } //create custom PUT request : https://docs.angularjs.org/api/ngResource/service/$resource
       }),
 
-      userPosition: $resource(Config.apiUrl.concat('/users/:username/positions')),
-      friend: $resource(Config.apiUrl.concat('/users/:username/friends/:friend')),
-      friends: $resource(Config.apiUrl.concat('/users/:username/friends')),
-      friendsRequest: $resource(Config.apiUrl.concat('/users/:username/friendsRequest')),
-      friendsRequestUser: $resource(Config.apiUrl.concat('/users/:username/friendsRequest/:friendusername')),
-      friendPosition: $resource(Config.apiUrl.concat('/users/:username/friends/:friendusername/positions')),
-      listUsername: $resource(Config.apiUrl.concat('/users/list/:username'))
+      userPosition: $resource(apiUrl.concat('/users/:username/positions')),
+      friend: $resource(apiUrl.concat('/users/:username/friends/:friend')),
+      friends: $resource(apiUrl.concat('/users/:username/friends')),
+      friendsRequest: $resource(apiUrl.concat('/users/:username/friendsRequest')),
+      friendsRequestUser: $resource(apiUrl.concat('/users/:username/friendsRequest/:friendusername')),
+      friendPosition: $resource(apiUrl.concat('/users/:username/friends/:friendusername/positions')),
+      listUsername: $resource(apiUrl.concat('/users/list/:username'))
 
     };
   })
