@@ -158,6 +158,13 @@ SwaggerExpress.create(config2, function(err, swaggerExpress) {
 
     // install middleware
     swaggerExpress.register(app);
-    console.log('serveur bien lancé sur le port '+ config.port);
-    server.listen(config.port);
+
+    app.use(express.static(__dirname + '/public'));
+
+    var port = process.env.PORT || config.port;
+    server.listen(port);
+
+    console.log('Server up and running on http://127.0.0.1:' + port);
+    
+
 });
