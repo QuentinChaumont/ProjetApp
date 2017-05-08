@@ -56,12 +56,12 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
       $scope.login = function() {
         LoginService.loginUser($scope.loginData.username, $scope.loginData.password).success(function(loginData) {
-          $scope.user = Resources.user.get({username: $scope.loginData.username, token: $sessionStorage.token}, function() {
+          $scope.user=Resources.user.get({username: $scope.loginData.username, token: $sessionStorage.token}, function(user) {
             // everything went fine
             $sessionStorage.active = true;
-            sessionStorage.enable= true;
-            $sessionStorage.ghostMode=true;
-            $sessionStorage.username = $scope.loginData.username;
+            $sessionStorage.enable = $scope.user.enable;
+            $sessionStorage.ghostMode = $scope.user.ghostMode;
+            $sessionStorage.username = $scope.user.username;
             $sessionStorage.email = $scope.user.email;
             $state.go("tab.home", {}, {reload: true})
           })
@@ -86,9 +86,8 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
             $scope.user = Resources.user.get({username: $scope.signUpData.username, token: $sessionStorage.token}, function() {
               // everything went fine
               $sessionStorage.active = true;
-              sessionStorage.enable= true;
-
-              $sessionStorage.ghostMode=true;
+              sessionStorage.enable = true;
+              $sessionStorage.ghostMode = false;
               $sessionStorage.username = $scope.signUpData.username;
               $sessionStorage.email = $scope.user.email;
               $state.go("tab.home", {}, {reload: true})
@@ -230,7 +229,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       var promiseHash = [];
       friends.forEach(function(friend){
         promiseHash.push(Resources.user.get({username: friend.username, token: $sessionStorage.token}).$promise.then(function(friend_position, Resource) {
-          if (friend_position.ghostMode) {
+          if (!friend_position.ghostMode) {
             list_friend.push({name: friend.username, lat: friend_position.positions[friend_position.positions.length-1].lat, lng:friend_position.positions[friend_position.positions.length-1].lng,info_bulle : new google.maps.InfoWindow()});
           }
 
@@ -248,27 +247,10 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
         });
         markerCluster = new MarkerClusterer(map, markers,
           {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-
       });
     }).catch(function(err){
       throw err; // rethrow;
     });
-
-    /* Faire un polygone
-     var flightPlanCoordinates = [
-     {lat: 44.8076376, lng: -0.6073554},
-     {lat: 44.8086376, lng: -0.6073554},
-     {lat: 44.8096376, lng: -0.6073554}
-     ];
-     var flightPath = new google.maps.Polyline({
-     path: flightPlanCoordinates,
-     geodesic: true,
-     strokeColor: '#FF0000',
-     strokeOpacity: 1.0,
-     strokeWeight: 2
-     });
-     flightPath.setMap(map);
-     */
 
 
     // -----------------   Ajouter un marker personnalisé pour la position ---------------------------------------------
@@ -465,16 +447,18 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
         modeFantome: $sessionStorage.ghostMode
       };
       $scope.enablePosition= function(){
-        $sessionStorage.enable =$scope.settings.enableFriendsLocalisation
+        $sessionStorage.enable = $scope.settings.enableFriendsLocalisation
+        Resources.user.update({username: $sessionStorage.username, token: $sessionStorage.token},{enable: $sessionStorage.enable}, function(){
+        });
       }
       $scope.modeFantome= function(){
         $sessionStorage.ghostMode = $scope.settings.modeFantome;
-        var test = Resources.user.update({username: $sessionStorage.username, token: $sessionStorage.token},{ghostMode: $sessionStorage.ghostMode}, function(){
-        });
+        Resources.user.update({username: $sessionStorage.username, token: $sessionStorage.token},{ghostMode: $sessionStorage.ghostMode}, function(){});
       }
-      $sessionStorage.enable=$scope.settings.enableFriendsLocalisation
       $scope.sessionEmail = $sessionStorage.email;
       $scope.sessionUsername = $sessionStorage.username;
+
+
       $scope.logout = function() {
         disconnect($sessionStorage,$window);
       };
