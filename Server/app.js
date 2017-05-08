@@ -71,7 +71,7 @@ apiRouter.post('/users', function (req, res, next) {
 	          if(user == null && error == null){
 	                var data = req.body;
 									data.password=md5(data.password);
-									data.ghostMode = true;
+									data.ghostMode = false;
 									data.enable = true;
 	                data.friends = [];
 	                data.friendsRequest = [];

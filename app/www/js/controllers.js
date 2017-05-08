@@ -39,6 +39,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
           angular.forEach(user.positions, function (value, key) {
             distance = calcul_distance(value,$sessionStorage.current_position);
             date_pos = new Date(value.date);
+
             date_pos = date_pos.toLocaleTimeString("fr-FR") + ' ' + date_pos.toLocaleDateString("fr-FR");
             if(parseFloat(distance) > 2000)
               distance = distance/1000 + ' km';
