@@ -158,6 +158,6 @@ SwaggerExpress.create(config2, function(err, swaggerExpress) {
 
     // install middleware
     swaggerExpress.register(app);
-    console.log("serveur bien lancé");
-    server.listen(80);
+    console.log('serveur bien lancé sur le port '+ config.port);
+    server.listen(config.port);
 });
