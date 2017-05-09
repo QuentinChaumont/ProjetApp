@@ -30,10 +30,7 @@
               <span class="input-label">Username : </span>
               <input type="text" name="friendName" ng-model="futureFriend.username" uib-typeahead="address for address in requete_friend($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
               <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-              <div ng-show="noResults">
-                <i class="glyphicon glyphicon-remove"></i> No Results Found
-              </div>
-              <button ng-click="addRequest()" class="button button-clear input-button button-positive">Add</button>
+              <button ng-click="addRequest()" ng-show="available" class="button button-clear input-button button-positive">Add</button>
             </div>
           </div>
           <div ng-if="angular.isDefined(futureFriend.requestSend)" class="anime-if">

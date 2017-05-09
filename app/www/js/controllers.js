@@ -37,7 +37,10 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
 
           var distance, date_pos;
           angular.forEach(user.positions, function (value, key) {
-            distance = calcul_distance(value,$sessionStorage.current_position);
+            if($sessionStorage.current_position != undefined)
+              distance = calcul_distance(value,$sessionStorage.current_position);
+            else
+              distance = "Not available";
             date_pos = new Date(value.date);
 
             date_pos = date_pos.toLocaleTimeString("fr-FR") + ' ' + date_pos.toLocaleDateString("fr-FR");
@@ -49,7 +52,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
           });
 
           var flightPath = new google.maps.Polyline({
-            path: positions,
+            path: user.positions,
             geodesic: true,
             strokeColor: '#FF0000',
             strokeOpacity: 1.0,
@@ -366,11 +369,18 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
     var _selected;
     $scope.selected = undefined;
     $scope.requete_friend = function(name){
+      $scope.available = false;
       var friends_name = [];
       return Resources.listUsername.query({username: name, token: $sessionStorage.token}).$promise.then(function(friends, Resource) {
         friends.forEach(function(friend){
           friends_name.push(friend.username);
+          if(friend.username == name){
+            $scope.available = true;
+          }
         });
+        if(friends.length == 0){
+          friends_name.push("No result found");
+        }
         return friends_name;
       });
     };
