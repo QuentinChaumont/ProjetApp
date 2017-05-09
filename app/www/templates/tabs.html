@@ -7,28 +7,22 @@ navigation history that also transitions its views in and out.
   <!-- Dashboard Tab -->
   <ion-tab title="Home" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/home">
   <ion-nav-view name="tab-home"></ion-nav-view>
-  <script>console.log("home");</script>
   </ion-tab >
 
 
   <!-- Carte Tab -->
   <ion-tab ng-if="session" title="Map" icon-on="ion-ios-navigate" icon-off="ion-ios-navigate-outline" href="#/tab/map">
     <ion-nav-view name="tab-map"></ion-nav-view>
-    <script>console.log("map");</script>
   </ion-tab>
 
   <!-- Friends Tab -->
   <ion-tab ng-if="session" title="Friends" icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/friend">
     <ion-nav-view name="tab-friend"></ion-nav-view>
-
-    <script>console.log("friend");</script>
   </ion-tab>
 
   <!-- Account Tab -->
   <ion-tab ng-if="session" title="Account" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="#/tab/account">
     <ion-nav-view name="tab-account"></ion-nav-view>
-
-    <script>console.log("account");</script>
   </ion-tab>
 
 </ion-tabs>

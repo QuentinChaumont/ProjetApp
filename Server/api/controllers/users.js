@@ -35,7 +35,6 @@ module.exports = {
 function getUsers(req, res, next) {
   MongoClient.connect(url,  function(err, db1) {
       assert.equal(null, err);
-      console.log("<<<<<<<<<<<Connected correctly to server");
       db1.collection("users").find({"username" : {$regex : req.swagger.params.username.value}},{_id:0, username:1}).toArray(function(err, items) {
         if (!err) res.json(items);
         else{
@@ -44,65 +43,7 @@ function getUsers(req, res, next) {
       });
 });
 }
-//utilisé les $set
 
-// POST users
-// function postUsers(req, res, next) {
-//     MongoClient.connect(url,  function(err, db1) {
-//         assert.equal(null, err);
-//
-//         console.log("Connected correctly to server");
-//         db1.collection("users").findOne({$or:[{"username": req.body.username},{"email":req.body.email}]},function(error, exist) {
-//           console.log(exist);
-//             if(exist == null && error == null){
-//                 var data = req.body;
-//                 data.friends = [];
-//                 data.friendsRequest = [];
-//                 data.positions = [];
-//                 db1.collection("users").insert(data,function(err, probe) {
-//                         if (!err){
-// 							                  res.status(201).send();
-//                             // req.session.username = req.body.username;
-//                             // req.session.lastname = req.body.lastname;
-//                             // req.session.firstname = req.body.firstname;
-//                             // res.redirect('/api/users/' + req.body.username);
-//                         }
-//                         else{
-//                             res.status(409).send();
-//                         }
-//                     }
-//                 );
-//             }
-//             else{
-//                 res.status(409).send();
-//             }
-//         });
-//     });
-// }
-
-// function postLogin(req, res, next) {
-//   MongoClient.connect(url,  function(err, db1) {
-//     assert.equal(null, err);
-//
-//     console.log("Connected correctly to server");
-//     db1.collection("users").findOne({"username": req.body.username,"password":req.body.password},function(error, user){
-//         if(user != null && error == null) {
-//             delete(user.password);
-//             var token = jwt.sign(user, config.secret, {expiresIn: 1440 // expires in 24 hours
-//             });
-//               res.json({
-//                 success: true,
-//                 message: 'Enjoy your token!',
-//                 token: token
-//               });
-//         }
-//         else {
-//             res.status(409).send();
-//         }
-//     });
-//   });
-// }
-//
 
 // GET /users/{username}
 function getUsersUsername(req, res, next) {
@@ -114,12 +55,6 @@ function getUsersUsername(req, res, next) {
             if (user != null && error == null){
               delete(user.password)
               res.json(user);
-                // res.render('gestion', {
-                //     username: req.session.username,
-                //     lastname: req.session.lastname,
-                //     firstname: req.session.firstname,
-                //     email: exist.email
-                // });
             }
             else{
                 res.status(404).send();
@@ -142,7 +77,6 @@ function putUsersUsername(req, res, next) {
                         if (req.body.email) use.email = req.body.email;
                         if (req.body.password) use.password = md5(req.body.password);
                         if (req.body.ghostMode!=null) use.ghostMode = req.body.ghostMode;
-                        console.log(req.body.ghostMode);
                         db1.collection("users").update({"username" : req.swagger.params.username.value}, use,  function(err2, modif){
                             if (!err2) res.status(204).send();
                             else{
@@ -191,7 +125,6 @@ function getUsersPositions(req, res, next) {
         //assert.equal(null, err);
         console.log("Get users positions");
         db1.collection("users").findOne({"username": req.swagger.params.username.value},function(error, use) {
-            console.log("------->", use);
             if(use != null && error == null && use.positions != null){
                 res.json(use.positions);
             }
@@ -211,12 +144,10 @@ function postUsersPositions(req, res, next) {
           if(user != null && error == null ){
             var posit = req.body;
             posit.date = new Date();
-            console.log(posit);
             const position = { "$push" : {"positions" : posit}};
               db1.collection("users").update({"username" : req.swagger.params.username.value},  position,  function(err2, modif){
                 if (!err2) {
                   if (user.positions.length > NBR_MAX_POSITION) {
-                    console.log("suppr");
                     const suppr = { $pop: { "positions" : -1 } };
                     db1.collection("users").update({"username" : req.swagger.params.username.value},  suppr,  function(err3, sup){
                         if (!err2) {
@@ -405,9 +336,7 @@ function getUsersFriendsUserPositions(req, res, next) {
         console.log("Connected correctly to server");
         db1.collection("users").findOne({"username": req.swagger.params.username.value },function(error, use) {
             if(use != null && error == null && use.friends.find(function(element){return element.username == req.swagger.params.friendusername.value})){
-              console.log(use);
                 db1.collection("users").findOne({"username": req.swagger.params.friendusername.value},function(error, user) {
-                  console.log('<<<<<<<<<<<',user);
                   if(user != null && error == null){
                     res.json(user.positions);
                   }

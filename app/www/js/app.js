@@ -26,14 +26,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','j
   if ($sessionStorage.username) {
 
   var survId = navigator.geolocation.watchPosition(function (pos) {
-    console.log("Position");
     if ($sessionStorage.enable) {
-      console.log("mise a jour de la position");
-      console.log("<<<<<<<<<<",$sessionStorage.enable);
       Resources.userPosition.save({username: $sessionStorage.username, token: $sessionStorage.token},{lat: pos.coords.latitude, lng: pos.coords.longitude});
     }
-
-  });
+    $sessionStorage.current_position = {lat : pos.coords.latitude, lng : pos.coords.longitude};
+  }, {maximumAge: 30000});
 }
 })
 

@@ -66,20 +66,19 @@ app.use(function(req, res, next) {
 apiRouter.post('/users', function (req, res, next) {
 	    MongoClient.connect(url,  function(err, db1) {
 	      assert.equal(null, err);
-	      console.log("Connected correctly to server");
 	      db1.collection("users").findOne({$or:[{"username": req.body.username},{"email":req.body.email}]},function(error, user) {
 	        console.log(user);
 	          if(user == null && error == null){
 	                var data = req.body;
 									data.password=md5(data.password);
-									data.ghostMode = true;
+									data.ghostMode = false;
+									data.enable = true;
 	                data.friends = [];
 	                data.friendsRequest = [];
 	                data.positions = [];
 	                db1.collection("users").insert(data,function(err, probe) {
 	                        if (!err){
 														var token = jwt.sign(data, config.secret, {});
-														console.log("Post/users ??");
 														res.json({
 															success: 200,
 															message: 'Enjoy your token!',
@@ -101,7 +100,6 @@ apiRouter.post('/users', function (req, res, next) {
 apiRouter.post('/users/login', function (req, res, next) {
 	MongoClient.connect(url,  function(err, db1) {
     assert.equal(null, err);
-    console.log("Connected correctly to server");
     db1.collection("users").findOne({"username": req.body.username,"password":md5(req.body.password)},function(error, user){
         if(user != null && error == null) {
             var token = jwt.sign(user, config.secret, {});
@@ -165,6 +163,6 @@ SwaggerExpress.create(config2, function(err, swaggerExpress) {
     server.listen(port);
 
     console.log('Server up and running on http://127.0.0.1:' + port);
-    
+
 
 });

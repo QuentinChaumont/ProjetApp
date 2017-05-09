@@ -1,12 +1,24 @@
-<ion-view name="tab-friend_username" view-title="Information of {{username}}">
-  <ion-content class="padding">
+<ion-view view-title="Information of {{username}}">
+  <ion-content class="padding has-header has-search-bar">
     <div class = "row">
       <div class = "col">
         <button ng-click="closeModal()" class="button button-positive button-outline">Previous</button></div>
-      <div class = "col"><h2>Page de {{username}}</h2></div>
+      <div class = "col"><h2>{{username}}'s Page</h2></div>
       <div class = "col"></div>
     </div>
-    <div id="map2"></div>
+    <div id="map"></div>
     Value between : {{date1}} and {{date2}}
+    <table class="list_friend" style="text-align:center;">
+      <thead>
+      <td>Distance</td>
+      <td>Last Connection</td>
+      </thead>
+      <tbody>
+      <tr ng-repeat="position in list_position" ng-class="{oddRow: $odd}">
+        <td style="vertical-align: middle;">{{position.distance}}</td>
+        <td style="vertical-align: middle;">{{position.dateString}}</td>
+      </tr>
+      </tbody>
+    </table>
   </ion-content>
 </ion-view>
