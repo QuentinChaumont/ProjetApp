@@ -26,6 +26,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','j
   if ($sessionStorage.username) {
 
   var survId = navigator.geolocation.watchPosition(function (pos) {
+    console.log("on tente de mettre a jour");
     if ($sessionStorage.enable) {
       Resources.userPosition.save({username: $sessionStorage.username, token: $sessionStorage.token},{lat: pos.coords.latitude, lng: pos.coords.longitude});
       console.log("position mise à jour");

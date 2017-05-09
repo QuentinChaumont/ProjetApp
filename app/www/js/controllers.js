@@ -244,7 +244,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
       var promiseHash = [];
       friends.forEach(function(friend){
         promiseHash.push(Resources.user.get({username: friend.username, token: $sessionStorage.token}).$promise.then(function(friend_position, Resource) {
-          if (!friend_position.ghostMode) {
+          if (!friend_position.ghostMode && friend_position.positions != undefined) {
             var date = new Date(friend_position.positions[friend_position.positions.length -1].date);
             date = date.toLocaleTimeString("fr-FR") + ' ' + date.toLocaleDateString("fr-FR");
             list_friend.push({name: friend.username,
@@ -475,7 +475,7 @@ angular.module('starter.controllers', ['ui.bootstrap','ionic','jett.ionic.filter
         modeFantome: $sessionStorage.ghostMode
       };
       $scope.enablePosition= function(){
-        $sessionStorage.enable = $scope.settings.enableFriendsLocalisation
+        $sessionStorage.enable = $scope.settings.enableFriendsLocalisation;
         Resources.user.update({username: $sessionStorage.username, token: $sessionStorage.token},{enable: $sessionStorage.enable}, function(){
         });
       }
